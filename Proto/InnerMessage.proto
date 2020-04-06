@@ -213,7 +213,7 @@ message ObjectGetResponse // IResponse
 message R2G_GetLoginKey // IRequest
 {
     int32 RpcId = 90;
-    string Account = 1;
+    int32 UserId = 1;
 }
 
 message G2R_GetLoginKey // IResponse
@@ -221,8 +221,7 @@ message G2R_GetLoginKey // IResponse
     int32 RpcId = 90;
     int32 Error = 91;
     string Message = 92;
-
-    int64 Key = 1;
+    string Key = 1;
 }
 
 message G2M_CreateUnit // IRequest
@@ -249,3 +248,32 @@ message G2M_SessionDisconnect // IActorLocationMessage
     int32 RpcId = 90;
     int64 ActorId = 94;
 }
+
+message GR_Online  //IMessage
+{
+	int32 UserId = 1;
+	int32 GateAppId = 2;
+}
+
+message GR_Offline  //IMessage
+{
+	int32 UserId = 1;
+}
+
+message RG_KickUser // IRequest
+{
+    int32 RpcId = 1;
+	int32 UserId = 2;
+}
+
+message GR_KickUser_ACK // IResponse
+{
+    int32 RpcId = 90;
+    int32 Error = 91;
+	string Message = 92;
+}
+
+
+
+
+

@@ -10,18 +10,15 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <OutputPath>../../Proto/</OutputPath>
+      <OutputPath>../../Proto/ProtoTool/</OutputPath>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <OutputPath>../../Proto/</OutputPath>
+      <OutputPath>../../Proto/ProtoTool/</OutputPath>
     </PropertyGroup>
 
     <ItemGroup>
       <Compile Remove=".vs\**" />
-      <Compile Include="..\..\Unity\Assets\Model\Base\ProcessHelper.cs">
-        <Link>ProcessHelper.cs</Link>
-      </Compile>
     </ItemGroup>
 
     <ItemGroup>

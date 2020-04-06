@@ -36,7 +36,12 @@ namespace ETModel
 
         public override AChannel ConnectChannel(IPEndPoint ipEndPoint)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            ClientWebSocket webSocket = new ClientWebSocket();
+            WChannel channel = new WChannel(webSocket, this);
+            this.channels[channel.Id] = channel;
+            channel.ConnectAsync("ws://" + ipEndPoint.ToString() + "/").Coroutine();
+            return channel;
         }
 
         public override AChannel ConnectChannel(string address)
@@ -71,7 +76,9 @@ namespace ETModel
             {
                 foreach (string prefix in prefixs)
                 {
-                    this.httpListener.Prefixes.Add(prefix);
+                    //校验地址是否有效:应该以http://开头
+                    var url = prefix.IndexOf("http://") == -1 ? $"http://{prefix}/" : $"{prefix}/";
+                    this.httpListener.Prefixes.Add(url);
                 }
                 
                 httpListener.Start();

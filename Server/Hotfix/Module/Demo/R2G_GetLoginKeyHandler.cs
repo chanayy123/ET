@@ -8,8 +8,8 @@ namespace ETHotfix
 	{
 		protected override async ETTask Run(Session session, R2G_GetLoginKey request, G2R_GetLoginKey response, Action reply)
 		{
-			long key = RandomHelper.RandInt64();
-			Game.Scene.GetComponent<GateSessionKeyComponent>().Add(key, request.Account);
+			string key = RandomHelper.RandInt64().ToString();
+			Game.Scene.GetComponent<GateSessionKeyComponent>().Add(key, request.UserId);
 			response.Key = key;
 			reply();
 			await ETTask.CompletedTask;

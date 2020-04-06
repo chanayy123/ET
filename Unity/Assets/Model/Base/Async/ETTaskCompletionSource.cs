@@ -22,6 +22,11 @@ namespace ETModel
 
         public ETTask Task => new ETTask(this);
 
+        public void Reset()
+        {
+            state = 0;
+        }
+
         void IAwaiter.GetResult()
         {
             switch (this.state)
@@ -160,6 +165,11 @@ namespace ETModel
         public ETTask<T> Task => new ETTask<T>(this);
 
         AwaiterStatus IAwaiter.Status => (AwaiterStatus) state;
+
+        public void Reset()
+        {
+            state = 0;
+        }
 
         T IAwaiter<T>.GetResult()
         {

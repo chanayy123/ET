@@ -26,7 +26,7 @@ namespace App
 					return;
 				}
 
-				IdGenerater.AppId = options.AppId;
+                IdGenerater.AppId = options.AppId;
 
 				LogManager.Configuration.Variables["appType"] = $"{startConfig.AppType}";
 				LogManager.Configuration.Variables["appId"] = $"{startConfig.AppId}";
@@ -34,99 +34,72 @@ namespace App
 				LogManager.Configuration.Variables["appIdFormat"] = $"{startConfig.AppId:0000}";
 
 				Log.Info($"server start........................ {startConfig.AppId} {startConfig.AppType}");
-
-				Game.Scene.AddComponent<TimerComponent>();
-				Game.Scene.AddComponent<OpcodeTypeComponent>();
-				Game.Scene.AddComponent<MessageDispatcherComponent>();
-
-				// 根据不同的AppType添加不同的组件
-				OuterConfig outerConfig = startConfig.GetComponent<OuterConfig>();
+                // 根据不同的AppType添加不同的组件
+                OuterConfig outerConfig = startConfig.GetComponent<OuterConfig>();
 				InnerConfig innerConfig = startConfig.GetComponent<InnerConfig>();
 				ClientConfig clientConfig = startConfig.GetComponent<ClientConfig>();
-				
-				switch (startConfig.AppType)
+                ///////////////////////添加通用组件///////////////////////////////////////
+                Game.Scene.AddComponent<TimerComponent>();
+                Game.Scene.AddComponent<OpcodeTypeComponent>();
+                //内网网络组件
+                Game.Scene.AddComponent<NetInnerComponent, string>(innerConfig.Address);
+                //非actor消息转发组件
+                Game.Scene.AddComponent<MessageDispatcherComponent>();
+                //Actor消息相关
+                Game.Scene.AddComponent<MailboxDispatcherComponent>();
+                Game.Scene.AddComponent<ActorMessageDispatcherComponent>();
+                Game.Scene.AddComponent<ActorMessageSenderComponent>();
+                Game.Scene.AddComponent<ActorLocationSenderComponent>();
+                //代理相关
+                Game.Scene.AddComponent<LocationProxyComponent>();
+                Game.Scene.AddComponent<DBProxyComponent>();
+                // 配置管理
+                Game.Scene.AddComponent<ConfigComponent>();
+                //控制台相关
+                Game.Scene.AddComponent<ConsoleComponent>();
+
+                ///////////////////////根据不同服务器类型添加相应组件//////////////////////
+                switch (startConfig.AppType)
 				{
 					case AppType.Manager:
 						Game.Scene.AddComponent<AppManagerComponent>();
-						Game.Scene.AddComponent<NetInnerComponent, string>(innerConfig.Address);
 						Game.Scene.AddComponent<NetOuterComponent, string>(outerConfig.Address);
 						break;
 					case AppType.Realm:
-						Game.Scene.AddComponent<MailboxDispatcherComponent>();
-						Game.Scene.AddComponent<ActorMessageDispatcherComponent>();
-						Game.Scene.AddComponent<NetInnerComponent, string>(innerConfig.Address);
 						Game.Scene.AddComponent<NetOuterComponent, string>(outerConfig.Address);
-						Game.Scene.AddComponent<LocationProxyComponent>();
 						Game.Scene.AddComponent<RealmGateAddressComponent>();
-						break;
+                        Game.Scene.AddComponent<OnlineUserComponent>();
+                        break;
+                    case AppType.DB:
+                        Game.Scene.AddComponent<DBComponent>();
+                        break;
 					case AppType.Gate:
-						Game.Scene.AddComponent<PlayerComponent>();
-						Game.Scene.AddComponent<MailboxDispatcherComponent>();
-						Game.Scene.AddComponent<ActorMessageDispatcherComponent>();
-						Game.Scene.AddComponent<NetInnerComponent, string>(innerConfig.Address);
+						Game.Scene.AddComponent<UserComponent>();
 						Game.Scene.AddComponent<NetOuterComponent, string>(outerConfig.Address);
-						Game.Scene.AddComponent<LocationProxyComponent>();
-						Game.Scene.AddComponent<ActorMessageSenderComponent>();
-						Game.Scene.AddComponent<ActorLocationSenderComponent>();
 						Game.Scene.AddComponent<GateSessionKeyComponent>();
 						break;
+                    case AppType.Http:
+                        Game.Scene.AddComponent<HttpComponent>();
+                        break;
 					case AppType.Location:
-						Game.Scene.AddComponent<NetInnerComponent, string>(innerConfig.Address);
 						Game.Scene.AddComponent<LocationComponent>();
-						break;
-					case AppType.Map:
-						Game.Scene.AddComponent<NetInnerComponent, string>(innerConfig.Address);
-						Game.Scene.AddComponent<UnitComponent>();
-						Game.Scene.AddComponent<LocationProxyComponent>();
-						Game.Scene.AddComponent<ActorMessageSenderComponent>();
-						Game.Scene.AddComponent<ActorLocationSenderComponent>();
-						Game.Scene.AddComponent<MailboxDispatcherComponent>();
-						Game.Scene.AddComponent<ActorMessageDispatcherComponent>();
-						Game.Scene.AddComponent<PathfindingComponent>();
 						break;
 					case AppType.AllServer:
-						// 发送普通actor消息
-						Game.Scene.AddComponent<ActorMessageSenderComponent>();
-						
-						// 发送location actor消息
-						Game.Scene.AddComponent<ActorLocationSenderComponent>();
-						
-						//Game.Scene.AddComponent<DBComponent>();
-						//Game.Scene.AddComponent<DBProxyComponent>();
-						
-						// location server需要的组件
-						Game.Scene.AddComponent<LocationComponent>();
-						
-						// 访问location server的组件
-						Game.Scene.AddComponent<LocationProxyComponent>();
-						
-						// 这两个组件是处理actor消息使用的
-						Game.Scene.AddComponent<MailboxDispatcherComponent>();
-						Game.Scene.AddComponent<ActorMessageDispatcherComponent>();
-						
-						// 内网消息组件
-						Game.Scene.AddComponent<NetInnerComponent, string>(innerConfig.Address);
-						
-						// 外网消息组件
-						Game.Scene.AddComponent<NetOuterComponent, string>(outerConfig.Address);
-						
-						// manager server组件，用来管理其它进程使用
-						Game.Scene.AddComponent<AppManagerComponent>();
+                        // location server
+                        Game.Scene.AddComponent<LocationComponent>();
+                        //db  server
+                        Game.Scene.AddComponent<DBComponent>();
+                        //http server
+                        Game.Scene.AddComponent<HttpComponent>();
+                        // 外网消息组件
+                        Game.Scene.AddComponent<NetOuterComponent, string>(outerConfig.Address);
+                        //realm验证服
 						Game.Scene.AddComponent<RealmGateAddressComponent>();
-						Game.Scene.AddComponent<GateSessionKeyComponent>();
-						
-						// 配置管理
-						Game.Scene.AddComponent<ConfigComponent>();
-						
-						// recast寻路组件
-						Game.Scene.AddComponent<PathfindingComponent>();
-						
-						Game.Scene.AddComponent<PlayerComponent>();
-						Game.Scene.AddComponent<UnitComponent>();
-
-						Game.Scene.AddComponent<ConsoleComponent>();
-						// Game.Scene.AddComponent<HttpComponent>();
-						break;
+                        Game.Scene.AddComponent<OnlineUserComponent>();
+                        //gate server
+                        Game.Scene.AddComponent<GateSessionKeyComponent>();
+                        Game.Scene.AddComponent<UserComponent>();
+                        break;
 					case AppType.Benchmark:
 						Game.Scene.AddComponent<NetOuterComponent>();
 						Game.Scene.AddComponent<BenchmarkComponent, string>(clientConfig.Address);
@@ -141,7 +114,7 @@ namespace App
 					default:
 						throw new Exception($"命令行参数没有设置正确的AppType: {startConfig.AppType}");
 				}
-				
+
 				while (true)
 				{
 					try
@@ -161,5 +134,6 @@ namespace App
 				Log.Error(e);
 			}
 		}
-	}
+
+    }
 }

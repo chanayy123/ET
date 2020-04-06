@@ -322,7 +322,7 @@ namespace ETModel
 	{
 		public int RpcId { get; set; }
 
-		public string Account { get; set; }
+		public int UserId { get; set; }
 
 	}
 
@@ -335,7 +335,7 @@ namespace ETModel
 
 		public string Message { get; set; }
 
-		public long Key { get; set; }
+		public string Key { get; set; }
 
 	}
 
@@ -375,6 +375,42 @@ namespace ETModel
 		public int RpcId { get; set; }
 
 		public long ActorId { get; set; }
+
+	}
+
+	[Message(InnerOpcode.GR_Online)]
+	public partial class GR_Online: IMessage
+	{
+		public int UserId { get; set; }
+
+		public int GateAppId { get; set; }
+
+	}
+
+	[Message(InnerOpcode.GR_Offline)]
+	public partial class GR_Offline: IMessage
+	{
+		public int UserId { get; set; }
+
+	}
+
+	[Message(InnerOpcode.RG_KickUser)]
+	public partial class RG_KickUser: IRequest
+	{
+		public int RpcId { get; set; }
+
+		public int UserId { get; set; }
+
+	}
+
+	[Message(InnerOpcode.GR_KickUser_ACK)]
+	public partial class GR_KickUser_ACK: IResponse
+	{
+		public int RpcId { get; set; }
+
+		public int Error { get; set; }
+
+		public string Message { get; set; }
 
 	}
 

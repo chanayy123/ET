@@ -6,9 +6,39 @@ namespace ETHotfix
 	{
 		public void Dispatch(Session session, ushort opcode, object message)
 		{
-			DispatchAsync(session, opcode, message).Coroutine();
+            //心跳检测
+            if (!this.CheckSessionValid(session)) return;
+            DispatchAsync(session, opcode, message).Coroutine();
 		}
 		
+        /// <summary>
+        /// 检测客户端连接心跳是否合法: 发送间隔和频率来判断
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        private bool CheckSessionValid(Session session)
+        {
+            var hb = session.GetComponent<HeartBeatComponent>();
+            if (hb == null)
+            {
+                Log.Warning("当前session没有心跳组件!");
+                return false;
+            }
+            else
+            {
+                //每次收到消息重置间隔
+                hb.ReceiveTimeInterval = 0;
+                hb.TotalNumPerSec += 1;
+                if(hb.TotalNumPerSec > HeartBeatComponent.MAX_TIMES_PER_SEC)
+                {
+                    Log.Warning("当前session发送消息频率太快!");
+                    hb.DisposeSession();
+                    return false;
+                }
+            }
+            return true;
+        }
+
 		public async ETVoid DispatchAsync(Session session, ushort opcode, object message)
 		{
 			// 根据消息接口判断是不是Actor消息，不同的接口做不同的处理

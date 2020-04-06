@@ -1,0 +1,86 @@
+syntax = "proto3";
+package ETHotfix;
+
+message CS_Register // IRequest
+{
+	int32 RpcId=1;
+	string Account = 2;
+	string Password = 3;
+	string Name=4;
+}
+
+message SC_Register // IResponse
+{
+	int32 RpcId=1;
+	int32 Error=2;
+	string Message = 3;
+}
+
+
+message CS_Login // IRequest
+{
+	int32 RpcId=1;
+	string Account = 2;
+	string Password = 3;
+}
+
+message SC_Login // IResponse
+{
+	int32 RpcId=1;
+	int32 Error=2;
+	string Message = 3;
+	string Address=4;
+	string key =5;
+}
+
+message CS_VerifyKey // IRequest
+{
+	int32 RpcId =1;
+	string key =2;
+}
+
+message SC_VerifyKey //IResponse
+{
+	int32 RpcId=1;
+	int32 Error=2;
+	int32 UserId=3;
+	string Message = 4;
+}
+
+message User //IMessage
+{
+	int32 UserId=1;
+	int32 Level=2;
+	int32 Coin=3;
+	string Name=4;
+}
+
+message CS_UserInfo //IRequest
+{
+	int32 RpcId = 1;
+	int32 UserId = 2;
+}
+
+message SC_UserInfo //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+	User UserInfo=4;
+}
+
+message SC_KickUser //IMessage
+{
+	int32 Error=2;
+	string Message = 3;
+}
+
+
+
+
+
+
+
+
+
+

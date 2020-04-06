@@ -3,14 +3,23 @@ using System.Threading;
 
 namespace ETModel
 {
-	public struct Timer
+	public class Timer
 	{
 		public long Id { get; set; }
 		public long Time { get; set; }
 		public ETTaskCompletionSource tcs;
 	}
 
-	[ObjectSystem]
+    [ObjectSystem]
+    public class TimerComponentAwakeSystem : AwakeSystem<TimerComponent>
+    {
+        public override void Awake(TimerComponent self)
+        {
+            self.Awake();
+        }
+    }
+
+    [ObjectSystem]
 	public class TimerComponentUpdateSystem : UpdateSystem<TimerComponent>
 	{
 		public override void Update(TimerComponent self)
@@ -21,8 +30,8 @@ namespace ETModel
 
 	public class TimerComponent : Component
 	{
-		private readonly Dictionary<long, Timer> timers = new Dictionary<long, Timer>();
-
+        public static TimerComponent Instance { get; private set; }
+        private readonly Dictionary<long, Timer> timers = new Dictionary<long, Timer>();
 		/// <summary>
 		/// key: time, value: timer id
 		/// </summary>
@@ -35,7 +44,12 @@ namespace ETModel
 		// 记录最小时间，不用每次都去MultiMap取第一个值
 		private long minTime;
 
-		public void Update()
+        public void Awake()
+        {
+            Instance = this;
+        }
+
+        public void Update()
 		{
 			if (this.timeId.Count == 0)
 			{
@@ -78,68 +92,94 @@ namespace ETModel
 				{
 					continue;
 				}
-				this.timers.Remove(timerId);
-				timer.tcs.SetResult();
+                this.timers.Remove(timerId);
+                timer.tcs.SetResult();
+                this.RecycleTimer(timer);
+
 			}
 		}
 
 		private void Remove(long id)
 		{
-			this.timers.Remove(id);
-		}
+            if (this.timers.TryGetValue(id, out Timer timer))
+            {
+                this.timers.Remove(id);
+                this.RecycleTimer(timer);
+            }
+        }
 
 		public ETTask WaitTillAsync(long tillTime, CancellationToken cancellationToken)
 		{
-			ETTaskCompletionSource tcs = new ETTaskCompletionSource();
-			Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = tillTime, tcs = tcs };
-			this.timers[timer.Id] = timer;
+            //ETTaskCompletionSource tcs = new ETTaskCompletionSource();
+            //Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = tillTime, tcs = tcs };
+            Timer timer = MakeTimer(tillTime);
+            this.timers[timer.Id] = timer;
 			this.timeId.Add(timer.Time, timer.Id);
 			if (timer.Time < this.minTime)
 			{
 				this.minTime = timer.Time;
 			}
 			cancellationToken.Register(() => { this.Remove(timer.Id); });
-			return tcs.Task;
+			return timer.tcs.Task;
 		}
 
 		public ETTask WaitTillAsync(long tillTime)
 		{
-			ETTaskCompletionSource tcs = new ETTaskCompletionSource();
-			Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = tillTime, tcs = tcs };
-			this.timers[timer.Id] = timer;
+            //ETTaskCompletionSource tcs = new ETTaskCompletionSource();
+            //Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = tillTime, tcs = tcs };
+            Timer timer = MakeTimer(tillTime);
+            this.timers[timer.Id] = timer;
 			this.timeId.Add(timer.Time, timer.Id);
 			if (timer.Time < this.minTime)
 			{
 				this.minTime = timer.Time;
 			}
-			return tcs.Task;
+			return timer.tcs.Task;
 		}
 
 		public ETTask WaitAsync(long time, CancellationToken cancellationToken)
 		{
-			ETTaskCompletionSource tcs = new ETTaskCompletionSource();
-			Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = TimeHelper.Now() + time, tcs = tcs };
-			this.timers[timer.Id] = timer;
+            //ETTaskCompletionSource tcs = new ETTaskCompletionSource();
+            //Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = TimeHelper.Now() + time, tcs = tcs };
+            Timer timer = MakeTimer(TimeHelper.Now() + time);
+            this.timers[timer.Id] = timer;
 			this.timeId.Add(timer.Time, timer.Id);
 			if (timer.Time < this.minTime)
 			{
 				this.minTime = timer.Time;
 			}
 			cancellationToken.Register(() => { this.Remove(timer.Id); });
-			return tcs.Task;
+			return timer.tcs.Task;
 		}
 
 		public ETTask WaitAsync(long time)
 		{
-			ETTaskCompletionSource tcs = new ETTaskCompletionSource();
-			Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = TimeHelper.Now() + time, tcs = tcs };
-			this.timers[timer.Id] = timer;
+            //ETTaskCompletionSource tcs = new ETTaskCompletionSource();
+            //Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = TimeHelper.Now() + time, tcs = tcs };
+            Timer timer = MakeTimer(TimeHelper.Now() + time);
+            this.timers[timer.Id] = timer;
 			this.timeId.Add(timer.Time, timer.Id);
 			if (timer.Time < this.minTime)
 			{
 				this.minTime = timer.Time;
 			}
-			return tcs.Task;
+			return timer.tcs.Task;
 		}
+
+        private Timer MakeTimer(long time)
+        {
+            Timer timer = SimplePool.Instance.Fetch<Timer>();
+            timer.Id = IdGenerater.GenerateId();
+            timer.Time = time;
+            timer.tcs = timer.tcs ?? (timer.tcs = new ETTaskCompletionSource());
+            return timer;
+        }
+
+        private void RecycleTimer(Timer t)
+        {
+            t.tcs.Reset();
+            SimplePool.Instance.Recycle(t);
+        }
+
 	}
 }

@@ -307,6 +307,8 @@
     <Compile Include="..\..\Unity\Assets\Model\Other\AppType.cs" Link="Other\AppType.cs" />
     <Compile Include="..\..\Unity\Assets\Hotfix\Module\Message\HotfixMessage.cs" Link="Module\Message\HotfixMessage.cs" />
     <Compile Include="..\..\Unity\Assets\Hotfix\Module\Message\HotfixOpcode.cs" Link="Module\Message\HotfixOpcode.cs" />
+    <Compile Include="..\..\Unity\Assets\Hotfix\Module\Message\CommonMessage.cs" Link="Module\Message\CommonMessage.cs" />
+    <Compile Include="..\..\Unity\Assets\Hotfix\Module\Message\CommonOpcode.cs" Link="Module\Message\CommonOpcode.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.2.1" />
@@ -323,7 +325,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Base\RecyclableMemoryStream\" />
-    <Folder Include="Base\Base\" />
     <Folder Include="Component\Config\" />
     <Folder Include="Module\Message\Network\KCP\" />
     <Folder Include="Module\Message\Network\TCP\" />

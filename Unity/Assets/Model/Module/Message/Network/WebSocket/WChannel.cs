@@ -52,16 +52,22 @@ namespace ETModel
             {
                 return;
             }
-
             base.Dispose();
+            this.CloseSocket();
+        }
 
-            this.cancellationTokenSource.Cancel();
+
+        private async void CloseSocket()
+        {
+            await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "closing websocket", CancellationToken.None);
+            //this.cancellationTokenSource.Cancel();
             this.cancellationTokenSource.Dispose();
             this.cancellationTokenSource = null;
-
+            //如果不延迟,异步读取可能会抛异常:使用了dispose的websocket
+            await  Game.Scene.GetComponent<TimerComponent>().WaitAsync(100);
             this.webSocket.Dispose();
-
             this.memoryStream.Dispose();
+            this.recvStream.Dispose();
         }
 
         public override MemoryStream Stream
@@ -181,6 +187,11 @@ namespace ETModel
                     int receiveCount = 0;
                     do
                     {
+                        //fix yy:新增判断,不然客户端断开连接,这里可能也会执行到，而cancellationTokenSource已经为null
+                        if (this.IsDisposed)
+                        {
+                            return;
+                        }
 #if SERVER
                         receiveResult = await this.webSocket.ReceiveAsync(
                             new Memory<byte>(this.recvStream.GetBuffer(), receiveCount, this.recvStream.Capacity - receiveCount),
@@ -198,7 +209,6 @@ namespace ETModel
                         receiveCount += receiveResult.Count;
                     }
                     while (!receiveResult.EndOfMessage);
-
                     if (receiveResult.MessageType == WebSocketMessageType.Close)
                     {
                         this.OnError(ErrorCode.ERR_WebsocketPeerReset);
