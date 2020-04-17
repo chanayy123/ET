@@ -6,29 +6,54 @@ namespace ETHotfix
 {
     public static class GateHelper
     {
-        private static Session realSession;
-        public static Session RealSession
+
+        public static void SynOnline(int userId,long gateSessionId )
         {
-            get
+            var startCfg = StartConfigComponent.Instance.StartConfig;
+            if (startCfg.AppType == AppType.AllServer)
             {
-                if(realSession == null)
-                {
-                    StartConfig cfg = StartConfigComponent.Instance.RealmConfig;
-                    var ip =  cfg.GetComponent<InnerConfig>().IPEndPoint;
-                    realSession = Game.Scene.GetComponent<NetInnerComponent>().Get(ip);
-                }
-                return realSession;
+                var innerSession = NetInnerHelper.GetSessionByCfg(startCfg);
+                innerSession.Send(new GS_Online() { UserId = userId, GateSessionId = gateSessionId });
+            }
+            else
+            {
+                var realS = NetInnerHelper.GetSessionByAppType(AppType.Realm);
+                realS.Send(new GS_Online() { UserId = userId, GateSessionId = gateSessionId });
+                var userS = NetInnerHelper.GetSessionByAppType(AppType.User);
+                userS.Send(new GS_Online() { UserId = userId, GateSessionId = gateSessionId });
             }
         }
 
-        public static void synOnline(int userId,int gateAppId )
+        public static void SynOffline(int userId)
         {
-            RealSession.Send(new GR_Online() { UserId = userId, GateAppId = gateAppId });
+            var startCfg = StartConfigComponent.Instance.StartConfig;
+            if (startCfg.AppType == AppType.AllServer)
+            {
+                var innerSession = NetInnerHelper.GetSessionByCfg(startCfg);
+                innerSession.Send(new GS_Offline() { UserId = userId});
+            }
+            else
+            {
+                var realS = NetInnerHelper.GetSessionByAppType(AppType.Realm);
+                realS.Send(new GS_Offline() { UserId = userId });
+                var userS = NetInnerHelper.GetSessionByAppType(AppType.User);
+                userS.Send(new GS_Offline() { UserId = userId });
+                var matchS = NetInnerHelper.GetSessionByAppType(AppType.Match);
+                matchS.Send(new GS_Offline() { UserId = userId });
+            }
         }
 
-        public static void synOffline(int userId)
+        /// <summary>
+        /// 随机获取一个网关服务器地址
+        /// </summary>
+        /// <returns></returns>
+        public static StartConfig RandomGateCfg
         {
-            RealSession.Send(new GR_Offline() { UserId = userId});
+            get{
+                var cfgs = StartConfigComponent.Instance.GateConfigs;
+                var index = RandomHelper.RandomNumber(0, cfgs.Count);
+                return cfgs[index];
+            }
         }
 
     }

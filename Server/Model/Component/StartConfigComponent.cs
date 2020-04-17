@@ -20,6 +20,8 @@ namespace ETModel
 		public static StartConfigComponent Instance { get; private set; }
 		
 		private Dictionary<int, StartConfig> configDict;
+
+        private Dictionary<AppType, List<StartConfig>> configDict2;
 		
 		private Dictionary<int, IPEndPoint> innerAddressDict = new Dictionary<int, IPEndPoint>();
 		
@@ -31,6 +33,10 @@ namespace ETModel
 
 		public StartConfig LocationConfig { get; private set; }
 
+        public StartConfig MatchConfig { get; private set; }
+
+        public List<StartConfig> GameConfigs { get; private set; }
+
 		public List<StartConfig> MapConfigs { get; private set; }
 
 		public List<StartConfig> GateConfigs { get; private set; }
@@ -40,10 +46,13 @@ namespace ETModel
 			Instance = this;
 			
 			this.configDict = new Dictionary<int, StartConfig>();
-			this.MapConfigs = new List<StartConfig>();
-			this.GateConfigs = new List<StartConfig>();
+            configDict2 = new Dictionary<AppType, List<StartConfig>>();
 
-			string[] ss = File.ReadAllText(path).Split('\n');
+            this.MapConfigs = new List<StartConfig>();
+            this.GateConfigs = new List<StartConfig>();
+            this.GameConfigs = new List<StartConfig>();
+
+            string[] ss = File.ReadAllText(path).Split('\n');
 			foreach (string s in ss)
 			{
 				string s2 = s.Trim();
@@ -55,6 +64,13 @@ namespace ETModel
 				{
 					StartConfig startConfig = MongoHelper.FromJson<StartConfig>(s2);
 					this.configDict.Add(startConfig.AppId, startConfig);
+                    
+                    if(!configDict2.TryGetValue(startConfig.AppType,out List<StartConfig> list))
+                    {
+                        list = new List<StartConfig>();
+                        configDict2.Add(startConfig.AppType, list);
+                    }
+                    list.Add(startConfig);
 
 					InnerConfig innerConfig = startConfig.GetComponent<InnerConfig>();
 					if (innerConfig != null)
@@ -86,7 +102,11 @@ namespace ETModel
 					{
 						this.GateConfigs.Add(startConfig);
 					}
-				}
+                    if (startConfig.AppType.Is(AppType.Game))
+                    {
+                        this.GameConfigs.Add(startConfig);
+                    }
+                }
 				catch (Exception e)
 				{
 					Log.Error($"config错误: {s2} {e}");
@@ -118,8 +138,28 @@ namespace ETModel
 				throw new Exception($"not found startconfig: {id}", e);
 			}
 		}
-		
-		public IPEndPoint GetInnerAddress(int id)
+
+        public StartConfig Get(AppType type,int index=0)
+        {
+            try
+            {
+                if (this.StartConfig.AppType == AppType.AllServer) return StartConfig;
+                return this.configDict2[type][index];
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"not found startconfig: {type} {index}", e);
+            }
+            //if (!configDict2.TryGetValue(type,out List<StartConfig> list))
+            //{
+            //    configDict2.TryGetValue(AppType.AllServer, out List<StartConfig> list2);
+            //    return list2[index];
+            //}
+            //return list[index];
+        }
+
+
+        public IPEndPoint GetInnerAddress(int id)
 		{
 			try
 			{

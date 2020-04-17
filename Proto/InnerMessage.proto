@@ -6,272 +6,388 @@ package ETModel;
 /// </summary>
 message M2M_TrasferUnitRequest // IRequest
 {
-    int32 RpcId = 90;
-    Unit Unit = 1;
+    int32 RpcId = 1;
+    Unit Unit = 2;
 }
 
 message M2M_TrasferUnitResponse // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 
-    int64 InstanceId = 1;
+    int64 InstanceId = 4;
 }
 
 message M2A_Reload // IRequest
 {
-    int32 RpcId = 90;
+    int32 RpcId = 1;
 }
 
 message A2M_Reload // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 }
 
 message G2G_LockRequest // IRequest
 {
-    int32 RpcId = 90;
+    int32 RpcId = 1;
     int64 Id = 1;
     string Address = 2;
 }
 
 message G2G_LockResponse // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 }
 
 message G2G_LockReleaseRequest // IRequest
 {
-    int32 RpcId = 90;
-    int64 Id = 1;
-    string Address = 2;
+    int32 RpcId = 1;
+    int64 Id = 2;
+    string Address = 3;
 }
 
 message G2G_LockReleaseResponse // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 }
 
 message DBSaveRequest // IRequest
 {
-    int32 RpcId = 90;
+    int32 RpcId = 1;
 
-    string CollectionName = 1;
-    ComponentWithId Component = 2;
+    string CollectionName = 2;
+    ComponentWithId Component = 3;
 }
 
 
 message DBSaveBatchResponse // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 }
 
 message DBSaveBatchRequest // IRequest
 {
-    int32 RpcId = 90;
+    int32 RpcId = 1;
 
-    string CollectionName = 1;
-    repeated ComponentWithId Components = 2;
+    string CollectionName = 2;
+    repeated ComponentWithId Components = 3;
 }
 
 message DBSaveResponse // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 }
 
 message DBQueryRequest // IRequest
 {
-    int32 RpcId = 90;
-    int64 Id = 1;
-    string CollectionName = 2;
+    int32 RpcId = 1;
+    int64 Id = 2;
+    string CollectionName = 3;
 }
 
 message DBQueryResponse // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 
-    ComponentWithId Component = 1;
+    ComponentWithId Component = 4;
 }
 
 message DBQueryBatchRequest // IRequest
 {
-    int32 RpcId = 90;
-    string CollectionName = 1;
-    repeated int64 IdList = 2;
+    int32 RpcId = 1;
+    string CollectionName = 2;
+    repeated int64 IdList = 3;
 }
 
 message DBQueryBatchResponse // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 
-    repeated ComponentWithId Components = 1;
+    repeated ComponentWithId Components = 4;
 }
 
 message DBQueryJsonRequest // IRequest
 {
-    int32 RpcId = 90;
-    string CollectionName = 1;
-    string Json = 2;
+    int32 RpcId = 1;
+    string CollectionName = 2;
+    string Json = 3;
+}
+
+message DBSortQueryJsonRequest // IRequest
+{
+	int32 RpcId = 90;
+	string CollectionName = 1;
+	string QueryJson = 2;
+	string SortJson = 3;
+	int32 Count = 4;
 }
 
 message DBQueryJsonResponse // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 
-    repeated ComponentWithId Components = 1;
+    repeated ComponentWithId Components = 4;
 }
 
 message ObjectAddRequest // IRequest
 {
-    int32 RpcId = 90;
-    int64 Key = 1;
-    int64 InstanceId = 2;
+    int32 RpcId = 1;
+    int64 Key = 2;
+    int64 InstanceId = 3;
 }
 
 message ObjectAddResponse // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 }
 
 message ObjectRemoveRequest // IRequest
 {
-    int32 RpcId = 90;
-    int64 Key = 1;
+    int32 RpcId = 1;
+    int64 Key = 2;
 }
 
 message ObjectRemoveResponse // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 }
 
 message ObjectLockRequest // IRequest
 {
-    int32 RpcId = 90;
-    int64 Key = 1;
-    int64 InstanceId = 2;
-    int32 Time = 3;
+    int32 RpcId = 1;
+    int64 Key = 2;
+    int64 InstanceId = 3;
+    int32 Time = 4;
 }
 
 message ObjectLockResponse // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 }
 
 message ObjectUnLockRequest // IRequest
 {
-    int32 RpcId = 90;
-    int64 Key = 1;
-    int64 OldInstanceId = 2;
-    int64 InstanceId = 3;
+    int32 RpcId = 1;
+    int64 Key = 2;
+    int64 OldInstanceId = 3;
+    int64 InstanceId = 4;
 }
 
 message ObjectUnLockResponse // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 }
 
 message ObjectGetRequest // IRequest
 {
-    int32 RpcId = 90;
-    int64 Key = 1;
+    int32 RpcId = 1;
+    int64 Key = 2;
 }
 
 message ObjectGetResponse // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 
-    int64 InstanceId = 1;
+    int64 InstanceId = 4;
 }
 
 message R2G_GetLoginKey // IRequest
 {
-    int32 RpcId = 90;
-    int32 UserId = 1;
+    int32 RpcId = 1;
+    int32 UserId = 2;
 }
 
 message G2R_GetLoginKey // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
-    string Key = 1;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
+    string Key = 4;
 }
 
 message G2M_CreateUnit // IRequest
 {
-    int32 RpcId = 90;
-    int64 PlayerId = 1;
-    int64 GateSessionId = 2;
+    int32 RpcId = 1;
+    int64 PlayerId = 2;
+    int64 GateSessionId = 3;
 }
 
 message M2G_CreateUnit // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-    string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
 
     // 自己的unit id
-    int64 UnitId = 1;
+    int64 UnitId = 4;
     // 所有的unit
-    repeated UnitInfo Units = 2;
+    repeated UnitInfo Units = 5;
 }
 
 message G2M_SessionDisconnect // IActorLocationMessage
 {
-    int32 RpcId = 90;
-    int64 ActorId = 94;
+    int32 RpcId = 1;
+    int64 ActorId = 2;
 }
-
-message GR_Online  //IMessage
+// gate->other server
+message GS_Online  //IMessage
 {
 	int32 UserId = 1;
-	int32 GateAppId = 2;
+	int64 GateSessionId = 2;
 }
-
-message GR_Offline  //IMessage
+//gate->other server
+message GS_Offline  //IMessage
 {
 	int32 UserId = 1;
 }
-
-message RG_KickUser // IRequest
+ //other server->gate
+message SG_KickUser // IRequest
 {
     int32 RpcId = 1;
 	int32 UserId = 2;
 }
 
-message GR_KickUser_ACK // IResponse
+message GS_KickUser // IResponse
 {
-    int32 RpcId = 90;
-    int32 Error = 91;
-	string Message = 92;
+    int32 RpcId = 1;
+    int32 Error = 2;
+	string Message = 3;
 }
+//match->game
+message MG_EnterRoom // IMessage
+{
+    int32 RpcId = 1;
+	int32 RoomId = 2;
+	int32 GameId = 3;
+	GamePlayerData player = 4;
+}
+
+//match->game
+message MG_LeaveRoom // IMessage
+{
+    int32 RpcId = 1;
+	int32 RoomId = 2;
+	int32 UserId = 3;
+	int32 GameId = 4;
+}
+
+//game->match
+message GM_SynRoomData // IMessage
+{
+	int32 RoomId = 1;
+	int32 State = 2;
+	int64 RoomActorId = 3;
+}
+
+//game->match
+message GM_ChangeRoomState //IMessage
+{
+	int32 RoomId = 1;
+	int32 State = 2;
+}
+//game->gate
+message GG_SynActorId // IMessage
+{
+	int32 UserId = 1;
+	int64 ActorId = 2;
+}
+//realm->user
+message RU_Login // IRequest
+{
+	int32 RpcId = 1;
+	int32 LoginType =2;
+	int32 PlatformType = 3;
+	string DataStr = 4;
+}
+//user->realm
+message UR_Login // IResponse
+{
+	int32 RpcId = 1;
+    int32 Error = 2;
+	string Message = 3;
+	int32 UserId = 4;
+}
+
+//realm->user
+message RU_Register // IRequest
+{
+	int32 RpcId =1;
+	string Account = 2;
+	string Password = 3;
+	string Name =4;
+}
+
+}
+//user->realm
+message UR_Register // IResponse
+{
+	int32 RpcId =1;
+	int32 Error =2;
+	int32 UserId = 3;
+	string Message = 4;
+}
+//other server->user
+message SU_GetUserInfo // IRequest
+{
+	int32 RpcId = 1;
+	int32 UserId = 2;
+}
+
+message US_GetUserInfo //IResponse
+{
+	int32 RpcId =1;
+	int32 Error =2;
+	string Message = 3;
+	User UserInfo = 4;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -44,7 +44,7 @@ namespace App
                 //内网网络组件
                 Game.Scene.AddComponent<NetInnerComponent, string>(innerConfig.Address);
                 //非actor消息转发组件
-                Game.Scene.AddComponent<MessageDispatcherComponent>();
+                //Game.Scene.AddComponent<MessageDispatcherComponent>();
                 //Actor消息相关
                 Game.Scene.AddComponent<MailboxDispatcherComponent>();
                 Game.Scene.AddComponent<ActorMessageDispatcherComponent>();
@@ -67,14 +67,13 @@ namespace App
 						break;
 					case AppType.Realm:
 						Game.Scene.AddComponent<NetOuterComponent, string>(outerConfig.Address);
-						Game.Scene.AddComponent<RealmGateAddressComponent>();
-                        Game.Scene.AddComponent<OnlineUserComponent>();
+                        Game.Scene.AddComponent<RealmOnlineUserComponent>();
                         break;
                     case AppType.DB:
                         Game.Scene.AddComponent<DBComponent>();
                         break;
 					case AppType.Gate:
-						Game.Scene.AddComponent<UserComponent>();
+						Game.Scene.AddComponent<GateUserComponent>();
 						Game.Scene.AddComponent<NetOuterComponent, string>(outerConfig.Address);
 						Game.Scene.AddComponent<GateSessionKeyComponent>();
 						break;
@@ -84,7 +83,16 @@ namespace App
 					case AppType.Location:
 						Game.Scene.AddComponent<LocationComponent>();
 						break;
-					case AppType.AllServer:
+                    case AppType.User:
+                        Game.Scene.AddComponent<UserComponent>();
+                        break;
+                    case AppType.Match:
+                        Game.Scene.AddComponent<MatchRoomComponent>();
+                        break;
+                    case AppType.Game:
+                        Game.Scene.AddComponent<GameRoomComponent>();
+                        break;
+                    case AppType.AllServer:
                         // location server
                         Game.Scene.AddComponent<LocationComponent>();
                         //db  server
@@ -94,11 +102,16 @@ namespace App
                         // 外网消息组件
                         Game.Scene.AddComponent<NetOuterComponent, string>(outerConfig.Address);
                         //realm验证服
-						Game.Scene.AddComponent<RealmGateAddressComponent>();
-                        Game.Scene.AddComponent<OnlineUserComponent>();
+                        Game.Scene.AddComponent<RealmOnlineUserComponent>();
                         //gate server
                         Game.Scene.AddComponent<GateSessionKeyComponent>();
+                        Game.Scene.AddComponent<GateUserComponent>();
+                        //user server
                         Game.Scene.AddComponent<UserComponent>();
+                        //房间匹配服
+                        Game.Scene.AddComponent<MatchRoomComponent>();
+                        //游戏逻辑服
+                        Game.Scene.AddComponent<GameRoomComponent>();
                         break;
 					case AppType.Benchmark:
 						Game.Scene.AddComponent<NetOuterComponent>();
@@ -114,8 +127,7 @@ namespace App
 					default:
 						throw new Exception($"命令行参数没有设置正确的AppType: {startConfig.AppType}");
 				}
-
-				while (true)
+                while (true)
 				{
 					try
 					{

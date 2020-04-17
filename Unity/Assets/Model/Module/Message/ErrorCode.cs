@@ -36,8 +36,7 @@ namespace ETModel
 		//-----------------------------------
 		// 小于这个Rpc会抛异常，大于这个异常的error需要自己判断处理，也就是说需要处理的错误应该要大于该值
 		public const int ERR_Exception = 200000;
-		
-		public const int ERR_AccountOrPasswordError = 200102;
+		//大于200000的返回码定义在proto文件里方便双端使用
 		//-----------------------------------
 		public static bool IsRpcNeedThrowException(int error)
 		{

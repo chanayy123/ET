@@ -23,8 +23,17 @@ namespace ETHotfix
 			self.MessageDispatcher = new OuterMessageDispatcher();
 		}
 	}
-	
-	[ObjectSystem]
+
+    [ObjectSystem]
+    public class NetOuterComponentAwake2System : AwakeSystem<NetOuterComponent, string>
+    {
+        public override void Awake(NetOuterComponent self, string address)
+        {
+            Game.Scene.AddComponent<RouteMessageDispatcherComponent>();
+        }
+    }
+
+    [ObjectSystem]
 	public class NetOuterComponentLoadSystem : LoadSystem<NetOuterComponent>
 	{
 		public override void Load(NetOuterComponent self)

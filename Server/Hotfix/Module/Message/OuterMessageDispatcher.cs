@@ -80,7 +80,8 @@ namespace ETHotfix
 				default:
 				{
 					// 非Actor消息
-					Game.Scene.GetComponent<MessageDispatcherComponent>().Handle(session, new MessageInfo(opcode, message));
+					//Game.Scene.GetComponent<MessageDispatcherComponent>().Handle(session, new MessageInfo(opcode, message));
+                    Game.Scene.GetComponent<RouteMessageDispatcherComponent>().Handle(session, opcode, message);
 					break;
 				}
 			}

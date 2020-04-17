@@ -8,7 +8,8 @@ namespace ETModel
 		void Handle(object a);
 		void Handle(object a, object b);
 		void Handle(object a, object b, object c);
-	}
+        void Handle(object a, object b, object c,object d);
+    }
 
 	public abstract class AEvent : IEvent
 	{
@@ -31,8 +32,12 @@ namespace ETModel
 		{
 			throw new NotImplementedException();
 		}
+        public void Handle(object a, object b, object c,object d)
+        {
+            throw new NotImplementedException();
+        }
 
-		public abstract void Run();
+        public abstract void Run();
 	}
 
 	public abstract class AEvent<A>: IEvent
@@ -56,8 +61,12 @@ namespace ETModel
 		{
 			throw new NotImplementedException();
 		}
+        public void Handle(object a, object b, object c, object d)
+        {
+            throw new NotImplementedException();
+        }
 
-		public abstract void Run(A a);
+        public abstract void Run(A a);
 	}
 
 	public abstract class AEvent<A, B>: IEvent
@@ -81,8 +90,12 @@ namespace ETModel
 		{
 			throw new NotImplementedException();
 		}
+        public void Handle(object a, object b, object c, object d)
+        {
+            throw new NotImplementedException();
+        }
 
-		public abstract void Run(A a, B b);
+        public abstract void Run(A a, B b);
 	}
 
 	public abstract class AEvent<A, B, C>: IEvent
@@ -107,6 +120,41 @@ namespace ETModel
 			this.Run((A)a, (B)b, (C)c);
 		}
 
-		public abstract void Run(A a, B b, C c);
+        public void Handle(object a, object b, object c, object d)
+        {
+            throw new NotImplementedException();
+        }
+
+        public abstract void Run(A a, B b, C c);
 	}
+
+    public abstract class AEvent<A, B, C,D> : IEvent
+    {
+        public void Handle()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Handle(object a)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Handle(object a, object b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Handle(object a, object b, object c)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Handle(object a, object b, object c, object d)
+        {
+            this.Run((A)a, (B)b, (C)c,(D)d);
+        }
+
+        public abstract void Run(A a, B b, C c,D d);
+    }
 }

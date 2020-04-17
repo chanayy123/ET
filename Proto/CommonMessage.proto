@@ -1,5 +1,29 @@
 syntax = "proto3";
-package ETHotfix;
+package ETModel;
+enum OpRetCode 
+{
+	Success=0;
+	Room_Already_In=200001;
+	Room_Already_Full=200002;
+	Room_State_Ban=200003;
+	Room_Not_Exist=200004;
+	Login_Param_Error=200005;
+	Login_AccPwd_Error=200006;
+	Account_Already_Exist=200007;
+	Account_MaxUserId_Error=200008;
+	User_GetInfo_Error = 200009;
+	Room_Not_Enough_Coin = 200010;
+	Room_Too_Much_Coin = 200011;
+	Room_Already_Gaming = 200012;
+	Room_Already_Out =200013;
+	
+}
+
+enum GameId
+{
+	Default = 0;
+	Bull_Classic= 1;
+}
 
 message CS_Register // IRequest
 {
@@ -14,14 +38,17 @@ message SC_Register // IResponse
 	int32 RpcId=1;
 	int32 Error=2;
 	string Message = 3;
+	string Address=4;
+	string key =5;
 }
 
 
 message CS_Login // IRequest
 {
 	int32 RpcId=1;
-	string Account = 2;
-	string Password = 3;
+	int32 LoginType =2;
+	int32 PlatformType = 3;
+	string DataStr = 4;
 }
 
 message SC_Login // IResponse
@@ -52,8 +79,11 @@ message User //IMessage
 	int32 UserId=1;
 	int32 Level=2;
 	int32 Coin=3;
-	string Name=4;
+	int32 Head=4;
+	string Name=5;
+	bool Online=6;
 }
+
 
 message CS_UserInfo //IRequest
 {
@@ -74,6 +104,95 @@ message SC_KickUser //IMessage
 	int32 Error=2;
 	string Message = 3;
 }
+
+message MatchRoom
+{
+	int32 RoomId =1;
+	int32 State =2;
+	int32 Count =3;
+}
+
+message CS_RoomList //IRequest
+{
+	int32 RpcId = 1;
+	int32 HallId = 2;
+}
+
+message SC_RoomList //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+	int32 HallId = 4;
+	repeated MatchRoom List=5;
+}
+
+message CS_EnterRoom //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 RoomId = 2;
+	int32 UserId =3;
+	int32 GameId = 4;
+	int64 GateSessionId = 5;
+}
+
+message SC_EnterRoom //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+}
+
+message CS_LeaveRoom //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 UserId =2;
+	int64 GateSessionId = 5;
+}
+
+message SC_LeaveRoom //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+}
+
+message GamePlayerData //IMessage
+{
+	int32 UserId = 1;
+	int32 Head = 3;
+	int32 Coin = 4;
+	int32 SeatIndex =5;
+	string Name = 6;
+}
+
+message GameRoomData //IMessage
+{
+	int32 RoomId = 1;
+	int32 State = 2;
+	repeated GamePlayerData playerList = 3;
+}
+
+message SC_GameRoomInfo //IActorMessage
+{
+	int64 ActorId = 1;
+	GameRoomData roomInfo = 2;
+}
+
+message SC_PlayerEnter //IActorMessage
+{
+	int64 ActorId = 1;
+	GamePlayerData player = 2;
+}
+
+message SC_PlayerLeave //IActorMessage
+{
+	int64 ActorId = 1;
+	int32 UserId = 2;
+}
+
+
+
 
 
 

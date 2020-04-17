@@ -31,6 +31,27 @@ namespace ETHotfix
 	[Message(CommonOpcode.SC_KickUser)]
 	public partial class SC_KickUser : IMessage {}
 
+	[Message(CommonOpcode.MatchRoom)]
+	public partial class MatchRoom {}
+
+	[Message(CommonOpcode.CS_RoomList)]
+	public partial class CS_RoomList : IRequest {}
+
+	[Message(CommonOpcode.SC_RoomList)]
+	public partial class SC_RoomList : IResponse {}
+
+	[Message(CommonOpcode.CS_EnterRoom)]
+	public partial class CS_EnterRoom : IRequest {}
+
+	[Message(CommonOpcode.SC_EnterRoom)]
+	public partial class SC_EnterRoom : IResponse {}
+
+	[Message(CommonOpcode.GamePlayer)]
+	public partial class GamePlayer : IMessage {}
+
+	[Message(CommonOpcode.GameRoom)]
+	public partial class GameRoom : IMessage {}
+
 }
 namespace ETHotfix
 {
@@ -46,5 +67,12 @@ namespace ETHotfix
 		 public const ushort CS_UserInfo = 20008;
 		 public const ushort SC_UserInfo = 20009;
 		 public const ushort SC_KickUser = 20010;
+		 public const ushort MatchRoom = 20011;
+		 public const ushort CS_RoomList = 20012;
+		 public const ushort SC_RoomList = 20013;
+		 public const ushort CS_EnterRoom = 20014;
+		 public const ushort SC_EnterRoom = 20015;
+		 public const ushort GamePlayer = 20016;
+		 public const ushort GameRoom = 20017;
 	}
 }

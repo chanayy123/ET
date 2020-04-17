@@ -96,5 +96,69 @@ namespace ETHotfix
 			DBQueryJsonResponse dbQueryJsonResponse = (DBQueryJsonResponse)await session.Call(new DBQueryJsonRequest { CollectionName = typeof(T).Name, Json = json });
 			return dbQueryJsonResponse.Components;
 		}
-	}
+
+        /// <summary>
+		/// 根据json查询条件查询
+		/// </summary>
+		/// <param name="self"></param>
+		/// <param name="json"></param>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		public static async ETTask<List<T>> QueryT<T>(this DBProxyComponent self, string json) where T : ComponentWithId
+        {
+            Session session = Game.Scene.GetComponent<NetInnerComponent>().Get(self.dbAddress);
+            DBQueryJsonResponse dbQueryJsonResponse = (DBQueryJsonResponse)await session.Call(new DBQueryJsonRequest { CollectionName = typeof(T).Name, Json = json });
+            return ConversionType<T>(dbQueryJsonResponse.Components);
+        }
+
+        public static List<T> ConversionType<T>(List<ComponentWithId> componentWithIds) where T : ComponentWithId
+        {
+            if (componentWithIds == null)
+            {
+                return null;
+            }
+            List<T> listt = new List<T>() { };
+            foreach (var componentWithId in componentWithIds)
+            {
+                listt.Add(componentWithId as T);
+            }
+            return listt;
+        }
+        //Expression表达式转换时monongb语句
+        private static string ExpressionConversionJson<T>(Expression<Func<T, bool>> exp)
+        {
+            ExpressionFilterDefinition<T> filter = new ExpressionFilterDefinition<T>(exp);
+            IBsonSerializerRegistry serializerRegistry = BsonSerializer.SerializerRegistry;
+            IBsonSerializer<T> documentSerializer = serializerRegistry.GetSerializer<T>();
+            return filter.Render(documentSerializer, serializerRegistry).ToJson();
+        }
+
+        /// <summary>
+        /// 根据json查询条件查询
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="json"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static async ETTask<List<T>> SortQuery<T>(this DBProxyComponent self, Expression<Func<T, bool>> queryExp, Expression<Func<T, bool>> sortExp, int count) where T : ComponentWithId
+        {
+            string queryJson = ExpressionConversionJson(queryExp);
+            string sortJson = ExpressionConversionJson(sortExp);
+            return await self.SortQuery<T>(typeof(T).Name, queryJson, sortJson, count);
+        }
+
+        /// <summary>
+        /// 根据json查询条件查询
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="json"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static async ETTask<List<T>> SortQuery<T>(this DBProxyComponent self, string typeName, string queryJson, string sortJson, int count) where T : ComponentWithId
+        {
+            Session session = Game.Scene.GetComponent<NetInnerComponent>().Get(self.dbAddress);
+            DBQueryJsonResponse dbQueryJsonResponse = (DBQueryJsonResponse)await session.Call(new DBSortQueryJsonRequest { CollectionName = typeName, QueryJson = queryJson, SortJson = sortJson, Count = count });
+            return ConversionType<T>(dbQueryJsonResponse.Components);
+        }
+    }
 }

@@ -91,5 +91,15 @@ namespace ETModel
 
 			return tcs.Task;
 		}
-	}
+
+
+        public ETTask<List<ComponentWithId>> GetJson(string[] strs, int count)
+        {
+            ETTaskCompletionSource<List<ComponentWithId>> tcs = new ETTaskCompletionSource<List<ComponentWithId>>();
+
+            DBSortQueryJsonTask dbSortQueryJsonTask = ComponentFactory.Create<DBSortQueryJsonTask, string[], int, ETTaskCompletionSource<List<ComponentWithId>>>(strs, count, tcs);
+            this.tasks[(int)((ulong)dbSortQueryJsonTask.Id % taskCount)].Add(dbSortQueryJsonTask);
+            return tcs.Task;
+        }
+    }
 }

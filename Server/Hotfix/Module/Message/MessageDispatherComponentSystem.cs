@@ -76,12 +76,12 @@ namespace ETHotfix
 			self.Handlers[opcode].Add(handler);
 		}
 
-		public static void Handle(this MessageDispatcherComponent self, Session session, MessageInfo messageInfo)
+		public static void Handle(this MessageDispatcherComponent self, Session session, ushort opcode, object message)
 		{
 			List<IMHandler> actions;
-			if (!self.Handlers.TryGetValue(messageInfo.Opcode, out actions))
+			if (!self.Handlers.TryGetValue(opcode, out actions))
 			{
-				Log.Error($"消息没有处理: {messageInfo.Opcode} {JsonHelper.ToJson(messageInfo.Message)}");
+				Log.Error($"消息没有处理: {opcode} {JsonHelper.ToJson(message)}");
 				return;
 			}
 			
@@ -89,7 +89,7 @@ namespace ETHotfix
 			{
 				try
 				{
-					ev.Handle(session, messageInfo.Message);
+					ev.Handle(session, message);
 				}
 				catch (Exception e)
 				{

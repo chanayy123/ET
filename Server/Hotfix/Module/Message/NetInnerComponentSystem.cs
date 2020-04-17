@@ -20,8 +20,17 @@ namespace ETHotfix
 			self.Awake(a);
 		}
 	}
-	
-	[ObjectSystem]
+
+    [ObjectSystem]
+    public class NetInnerComponentAwake2System : AwakeSystem<NetInnerComponent, string>
+    {
+        public override void Awake(NetInnerComponent self, string a)
+        {
+            Game.Scene.AddComponent<MessageDispatcherComponent>();
+        }
+    }
+
+    [ObjectSystem]
 	public class NetInnerComponentLoadSystem : LoadSystem<NetInnerComponent>
 	{
 		public override void Load(NetInnerComponent self)

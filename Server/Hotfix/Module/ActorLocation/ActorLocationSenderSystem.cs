@@ -145,6 +145,7 @@ namespace ETHotfix
 			}
 			catch (Exception e)
 			{
+                Log.Error("ActorLocationSender RunTask " + e.ToString());
 				self.GetParent<ActorLocationSenderComponent>().Remove(self.Id);
 				return;
 			}

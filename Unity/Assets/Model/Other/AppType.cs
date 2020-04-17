@@ -14,6 +14,9 @@ namespace ETModel
 		DB = 1 << 4,
 		Location = 1 << 5,
 		Map = 1 << 6,
+        Match = 1<<7,
+        Game= 1<<8,
+        User = 1<<9,
 
 		BenchmarkWebsocketServer = 1 << 26,
 		BenchmarkWebsocketClient = 1 << 27,
@@ -25,8 +28,8 @@ namespace ETModel
 		ClientM = 1 << 31,
 
 		// 7
-		AllServer = Manager | Realm | Gate | Http | DB | Location | Map | BenchmarkWebsocketServer
-	}
+		AllServer = Manager | Realm | Gate | Http | DB | Location | Map | BenchmarkWebsocketServer | Match | Game | User
+    }
 
 	public static class AppTypeHelper
 	{

@@ -192,6 +192,21 @@ namespace ETModel
 
 	}
 
+	[Message(InnerOpcode.DBSortQueryJsonRequest)]
+	public partial class DBSortQueryJsonRequest: IRequest
+	{
+		public int RpcId { get; set; }
+
+		public string CollectionName { get; set; }
+
+		public string QueryJson { get; set; }
+
+		public string SortJson { get; set; }
+
+		public int Count { get; set; }
+
+	}
+
 	[Message(InnerOpcode.DBQueryJsonResponse)]
 	public partial class DBQueryJsonResponse: IResponse
 	{
@@ -378,24 +393,27 @@ namespace ETModel
 
 	}
 
-	[Message(InnerOpcode.GR_Online)]
-	public partial class GR_Online: IMessage
+// gate->other server
+	[Message(InnerOpcode.GS_Online)]
+	public partial class GS_Online: IMessage
 	{
 		public int UserId { get; set; }
 
-		public int GateAppId { get; set; }
+		public long GateSessionId { get; set; }
 
 	}
 
-	[Message(InnerOpcode.GR_Offline)]
-	public partial class GR_Offline: IMessage
+//gate->other server
+	[Message(InnerOpcode.GS_Offline)]
+	public partial class GS_Offline: IMessage
 	{
 		public int UserId { get; set; }
 
 	}
 
-	[Message(InnerOpcode.RG_KickUser)]
-	public partial class RG_KickUser: IRequest
+//other server->gate
+	[Message(InnerOpcode.SG_KickUser)]
+	public partial class SG_KickUser: IRequest
 	{
 		public int RpcId { get; set; }
 
@@ -403,14 +421,153 @@ namespace ETModel
 
 	}
 
-	[Message(InnerOpcode.GR_KickUser_ACK)]
-	public partial class GR_KickUser_ACK: IResponse
+	[Message(InnerOpcode.GS_KickUser)]
+	public partial class GS_KickUser: IResponse
 	{
 		public int RpcId { get; set; }
 
 		public int Error { get; set; }
 
 		public string Message { get; set; }
+
+	}
+
+//match->game
+	[Message(InnerOpcode.MG_EnterRoom)]
+	public partial class MG_EnterRoom: IMessage
+	{
+		public int RpcId { get; set; }
+
+		public int RoomId { get; set; }
+
+		public int GameId { get; set; }
+
+		public GamePlayerData player { get; set; }
+
+	}
+
+//match->game
+	[Message(InnerOpcode.MG_LeaveRoom)]
+	public partial class MG_LeaveRoom: IMessage
+	{
+		public int RpcId { get; set; }
+
+		public int RoomId { get; set; }
+
+		public int UserId { get; set; }
+
+		public int GameId { get; set; }
+
+	}
+
+//game->match
+	[Message(InnerOpcode.GM_SynRoomData)]
+	public partial class GM_SynRoomData: IMessage
+	{
+		public int RoomId { get; set; }
+
+		public int State { get; set; }
+
+		public long RoomActorId { get; set; }
+
+	}
+
+//game->match
+	[Message(InnerOpcode.GM_ChangeRoomState)]
+	public partial class GM_ChangeRoomState: IMessage
+	{
+		public int RoomId { get; set; }
+
+		public int State { get; set; }
+
+	}
+
+//game->gate
+	[Message(InnerOpcode.GG_SynActorId)]
+	public partial class GG_SynActorId: IMessage
+	{
+		public int UserId { get; set; }
+
+		public long ActorId { get; set; }
+
+	}
+
+//realm->user
+	[Message(InnerOpcode.RU_Login)]
+	public partial class RU_Login: IRequest
+	{
+		public int RpcId { get; set; }
+
+		public int LoginType { get; set; }
+
+		public int PlatformType { get; set; }
+
+		public string DataStr { get; set; }
+
+	}
+
+//user->realm
+	[Message(InnerOpcode.UR_Login)]
+	public partial class UR_Login: IResponse
+	{
+		public int RpcId { get; set; }
+
+		public int Error { get; set; }
+
+		public string Message { get; set; }
+
+		public int UserId { get; set; }
+
+	}
+
+//realm->user
+	[Message(InnerOpcode.RU_Register)]
+	public partial class RU_Register: IRequest
+	{
+		public int RpcId { get; set; }
+
+		public string Account { get; set; }
+
+		public string Password { get; set; }
+
+		public string Name { get; set; }
+
+	}
+
+//user->realm
+	[Message(InnerOpcode.UR_Register)]
+	public partial class UR_Register: IResponse
+	{
+		public int RpcId { get; set; }
+
+		public int Error { get; set; }
+
+		public int UserId { get; set; }
+
+		public string Message { get; set; }
+
+	}
+
+//other server->user
+	[Message(InnerOpcode.SU_GetUserInfo)]
+	public partial class SU_GetUserInfo: IRequest
+	{
+		public int RpcId { get; set; }
+
+		public int UserId { get; set; }
+
+	}
+
+	[Message(InnerOpcode.US_GetUserInfo)]
+	public partial class US_GetUserInfo: IResponse
+	{
+		public int RpcId { get; set; }
+
+		public int Error { get; set; }
+
+		public string Message { get; set; }
+
+		public User UserInfo { get; set; }
 
 	}
 
