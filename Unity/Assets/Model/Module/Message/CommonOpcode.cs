@@ -19,8 +19,8 @@ namespace ETModel
 	[Message(CommonOpcode.SC_VerifyKey)]
 	public partial class SC_VerifyKey : IResponse {}
 
-	[Message(CommonOpcode.User)]
-	public partial class User : IMessage {}
+	[Message(CommonOpcode.UserInfo)]
+	public partial class UserInfo : IMessage {}
 
 	[Message(CommonOpcode.CS_UserInfo)]
 	public partial class CS_UserInfo : IRequest {}
@@ -35,7 +35,7 @@ namespace ETModel
 	public partial class MatchRoom {}
 
 	[Message(CommonOpcode.CS_RoomList)]
-	public partial class CS_RoomList : IRequest {}
+	public partial class CS_RoomList : IUserRequest {}
 
 	[Message(CommonOpcode.SC_RoomList)]
 	public partial class SC_RoomList : IResponse {}
@@ -52,6 +52,12 @@ namespace ETModel
 	[Message(CommonOpcode.SC_LeaveRoom)]
 	public partial class SC_LeaveRoom : IResponse {}
 
+	[Message(CommonOpcode.CS_ActorLeaveRoom)]
+	public partial class CS_ActorLeaveRoom : IActorRequest {}
+
+	[Message(CommonOpcode.SC_ActorLeaveRoom)]
+	public partial class SC_ActorLeaveRoom : IActorResponse {}
+
 	[Message(CommonOpcode.GamePlayerData)]
 	public partial class GamePlayerData : IMessage {}
 
@@ -67,6 +73,9 @@ namespace ETModel
 	[Message(CommonOpcode.SC_PlayerLeave)]
 	public partial class SC_PlayerLeave : IActorMessage {}
 
+	[Message(CommonOpcode.SC_RoomListChanged)]
+	public partial class SC_RoomListChanged : IActorMessage {}
+
 }
 namespace ETModel
 {
@@ -78,7 +87,7 @@ namespace ETModel
 		 public const ushort SC_Login = 20004;
 		 public const ushort CS_VerifyKey = 20005;
 		 public const ushort SC_VerifyKey = 20006;
-		 public const ushort User = 20007;
+		 public const ushort UserInfo = 20007;
 		 public const ushort CS_UserInfo = 20008;
 		 public const ushort SC_UserInfo = 20009;
 		 public const ushort SC_KickUser = 20010;
@@ -89,10 +98,13 @@ namespace ETModel
 		 public const ushort SC_EnterRoom = 20015;
 		 public const ushort CS_LeaveRoom = 20016;
 		 public const ushort SC_LeaveRoom = 20017;
-		 public const ushort GamePlayerData = 20018;
-		 public const ushort GameRoomData = 20019;
-		 public const ushort SC_GameRoomInfo = 20020;
-		 public const ushort SC_PlayerEnter = 20021;
-		 public const ushort SC_PlayerLeave = 20022;
+		 public const ushort CS_ActorLeaveRoom = 20018;
+		 public const ushort SC_ActorLeaveRoom = 20019;
+		 public const ushort GamePlayerData = 20020;
+		 public const ushort GameRoomData = 20021;
+		 public const ushort SC_GameRoomInfo = 20022;
+		 public const ushort SC_PlayerEnter = 20023;
+		 public const ushort SC_PlayerLeave = 20024;
+		 public const ushort SC_RoomListChanged = 20025;
 	}
 }

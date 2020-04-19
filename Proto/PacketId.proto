@@ -57,10 +57,10 @@ enum PacketId
 	SG_KickUser = 1037; 
 	GS_KickUser = 1038; 
 	MG_EnterRoom = 1039; 
-	MG_LeaveRoom = 1040; 
+	GM_LeaveRoom = 1040; 
 	GM_SynRoomData = 1041; 
-	GM_ChangeRoomState = 1042; 
-	GG_SynActorId = 1043; 
+	Actor_OnlineState = 1042; 
+	GS_SynActorId = 1043; 
 	RU_Login = 1044; 
 	UR_Login = 1045; 
 	RU_Register = 1046; 
@@ -83,7 +83,7 @@ enum PacketId
 	SC_Login = 20004; 
 	CS_VerifyKey = 20005; 
 	SC_VerifyKey = 20006; 
-	User = 20007; 
+	UserInfo = 20007; 
 	CS_UserInfo = 20008; 
 	SC_UserInfo = 20009; 
 	SC_KickUser = 20010; 
@@ -94,9 +94,12 @@ enum PacketId
 	SC_EnterRoom = 20015; 
 	CS_LeaveRoom = 20016; 
 	SC_LeaveRoom = 20017; 
-	GamePlayerData = 20018; 
-	GameRoomData = 20019; 
-	SC_GameRoomInfo = 20020; 
-	SC_PlayerEnter = 20021; 
-	SC_PlayerLeave = 20022; 
+	CS_ActorLeaveRoom = 20018; 
+	SC_ActorLeaveRoom = 20019; 
+	GamePlayerData = 20020; 
+	GameRoomData = 20021; 
+	SC_GameRoomInfo = 20022; 
+	SC_PlayerEnter = 20023; 
+	SC_PlayerLeave = 20024; 
+	SC_RoomListChanged = 20025; 
 }

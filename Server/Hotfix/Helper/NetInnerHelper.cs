@@ -39,15 +39,24 @@ namespace ETHotfix
         }
 
         /// <summary>
-        /// 根据actorid获取所在进程ip,发送actor消息
+        /// 根据消息字段actorid获取所在进程ip,发送actor消息
         /// </summary>
-        /// <param name="actorId"></param>
         /// <param name="msg"></param>
-        public static void SendActorMsg(long actorId, IActorMessage msg)
+        public static void SendActorMsg( IActorMessage msg)
         {
-            var session = GetSessionByAppId(IdGenerater.GetAppId(actorId));
-            msg.ActorId = actorId;
+            var session = GetSessionByAppId(IdGenerater.GetAppId(msg.ActorId));
             session.Send(msg);
+        }
+        /// <summary>
+        /// 根据消息actor字段发送actor请求
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static async ETTask<IResponse> CallActorMsg(IActorRequest request)
+        {
+            var session = GetSessionByAppId(IdGenerater.GetAppId(request.ActorId));
+            IResponse res = await session.Call(request);
+            return res;
         }
 
         /// <summary>

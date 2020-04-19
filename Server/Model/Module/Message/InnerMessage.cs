@@ -436,8 +436,6 @@ namespace ETModel
 	[Message(InnerOpcode.MG_EnterRoom)]
 	public partial class MG_EnterRoom: IMessage
 	{
-		public int RpcId { get; set; }
-
 		public int RoomId { get; set; }
 
 		public int GameId { get; set; }
@@ -446,17 +444,13 @@ namespace ETModel
 
 	}
 
-//match->game
-	[Message(InnerOpcode.MG_LeaveRoom)]
-	public partial class MG_LeaveRoom: IMessage
+//game->match
+	[Message(InnerOpcode.GM_LeaveRoom)]
+	public partial class GM_LeaveRoom: IMessage
 	{
-		public int RpcId { get; set; }
-
 		public int RoomId { get; set; }
 
 		public int UserId { get; set; }
-
-		public int GameId { get; set; }
 
 	}
 
@@ -473,18 +467,20 @@ namespace ETModel
 	}
 
 //game->match
-	[Message(InnerOpcode.GM_ChangeRoomState)]
-	public partial class GM_ChangeRoomState: IMessage
+	[Message(InnerOpcode.Actor_OnlineState)]
+	public partial class Actor_OnlineState: IActorMessage
 	{
-		public int RoomId { get; set; }
+		public long ActorId { get; set; }
+
+		public long GateSessionId { get; set; }
 
 		public int State { get; set; }
 
 	}
 
-//game->gate
-	[Message(InnerOpcode.GG_SynActorId)]
-	public partial class GG_SynActorId: IMessage
+//game->other
+	[Message(InnerOpcode.GS_SynActorId)]
+	public partial class GS_SynActorId: IMessage
 	{
 		public int UserId { get; set; }
 

@@ -12,6 +12,15 @@ namespace ETHotfix
             return player;
         }
 
+        public static HallPlayer CreateHallPlayer(int userId, long sessionId)
+        {
+            var player = ComponentFactory.Create<HallPlayer>();
+            player.UserId = userId;
+            player.GateSessionId = sessionId;
+            player.HallId = 0;
+            return player;
+        }
+
 
     }
 }

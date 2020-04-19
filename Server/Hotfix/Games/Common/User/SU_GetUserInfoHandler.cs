@@ -13,7 +13,7 @@ namespace ETHotfix
             User user = UserComponent.Instance.Get(request.UserId);
             if (user == null)
             {
-                List<ComponentWithId> list = await UserComponent.Instance.DBProxy.Query<User>((u) => u.UserId == request.UserId);
+                List<ComponentWithId> list = await UserComponent.Instance.DBProxy.Query<UserInfo>((u) => u.UserId == request.UserId);
                 if (list.Count == 0)
                 {
                     Log.Warning($"用户{request.UserId}获取信息失败");
@@ -21,7 +21,7 @@ namespace ETHotfix
                     reply();
                     return;
                 }
-                user = list[0] as User;
+                user = ComponentFactory.Create<User, UserInfo>(list[0] as UserInfo);
                 UserComponent.Instance.Add(request.UserId, user);
                 response.UserInfo = user;
             }

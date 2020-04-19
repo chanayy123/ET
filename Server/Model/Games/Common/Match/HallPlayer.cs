@@ -6,9 +6,12 @@ using ETModel;
 
 namespace ETModel
 {
-    public partial class MatchPlayer : Entity {
+    /// <summary>
+    /// 大厅玩家对象:在一个大厅的玩家会收到当前大厅房间列表数据变更
+    /// </summary>
+    public partial class HallPlayer : Entity {
         public int UserId { get; set; }
-        public int RoomId { get; set; }
+        public long HallId { get; set; }
         public long GateSessionId { get; set; }
     }
 

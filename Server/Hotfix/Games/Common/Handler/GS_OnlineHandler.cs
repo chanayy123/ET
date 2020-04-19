@@ -22,21 +22,22 @@ namespace ETHotfix
             User user = UserComponent.Instance.Get(message.UserId);
             if(user == null)
             {
-                List<ComponentWithId> list = await UserComponent.Instance.DBProxy.Query<User>((u) => u.UserId == message.UserId);
+                List<ComponentWithId> list = await UserComponent.Instance.DBProxy.Query<UserInfo>((u)=>u.UserId == message.UserId);
                 if(list.Count == 0)
                 {
                     Log.Warning($"上线:用户{message.UserId}获取信息失败");
                     return;
                 }
-                user = list[0] as User;
+                user = ComponentFactory.Create<User, UserInfo>(list[0] as UserInfo);
                 user.Online = true;
+                user.GateSessionId = message.GateSessionId;
                 UserComponent.Instance.Add(message.UserId,user);
             }
             else
             {
                 user.Online = true;
+                user.GateSessionId = message.GateSessionId;
             }
-            await UserComponent.Instance.DBProxy.Save(user);
         }
     }
 }

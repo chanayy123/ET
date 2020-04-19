@@ -15,13 +15,13 @@ namespace ETHotfix
             return data;
         }
 
-        public static GamePlayerData CreatePlayerData(MatchPlayer player, User userInfo)
+        public static GamePlayerData CreatePlayerData(MatchPlayer player, User user)
         {
             var data = ComponentFactory.Create<GamePlayerData>();
             data.UserId = player.UserId;
             data.GateSessionId = player.GateSessionId;
-            data.Name = userInfo.Name;
-            data.Head = userInfo.Head;
+            data.Name = user.UserInfo.Name;
+            data.Head = user.UserInfo.Head;
             return data;
         }
 

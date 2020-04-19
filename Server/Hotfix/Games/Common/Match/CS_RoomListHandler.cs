@@ -10,7 +10,8 @@ namespace ETHotfix
     {
         protected override async ETTask Run(Session session, CS_RoomList request, SC_RoomList response, Action reply)
         {
-            var roomList = Game.Scene.GetComponent<MatchRoomComponent>().GetAll(request.HallId);
+            var matchMgr = Game.Scene.GetComponent<MatchRoomComponent>();
+            var roomList = matchMgr.GetAll(request.HallId);
             if(roomList == null)
             {
                 response.Message = $"请求房间列表失败: 无效id {request.HallId}";
@@ -19,6 +20,9 @@ namespace ETHotfix
             }
             response.List.AddRange(roomList);
             reply();
+            //请求对应大厅的房间列表->玩家自动进入当前大厅
+            var hallPlayer = matchMgr.GetHallPlayer(request.UserId, request.GateSessionId);
+            matchMgr.EnterHall(request.HallId, hallPlayer);
             await ETTask.CompletedTask;
         }
     }

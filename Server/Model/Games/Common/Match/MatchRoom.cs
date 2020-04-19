@@ -6,11 +6,10 @@ using ETModel;
 
 namespace ETModel
 {
-    [BsonIgnoreExtraElements]
     public partial class MatchRoom : Entity {
         public RoomConfig Config { get; set; }
-        public List<MatchPlayer> playerList{get;set;}
-        public RoomType Type { get; set; }
+        public List<MatchPlayer> PlayerList{get;set;}
+        public RoomType RoomType { get; set; }
         //对应游戏服actorid
         public long RoomActorId { get; set; }
 
@@ -18,11 +17,11 @@ namespace ETModel
         {
             if (IsDisposed) return;
             base.Dispose();
-            foreach (var item in playerList)
+            foreach (var item in PlayerList)
             {
                 item.Dispose();
             }
-            playerList.Clear();
+            PlayerList.Clear();
         }
     }
 

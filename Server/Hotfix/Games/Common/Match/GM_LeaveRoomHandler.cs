@@ -5,12 +5,12 @@ using ETModel;
 namespace ETHotfix
 {
     [MessageHandler(AppType.Match)]
-    class GM_SynRoomDataHandler : AMHandler<GM_SynRoomData>
+    class GM_LeaveRoomHandler : AMHandler<GM_LeaveRoom>
     {
-        protected override async ETTask Run(Session session, GM_SynRoomData message)
+        protected override async ETTask Run(Session session, GM_LeaveRoom message)
         {
             var roomMgr = Game.Scene.GetComponent<MatchRoomComponent>();
-            roomMgr.UpdateRoom(message.RoomId, message.State, message.RoomActorId);
+            roomMgr.LeaveRoom(message.UserId);
             await ETTask.CompletedTask;
         }
     }

@@ -27,7 +27,7 @@ namespace ETHotfix
             else
             {
                 user.Online = false;
-                await UserComponent.Instance.DBProxy.Save(user);
+                user.GateSessionId = 0;
             }
             await ETTask.CompletedTask;
         }
@@ -39,16 +39,11 @@ namespace ETHotfix
         protected override async ETTask Run(Session session, GS_Offline message)
         {
             var roomMgr = Game.Scene.GetComponent<MatchRoomComponent>();
-            var room = roomMgr.GetByUserId(message.UserId);
-            if(room != null && room.State != (int)RoomState.GAMING) //游戏没有开始离线自动退出房间
+            //只要离线,不管有没有进入游戏都退出大厅,只有客户端主动请求房间列表才会进入大厅
+            var player= roomMgr.GetHallPlayer(message.UserId);
+            if(player != null)
             {
-                NetInnerHelper.SendMsgByAcotrId(room.RoomActorId, new MG_LeaveRoom()
-                {
-                    RoomId = room.RoomId,
-                    UserId = message.UserId,
-                    GameId = room.Config.GameId
-                });
-                roomMgr.LeaveRoom(message.UserId);
+                roomMgr.LeaveHall(player);
             }
             await ETTask.CompletedTask;
         }

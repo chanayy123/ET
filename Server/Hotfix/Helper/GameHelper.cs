@@ -22,8 +22,25 @@ namespace ETHotfix
                 RoomActorId = roomActorId
             });
         }
+
         /// <summary>
-        /// 同步玩家游戏acotrid -> 网关服
+        /// 游戏房间玩家离开 同步->匹配服
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <param name="userId"></param>
+        public static void SynLeaveRoom(int roomId,int userId)
+        {
+            var session = NetInnerHelper.GetSessionByAppType(AppType.Match);
+            session.Send(new GM_LeaveRoom()
+            {
+                RoomId = roomId,
+                UserId = userId
+            });
+        }
+
+
+        /// <summary>
+        /// 同步玩家游戏acotrid ->gate server/user server
         /// </summary>
         /// <param name="gateSessionId"></param>
         /// <param name="userId"></param>
@@ -31,7 +48,13 @@ namespace ETHotfix
         public static void SynActorId(long gateSessionId, int userId, long actorId)
         {
             var session = NetInnerHelper.GetSessionByAppId(IdGenerater.GetAppId(gateSessionId));
-            session.Send(new GG_SynActorId()
+            session?.Send(new GS_SynActorId()
+            {
+                UserId = userId,
+                ActorId = actorId
+            });
+            session = NetInnerHelper.GetSessionByAppType(AppType.User);
+            session?.Send(new GS_SynActorId()
             {
                 UserId = userId,
                 ActorId = actorId

@@ -29,6 +29,7 @@ namespace ETHotfix
             var state = self.playerDic.Keys.Count == 0 ? RoomState.IDLE : RoomState.WAIT;
             self.ChangeState(state);
             self.BroadcastPlayerLeave(userId);
+            GameHelper.SynLeaveRoom(self.RoomData.RoomId, userId);
         }
 
         public static void AddPlayer(this BullClassicRoom self, BullClassicPlayer player)
@@ -45,8 +46,15 @@ namespace ETHotfix
         public static void RemovePlayer(this BullClassicRoom self, int userId)
         {
             self.playerDic.Remove(userId, out BullClassicPlayer player);
-            self.RoomData.PlayerList.Remove(player?.PlayerData);
-            player?.Dispose();
+            if(player == null)
+            {
+                Log.Warning($"删除用户失败: 用户{userId}不存在");
+                return;
+            }
+            self.RoomData.PlayerList.Remove(player.PlayerData);
+            //离开游戏房间重置玩家actorid
+            GameHelper.SynActorId(player.PlayerData.GateSessionId, player.PlayerData.UserId, 0);
+            player.Dispose();
         }
 
         private static void ChangeState(this BullClassicRoom self, RoomState state)
@@ -65,15 +73,17 @@ namespace ETHotfix
             {
                 if (item.Key != player.PlayerData.UserId)
                 {
-                    NetInnerHelper.SendActorMsg(item.Value.PlayerData.GateSessionId, new SC_PlayerEnter()
+                    NetInnerHelper.SendActorMsg( new SC_PlayerEnter()
                     {
+                        ActorId = item.Value.PlayerData.GateSessionId,
                         Player = player.PlayerData
                     });
                 }
                 else
                 {
-                    NetInnerHelper.SendActorMsg(player.PlayerData.GateSessionId, new SC_GameRoomInfo()
+                    NetInnerHelper.SendActorMsg( new SC_GameRoomInfo()
                     {
+                        ActorId = player.PlayerData.GateSessionId,
                         RoomInfo = self.RoomData
                     });
                 }
@@ -86,8 +96,9 @@ namespace ETHotfix
             {
                 if (item.Key != userId)
                 {
-                    NetInnerHelper.SendActorMsg(item.Value.PlayerData.GateSessionId, new SC_PlayerLeave()
+                    NetInnerHelper.SendActorMsg( new SC_PlayerLeave()
                     {
+                        ActorId = item.Value.PlayerData.GateSessionId,
                         UserId = userId
                     });
 

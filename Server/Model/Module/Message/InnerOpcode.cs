@@ -41,10 +41,10 @@ namespace ETModel
 		 public const ushort SG_KickUser = 1037;
 		 public const ushort GS_KickUser = 1038;
 		 public const ushort MG_EnterRoom = 1039;
-		 public const ushort MG_LeaveRoom = 1040;
+		 public const ushort GM_LeaveRoom = 1040;
 		 public const ushort GM_SynRoomData = 1041;
-		 public const ushort GM_ChangeRoomState = 1042;
-		 public const ushort GG_SynActorId = 1043;
+		 public const ushort Actor_OnlineState = 1042;
+		 public const ushort GS_SynActorId = 1043;
 		 public const ushort RU_Login = 1044;
 		 public const ushort UR_Login = 1045;
 		 public const ushort RU_Register = 1046;

@@ -22,24 +22,44 @@ namespace ETHotfix
                 var userS = NetInnerHelper.GetSessionByAppType(AppType.User);
                 userS.Send(new GS_Online() { UserId = userId, GateSessionId = gateSessionId });
             }
+            var gateUser = GateUserComponent.Instance.Get(userId);
+            if (gateUser.ActorId != 0)
+            {
+                var gateSID = gateUser.GetComponent<GateUserSessionComponent>().Session.InstanceId;
+                NetInnerHelper.SendActorMsg(new Actor_OnlineState()
+                {
+                    ActorId = gateUser.ActorId,
+                    State = 1,
+                    GateSessionId = gateSID
+                });
         }
+    }
 
-        public static void SynOffline(int userId)
+        public static void SynOffline(GateUser user)
         {
             var startCfg = StartConfigComponent.Instance.StartConfig;
             if (startCfg.AppType == AppType.AllServer)
             {
                 var innerSession = NetInnerHelper.GetSessionByCfg(startCfg);
-                innerSession.Send(new GS_Offline() { UserId = userId});
+                innerSession.Send(new GS_Offline() { UserId = user.UserId});
             }
             else
             {
                 var realS = NetInnerHelper.GetSessionByAppType(AppType.Realm);
-                realS.Send(new GS_Offline() { UserId = userId });
+                realS.Send(new GS_Offline() { UserId = user.UserId });
                 var userS = NetInnerHelper.GetSessionByAppType(AppType.User);
-                userS.Send(new GS_Offline() { UserId = userId });
+                userS.Send(new GS_Offline() { UserId = user.UserId });
                 var matchS = NetInnerHelper.GetSessionByAppType(AppType.Match);
-                matchS.Send(new GS_Offline() { UserId = userId });
+                matchS.Send(new GS_Offline() { UserId = user.UserId });
+            }
+            if(user.ActorId != 0)
+            {
+                NetInnerHelper.SendActorMsg(new Actor_OnlineState()
+                {
+                    ActorId = user.ActorId,
+                    State = 0,
+                    GateSessionId = 0
+                });
             }
         }
 

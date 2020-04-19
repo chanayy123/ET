@@ -284,19 +284,16 @@ message GS_KickUser // IResponse
 //match->game
 message MG_EnterRoom // IMessage
 {
-    int32 RpcId = 1;
 	int32 RoomId = 2;
 	int32 GameId = 3;
 	GamePlayerData player = 4;
 }
 
-//match->game
-message MG_LeaveRoom // IMessage
+//game->match
+message GM_LeaveRoom // IMessage
 {
-    int32 RpcId = 1;
 	int32 RoomId = 2;
 	int32 UserId = 3;
-	int32 GameId = 4;
 }
 
 //game->match
@@ -308,13 +305,14 @@ message GM_SynRoomData // IMessage
 }
 
 //game->match
-message GM_ChangeRoomState //IMessage
+message Actor_OnlineState //IActorMessage
 {
-	int32 RoomId = 1;
-	int32 State = 2;
+	int64 ActorId = 1;
+	int64 GateSessionId = 2;
+	int32 State = 3; //0 离线 1 在线
 }
-//game->gate
-message GG_SynActorId // IMessage
+//game->other
+message GS_SynActorId // IMessage
 {
 	int32 UserId = 1;
 	int64 ActorId = 2;

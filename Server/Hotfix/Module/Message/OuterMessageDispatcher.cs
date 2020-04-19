@@ -69,13 +69,37 @@ namespace ETHotfix
 					actorLocationSender.Send(actorLocationMessage);
 					break;
 				}
-				case IActorRequest actorRequest:  // 分发IActorRequest消息，目前没有用到，需要的自己添加
+				case IActorRequest actorRequest:  // 分发IActorRequest消息
 				{
-					break;
+                        var gateUser = session.GetComponent<SessionGateUserComponent>().User;
+                        if (gateUser.ActorId == 0)
+                        {
+                            Log.Warning("actorRequest actorid不能为空");
+                            return;
+                        }
+                        int rpcId = actorRequest.RpcId;
+                        long instanceId = session.InstanceId;
+                        actorRequest.ActorId = gateUser.ActorId;
+                        var response = await NetInnerHelper.CallActorMsg(actorRequest);
+                        response.RpcId = rpcId;
+                        // session可能已经断开了，所以这里需要判断
+                        if (session.InstanceId == instanceId)
+                        {
+                            session.Reply(response);
+                        }
+                        break;
 				}
-				case IActorMessage actorMessage:  // 分发IActorMessage消息，目前没有用到，需要的自己添加
+				case IActorMessage actorMessage:  // 分发IActorMessage消息
 				{
-					break;
+                        var gateUser = session.GetComponent<SessionGateUserComponent>().User;
+                        if (gateUser.ActorId == 0)
+                        {
+                            Log.Warning("收到actorMessage actorid不能为空");
+                            return;
+                        }
+                        actorMessage.ActorId = gateUser.ActorId;
+                        NetInnerHelper.SendActorMsg(actorMessage);
+                        break;
 				}
 				default:
 				{

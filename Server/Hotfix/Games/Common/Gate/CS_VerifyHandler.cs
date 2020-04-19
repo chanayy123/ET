@@ -38,10 +38,12 @@ namespace ETHotfix
             reply();
             //推送用户详情
             var userInfo = await UserHelper.GetUserInfo(userId);
-            if (userInfo != null)
-                session.Send(userInfo);
+            if (userInfo.UserInfo != null)
+                session.Send(userInfo.UserInfo);
             else
                 Log.Warning($"推送{userId}用户详情失败");
+            //更新acotrid
+            user.ActorId = userInfo.ActorId;
             //同步上线消息
             GateHelper.SynOnline(user.UserId, session.Id);
             Log.Debug($"{user.UserId} 上线");

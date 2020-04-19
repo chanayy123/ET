@@ -32,14 +32,14 @@ namespace ETHotfix
         }
     }
 
-    [Event(EventType.GameRoomLeave+ "1")]
-    public class BullClassicLeaveHandler : AEvent<int,int>
-    {
-        public override void Run(int roomId,int userId)
-        {
-            var roomMgr = Game.Scene.GetComponent<GameRoomComponent>();
-            var room = roomMgr.GetRoom<BullClassicRoom>(roomId);
-            room.LeaveRoom(userId);
-        }
-    }
+    //[Event(EventType.GameRoomLeave+ "1")]
+    //public class BullClassicLeaveHandler : AEvent<int,int>
+    //{
+    //    public override void Run(int roomId,int userId)
+    //    {
+    //        var roomMgr = Game.Scene.GetComponent<GameRoomComponent>();
+    //        var room = roomMgr.GetRoom<BullClassicRoom>(roomId);
+    //        room.LeaveRoom(userId);
+    //    }
+    //}
 }

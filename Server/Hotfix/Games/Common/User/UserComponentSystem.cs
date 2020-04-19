@@ -70,13 +70,16 @@ namespace ETHotfix
                 res.Error = (int)OpRetCode.LoginParamError;
                 return 0;
             }
-            List<ComponentWithId> list =  await self.DBProxy.Query<Account>((acc) => acc.Acc.Equals(arr[0]) && acc.Pwd.Equals(arr[1]));
+            List<ComponentWithId> list =  await self.DBProxy.Query<AccountInfo>((acc) => acc.Acc.Equals(arr[0]) && acc.Pwd.Equals(arr[1]));
             if(list.Count == 0)
             {
                 res.Error = (int)OpRetCode.LoginAccPwdError;
                 return 0;
             }
-            var account = list[0] as Account;
+            //更新登陆时间
+            var account = list[0] as AccountInfo;
+            account.LastLoginTIme = DateTime.Now;
+            await self.DBProxy.Save(account);
             return account.UserId;
         }
 
@@ -88,7 +91,7 @@ namespace ETHotfix
 
         public static async ETTask<int> CheckTouristLogin(this UserComponent self, RU_Login msg, IResponse res)
         {
-            List<ComponentWithId> list = await self.DBProxy.Query<Account>(user => user.Acc.Equals(msg.DataStr));
+            List<ComponentWithId> list = await self.DBProxy.Query<AccountInfo>(user => user.Acc.Equals(msg.DataStr));
             if (list.Count == 0)
             {
                 if (self.MaxUserId == 0)
@@ -98,14 +101,14 @@ namespace ETHotfix
                     return 0;
                 }
                 //创建游客账号信息
-                var accInfo = ComponentFactory.Create<Account>();
+                var accInfo = ComponentFactory.Create<AccountInfo>();
                 accInfo.Acc = msg.DataStr;
                 accInfo.Pwd = string.Empty;
                 //计算userId
                 accInfo.UserId = ++self.MaxUserId;
                 //同步账号信息=>db
                 await self.DBProxy.Save(accInfo);
-                var userInfo = ComponentFactory.Create<User>();
+                var userInfo = ComponentFactory.Create<UserInfo>();
                 userInfo.Name = $"游客{RandomHelper.RandomNumber(0,1000)}";
                 userInfo.UserId = accInfo.UserId;
                 userInfo.Level = 1;
@@ -114,13 +117,16 @@ namespace ETHotfix
                 await self.DBProxy.Save(userInfo);
                 return userInfo.UserId;
             }
-            var acc = list[0] as Account;
-            return acc.UserId;
+            var account = list[0] as AccountInfo;
+            //更新登陆时间
+            account.LastLoginTIme = DateTime.Now;
+            await self.DBProxy.Save(account);
+            return account.UserId;
         }
 
         public static async ETTask<int> CheckRegister(this UserComponent self ,RU_Register msg, IResponse res)
         {
-            List<ComponentWithId> list = await self.DBProxy.Query<Account>(user => user.Acc.Equals(msg.Account));
+            List<ComponentWithId> list = await self.DBProxy.Query<AccountInfo>(user => user.Acc.Equals(msg.Account));
             if (list.Count > 0)
             {
                 Log.Debug($"此账号已注册 {msg.Account}");
@@ -134,7 +140,7 @@ namespace ETHotfix
                 return 0;
             }
             //创建账号信息
-            var accInfo = ComponentFactory.Create<Account>();
+            var accInfo = ComponentFactory.Create<AccountInfo>();
             accInfo.Acc = msg.Account;
             accInfo.Pwd = msg.Password;
             //计算userId
@@ -142,7 +148,7 @@ namespace ETHotfix
             //同步账号信息=>db
             await self.DBProxy.Save(accInfo);
             //创建默认用户信息
-            var userInfo = ComponentFactory.Create<User>();
+            var userInfo = ComponentFactory.Create<UserInfo>();
             userInfo.Name = msg.Name;
             userInfo.UserId = accInfo.UserId;
             userInfo.Level = 1;
@@ -158,10 +164,10 @@ namespace ETHotfix
         /// <returns></returns>
         public static async ETTask<int> FetchMaxUserId(this UserComponent self)
         {
-            List<User> userIdMax = await self.DBProxy.SortQuery<User>(user => true, user => user.UserId == -1, 1); //-1是降序,1是升序
+            List<UserInfo> userIdMax = await self.DBProxy.SortQuery<UserInfo>(user => true, user => user.UserId == -1, 1); //-1是降序,1是升序
             if (userIdMax.Count > 0)
             {
-                self.MaxUserId = (userIdMax[0] as User).UserId;
+                self.MaxUserId = (userIdMax[0] as UserInfo).UserId;
             }
             else
             {
@@ -179,6 +185,15 @@ namespace ETHotfix
         {
             self.Awake();
             await self.FetchMaxUserId();
+        }
+    }
+
+    [ObjectSystem]
+    public class UserSystem : AwakeSystem<User,UserInfo>
+    {
+        public override void Awake(User self,UserInfo info)
+        {
+            self.Awake(info);
         }
     }
 }
