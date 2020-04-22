@@ -13,14 +13,6 @@ namespace ETHotfix
         }
     }
 
-    [ObjectSystem]
-    public class BullClassicPlayerAwakeSystem : AwakeSystem<BullClassicPlayer, GamePlayerData>
-    {
-        public override void Awake(BullClassicPlayer self, GamePlayerData data)
-        {
-            self.Awake(data);
-        }
-    }
 
 
 

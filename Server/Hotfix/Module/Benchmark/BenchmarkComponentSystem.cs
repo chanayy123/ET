@@ -57,7 +57,7 @@ namespace ETHotfix
 		{
 			try
 			{
-				await session.Call(new C2R_Ping());
+				await session.Call(new CS_Ping());
 				++self.k;
 
 				if (self.k % 100000 != 0)

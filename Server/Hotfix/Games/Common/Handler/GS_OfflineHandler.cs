@@ -45,6 +45,8 @@ namespace ETHotfix
             {
                 roomMgr.LeaveHall(player);
             }
+            //如果在匹配队列里,离线自动退出匹配
+            roomMgr.LeaveMatchQueue(message.UserId);
             await ETTask.CompletedTask;
         }
     }

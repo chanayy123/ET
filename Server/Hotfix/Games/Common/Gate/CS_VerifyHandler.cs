@@ -14,7 +14,7 @@ namespace ETHotfix
             var userId = gateKeys.Get(request.Key);
             if(userId == 0)
             {
-                response.Message = "key失效";
+                response.Error = (int)OpRetCode.VerifyKeyInvalid;
                 reply();
                 return;
             }

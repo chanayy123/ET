@@ -43,7 +43,14 @@ namespace ETModel
                 queue = new Queue<object>();
                 this.dictionary.Add(type, queue);
             }
-            queue.Enqueue(obj);
+            if (!queue.Contains(obj))
+            {
+                queue.Enqueue(obj);
+            }
+            else
+            {
+                Log.Warning("SimplePool回收重复对象!");
+            }
         }
     }
 }

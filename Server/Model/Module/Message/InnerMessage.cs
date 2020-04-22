@@ -454,6 +454,18 @@ namespace ETModel
 
 	}
 
+//match->game
+	[Message(InnerOpcode.MG_MatchRoom)]
+	public partial class MG_MatchRoom: IMessage
+	{
+		public int RoomId { get; set; }
+
+		public int GameId { get; set; }
+
+		public List<GamePlayerData> PlayerList = new List<GamePlayerData>();
+
+	}
+
 //game->match
 	[Message(InnerOpcode.GM_SynRoomData)]
 	public partial class GM_SynRoomData: IMessage
@@ -483,6 +495,10 @@ namespace ETModel
 	public partial class GS_SynActorId: IMessage
 	{
 		public int UserId { get; set; }
+
+		public int GameId { get; set; }
+
+		public int RoomId { get; set; }
 
 		public long ActorId { get; set; }
 

@@ -13,6 +13,7 @@ namespace ETModel
 		public int GameId;
 		public int MinLimitCoin;
 		public int MaxLimitCoin;
+		public int MinPlayers;
 		public int MaxPlayers;
 	}
 }

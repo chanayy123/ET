@@ -10,18 +10,27 @@ namespace ETHotfix
         protected override async ETTask Run(Session session, CS_EnterRoom request, SC_EnterRoom response, Action reply)
         {
             var roomMgr = Game.Scene.GetComponent<MatchRoomComponent>();
-            //从用户服取最新数据判断是否能进房间
-            var userInfo = await UserHelper.GetUserInfo(request.UserId);
-            var flag = roomMgr.CanEnterRoom(request.RoomId, userInfo);
+            var user = await UserCacheComponent.Instance.GetAsync(request.UserId);
+            var flag = roomMgr.CanEnterRoom(request.RoomId, user);
             if(flag == 0)
             {
+                var matchRoom = roomMgr.GetByRoomId(request.RoomId);
                 var matchPlayer = MatchFactory.CreateMatchPlayer(request.UserId, request.RoomId,request.GateSessionId);
-                var gamePlayer = GameFactory.CreatePlayerData(matchPlayer, userInfo);
-                var gameSession = MatchHelper.RandomGameSession;
-                gameSession.Send(new MG_EnterRoom() { player = gamePlayer,RoomId =request.RoomId,GameId=request.GameId});
+                var gamePlayer = GameFactory.CreatePlayerData(matchPlayer,user);
+                var msg = MatchFactory.CreateMsgEnterRoom(gamePlayer, request.RoomId, matchRoom.Config.GameId);
+                if(matchRoom.RoomActorId == 0)
+                {
+                    var gameSession = MatchHelper.RandomGameSession;
+                    gameSession.Send(msg);
+                }
+                else //游服已经有此房间,通过roomActorId找到所在的游服进程
+                {
+                    NetInnerHelper.SendMsgByAcotrId(matchRoom.RoomActorId, msg);
+                }
                 roomMgr.EnterRoom(matchPlayer);
-                gamePlayer.Dispose();
                 reply();
+                gamePlayer.Dispose();
+                MatchFactory.RecycleMsg(msg);
             }
             else
             {

@@ -57,7 +57,6 @@ namespace App
                 Game.Scene.AddComponent<ConfigComponent>();
                 //控制台相关
                 Game.Scene.AddComponent<ConsoleComponent>();
-
                 ///////////////////////根据不同服务器类型添加相应组件//////////////////////
                 switch (startConfig.AppType)
 				{

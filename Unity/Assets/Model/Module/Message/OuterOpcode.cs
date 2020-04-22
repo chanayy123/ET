@@ -33,12 +33,6 @@ namespace ETModel
 	[Message(OuterOpcode.M2C_PathfindingResult)]
 	public partial class M2C_PathfindingResult : IActorMessage {}
 
-	[Message(OuterOpcode.C2R_Ping)]
-	public partial class C2R_Ping : IRequest {}
-
-	[Message(OuterOpcode.R2C_Ping)]
-	public partial class R2C_Ping : IResponse {}
-
 	[Message(OuterOpcode.G2C_Test)]
 	public partial class G2C_Test : IMessage {}
 
@@ -63,10 +57,8 @@ namespace ETModel
 		 public const ushort M2C_CreateUnits = 108;
 		 public const ushort Frame_ClickMap = 109;
 		 public const ushort M2C_PathfindingResult = 110;
-		 public const ushort C2R_Ping = 111;
-		 public const ushort R2C_Ping = 112;
-		 public const ushort G2C_Test = 113;
-		 public const ushort C2M_Reload = 114;
-		 public const ushort M2C_Reload = 115;
+		 public const ushort G2C_Test = 111;
+		 public const ushort C2M_Reload = 112;
+		 public const ushort M2C_Reload = 113;
 	}
 }

@@ -296,6 +296,14 @@ message GM_LeaveRoom // IMessage
 	int32 UserId = 3;
 }
 
+//match->game
+message MG_MatchRoom // IMessage
+{
+	int32 RoomId = 2;
+	int32 GameId = 3;
+	repeated GamePlayerData PlayerList = 4;
+}
+
 //game->match
 message GM_SynRoomData // IMessage
 {
@@ -315,7 +323,9 @@ message Actor_OnlineState //IActorMessage
 message GS_SynActorId // IMessage
 {
 	int32 UserId = 1;
-	int64 ActorId = 2;
+	int32 GameId = 2;
+	int32 RoomId = 3;
+	int64 ActorId = 4;
 }
 //realm->user
 message RU_Login // IRequest

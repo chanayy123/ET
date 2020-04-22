@@ -16,13 +16,29 @@ enum OpRetCode
 	Room_Too_Much_Coin = 200011;
 	Room_Already_Gaming = 200012;
 	Room_Already_Out =200013;
-	
+	Match_Already_In =200014;
+	Match_Already_Out=200015;
+	Verify_Key_Invalid = 200016;
+	GateUser_Not_Exist = 200017;
+	Kick_Other_Login = 200018;
 }
 
 enum GameId
 {
 	Default = 0;
 	Bull_Classic= 1;
+}
+
+message CS_Ping // IRequest
+{
+	int32 RpcId = 90;
+}
+
+message SC_Ping // IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
 }
 
 message CS_Register // IRequest
@@ -133,7 +149,6 @@ message CS_EnterRoom //IUserRequest
 	int32 RpcId = 1;
 	int32 RoomId = 2;
 	int32 UserId =3;
-	int32 GameId = 4;
 	int64 GateSessionId = 5;
 }
 
@@ -144,27 +159,14 @@ message SC_EnterRoom //IResponse
 	string Message = 3;
 }
 
-message CS_LeaveRoom //IUserRequest
-{
-	int32 RpcId = 1;
-	int32 UserId =2;
-	int64 GateSessionId = 5;
-}
 
-message SC_LeaveRoom //IResponse
-{
-	int32 RpcId = 1;
-	int32 Error=2;
-	string Message = 3;
-}
-
-message CS_ActorLeaveRoom //IActorRequest
+message CS_LeaveRoom //IActorRequest
 {
 	int32 RpcId = 1;
 	int64 ActorId = 2;
 }
 
-message SC_ActorLeaveRoom //IActorResponse
+message SC_LeaveRoom //IActorResponse
 {
 	int32 RpcId = 1;
 	int32 Error=2;
@@ -212,7 +214,34 @@ message SC_RoomListChanged //IActorMessage
 	repeated MatchRoom List =2;
 }
 
+message CS_EnterScene //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 HallId = 2;
+	int32 UserId =3;
+	int64 GateSessionId = 5;
+}
 
+message SC_EnterScene //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+}
+
+message CS_LeaveScene //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 UserId = 2;
+	int64 GateSessionId = 3;
+}
+
+message SC_LeaveScene //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+}
 
 
 

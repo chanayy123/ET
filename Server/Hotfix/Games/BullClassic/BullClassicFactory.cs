@@ -11,9 +11,9 @@ namespace ETHotfix
             return GameFactory.CreateRoomData(roomId, state);
         }
 
-        public static GamePlayerData CreatePlayerData(MatchPlayer player, User userInfo)
+        public static GamePlayerData CreatePlayerData(MatchPlayer player,User user)
         {
-            return GameFactory.CreatePlayerData(player,userInfo);
+            return GameFactory.CreatePlayerData(player,user);
         }
 
         public static BullClassicPlayer CreatePlayer(GamePlayerData player)

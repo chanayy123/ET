@@ -9,9 +9,9 @@ namespace ETHotfix
     {
         public override void Destroy(SessionGateUserComponent self)
         {
-            //同步离线消息=>realm
+            //同步离线消息
             GateHelper.SynOffline(self.User);
-            Game.Scene.GetComponent<GateUserComponent>().Remove(self.User.UserId);
+            GateUserComponent.Instance.Remove(self.User.UserId);
             Log.Debug($"{self.User.UserId}下线");
             self.User.Dispose();
             self.User = null;

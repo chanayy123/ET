@@ -42,14 +42,15 @@ namespace ETModel
 		 public const ushort GS_KickUser = 1038;
 		 public const ushort MG_EnterRoom = 1039;
 		 public const ushort GM_LeaveRoom = 1040;
-		 public const ushort GM_SynRoomData = 1041;
-		 public const ushort Actor_OnlineState = 1042;
-		 public const ushort GS_SynActorId = 1043;
-		 public const ushort RU_Login = 1044;
-		 public const ushort UR_Login = 1045;
-		 public const ushort RU_Register = 1046;
-		 public const ushort UR_Register = 1047;
-		 public const ushort SU_GetUserInfo = 1048;
-		 public const ushort US_GetUserInfo = 1049;
+		 public const ushort MG_MatchRoom = 1041;
+		 public const ushort GM_SynRoomData = 1042;
+		 public const ushort Actor_OnlineState = 1043;
+		 public const ushort GS_SynActorId = 1044;
+		 public const ushort RU_Login = 1045;
+		 public const ushort UR_Login = 1046;
+		 public const ushort RU_Register = 1047;
+		 public const ushort UR_Register = 1048;
+		 public const ushort SU_GetUserInfo = 1049;
+		 public const ushort US_GetUserInfo = 1050;
 	}
 }

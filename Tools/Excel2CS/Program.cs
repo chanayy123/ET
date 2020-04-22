@@ -36,7 +36,7 @@ namespace ETTools
     {
         private const string ExcelPath = "../";
         private const string ServerConfigPath = "../../Config/";
-        private const string ServerCSPath = @"../../Server/Model/Game/Config/";
+        private const string ServerCSPath = @"../../Server/Model/Games/Common/Config/";
         private static bool isClient = false;
         private static ExcelMD5Info md5Info;
         public static void Main()

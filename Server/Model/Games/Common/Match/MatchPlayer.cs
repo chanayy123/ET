@@ -9,6 +9,7 @@ namespace ETModel
     public partial class MatchPlayer : Entity {
         public int UserId { get; set; }
         public int RoomId { get; set; }
+        public int HallId { get; set; }
         public long GateSessionId { get; set; }
     }
 

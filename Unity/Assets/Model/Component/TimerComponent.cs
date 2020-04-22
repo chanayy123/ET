@@ -171,7 +171,7 @@ namespace ETModel
             Timer timer = SimplePool.Instance.Fetch<Timer>();
             timer.Id = IdGenerater.GenerateId();
             timer.Time = time;
-            timer.tcs = timer.tcs ?? (timer.tcs = new ETTaskCompletionSource());
+            timer.tcs = timer.tcs ?? new ETTaskCompletionSource();
             return timer;
         }
 

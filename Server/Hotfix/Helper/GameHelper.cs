@@ -15,12 +15,9 @@ namespace ETHotfix
         public static void SynRoomData(int roomId, int state, long roomActorId)
         {
             var session = NetInnerHelper.GetSessionByAppType(AppType.Match);
-            session.Send(new GM_SynRoomData()
-            {
-                RoomId = roomId,
-                State = state,
-                RoomActorId = roomActorId
-            });
+            GM_SynRoomData msg = GameFactory.CreateMsgGM_SynRoomData(roomId, state, roomActorId);
+            session.Send(msg);
+            GameFactory.RecycleMsg(msg);
         }
 
         /// <summary>
@@ -30,12 +27,10 @@ namespace ETHotfix
         /// <param name="userId"></param>
         public static void SynLeaveRoom(int roomId,int userId)
         {
+            GM_LeaveRoom msg= GameFactory.CreateMsgGM_LeaveRoom(roomId, userId);
             var session = NetInnerHelper.GetSessionByAppType(AppType.Match);
-            session.Send(new GM_LeaveRoom()
-            {
-                RoomId = roomId,
-                UserId = userId
-            });
+            session.Send(msg);
+            GameFactory.RecycleMsg(msg);
         }
 
 
@@ -45,20 +40,14 @@ namespace ETHotfix
         /// <param name="gateSessionId"></param>
         /// <param name="userId"></param>
         /// <param name="actorId"></param>
-        public static void SynActorId(long gateSessionId, int userId, long actorId)
+        public static void SynActorId(long gateSessionId, int userId, long actorId,int gameId=0,int roomId=0)
         {
+            GS_SynActorId msg = GameFactory.CreateMsgGS_SynActorId(userId, actorId, gameId, roomId);
             var session = NetInnerHelper.GetSessionByAppId(IdGenerater.GetAppId(gateSessionId));
-            session?.Send(new GS_SynActorId()
-            {
-                UserId = userId,
-                ActorId = actorId
-            });
+            session?.Send(msg);
             session = NetInnerHelper.GetSessionByAppType(AppType.User);
-            session?.Send(new GS_SynActorId()
-            {
-                UserId = userId,
-                ActorId = actorId
-            });
+            session?.Send(msg);
+            GameFactory.RecycleMsg(msg);
         }
     }
 }

@@ -13,15 +13,19 @@ namespace ETHotfix
             if(user != null)
             {
                 var ses = user.GetComponent<GateUserSessionComponent>().Session;
-                ses.Send(new SC_KickUser { Message="你在别处登陆,已被强制踢出!"});
-                Log.Debug($"{user.UserId} 异地登陆强制踢出");
+                SC_KickUser msg = SimplePool.Instance.Fetch<SC_KickUser>();
+                msg.Error = (int)OpRetCode.KickOtherLogin;
+                msg.Message = "你在别处登陆,已被强制踢出!";
+                ses.Send(msg);
+                SimplePool.Instance.Recycle(msg);
                 ses.Dispose();
                 reply();
+                Log.Debug($"{user.UserId} 异地登陆强制踢出");
                 await ETTask.CompletedTask;
             }
             else
             {
-                response.Message = "当前网关没有此用户!";
+                response.Error = (int)OpRetCode.GateUserNotExist;
                 reply();
             }
         }

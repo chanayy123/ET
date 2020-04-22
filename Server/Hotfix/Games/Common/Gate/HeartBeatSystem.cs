@@ -5,22 +5,6 @@ using ETModel;
 namespace ETHotfix
 {
 
-
-    /// <summary>
-    /// 心跳管理组件扩展
-    /// </summary>
-    public static  class HeartBeatManagerComponnetExtensions
-    {
-        public static void Add(this HeartBeatManagerComponnet self, HeartBeatComponent hb)
-        {
-            self.dic.Add(hb.InstanceId, hb);
-        }
-        public static void Remove(this HeartBeatManagerComponnet self, long id)
-        {
-            self.dic.Remove(id);
-        }
-    }
-
     /// <summary>
     /// 注册session创建事件: 只有外网session创建才绑定心跳组件
     /// </summary>
@@ -92,7 +76,7 @@ namespace ETHotfix
     }
 
 
-[ObjectSystem]
+    [ObjectSystem]
     class HeartBeatAwakeSystem : AwakeSystem<HeartBeatComponent>
     {
         public override void Awake(HeartBeatComponent self)

@@ -25,19 +25,23 @@ namespace ETModel
 
 				int rpcId = request.RpcId;
 				long instanceId = session.InstanceId;
-				Response response = Activator.CreateInstance<Response>();
-
-				void Reply()
+                //Response response = Activator.CreateInstance<Response>();
+                Response response = SimplePool.Instance.Fetch<Response>();
+                response.Error = 0;
+                response.Message = "";
+                void Reply()
 				{
 					// 等回调回来,session可以已经断开了,所以需要判断session InstanceId是否一样
 					if (session.InstanceId != instanceId)
 					{
-						return;
+                        SimplePool.Instance.Recycle(response);
+                        return;
 					}
 
 					response.RpcId = rpcId;
 					session.Reply(response);
-				}
+                    SimplePool.Instance.Recycle(response);
+                }
 
 				try
 				{

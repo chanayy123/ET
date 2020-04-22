@@ -9,5 +9,6 @@ namespace ETModel
         public const string GameRoomCreate = "GameRoomCreate";
         public const string GameRoomEnter = "GameRoomEnter";
         public const string GameRoomLeave = "GameRoomLeave";
+        public const string GameRoomMatch = "GameRoomMatch";
     }
 }

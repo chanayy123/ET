@@ -1,3 +1,3 @@
-{"_id":101000,"Name":"初级场","Desc":"经典牛牛","GameId":1,"MinLimitCoin":1000,"MaxLimitCoin":10000,"MaxPlayers":5}
-{"_id":102000,"Name":"中级场","Desc":"经典牛牛","GameId":1,"MinLimitCoin":2000,"MaxLimitCoin":20000,"MaxPlayers":5}
-{"_id":103000,"Name":"高级场","Desc":"经典牛牛","GameId":1,"MinLimitCoin":3000,"MaxLimitCoin":30000,"MaxPlayers":5}
+{"_id":101000,"Name":"初级场","Desc":"经典牛牛","GameId":1,"MinLimitCoin":1000,"MaxLimitCoin":10000,"MinPlayers":2,"MaxPlayers":5}
+{"_id":102000,"Name":"中级场","Desc":"经典牛牛","GameId":1,"MinLimitCoin":2000,"MaxLimitCoin":20000,"MinPlayers":2,"MaxPlayers":5}
+{"_id":103000,"Name":"高级场","Desc":"经典牛牛","GameId":1,"MinLimitCoin":3000,"MaxLimitCoin":30000,"MinPlayers":2,"MaxPlayers":5}

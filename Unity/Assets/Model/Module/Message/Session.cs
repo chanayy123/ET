@@ -144,7 +144,8 @@ namespace ETModel
 				OpcodeTypeComponent opcodeTypeComponent = this.Network.Entity.GetComponent<OpcodeTypeComponent>();
 				object instance = opcodeTypeComponent.GetInstance(opcode);
 				message = this.Network.MessagePacker.DeserializeFrom(instance, memoryStream);
-				
+                //反序列化结束,回收消息对象
+                opcodeTypeComponent.RecycleInstance(instance);
 				if (OpcodeHelper.IsNeedDebugLogMessage(opcode))
 				{
 					Log.Msg(message);

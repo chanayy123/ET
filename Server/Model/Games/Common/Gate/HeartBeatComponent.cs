@@ -21,7 +21,7 @@ namespace ETModel
     public class HeartBeatComponent:Component
     {
         //最大消息间隔
-        public const int MAX_REV_INTEVAL = 60;
+        public const int MAX_REV_INTEVAL = 120;
         //一秒钟最大接收消息数量
         public const int MAX_TIMES_PER_SEC = 10;
         /// <summary>

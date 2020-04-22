@@ -59,12 +59,15 @@ namespace ETModel
 
         private async void CloseSocket()
         {
-            await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "closing websocket", CancellationToken.None);
-            //this.cancellationTokenSource.Cancel();
+            //WebSocketState.Open: 服务端主动断开连接,这时候需要异步关掉socket,之后才可以dispose释放
+            //WebSocketState.CloseReceived: 客户端主动断开连接,这时只需要dispose释放
+            if (webSocket.State == WebSocketState.Open)
+            {
+                await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "closing websocket", CancellationToken.None);
+            }
+            this.cancellationTokenSource.Cancel();
             this.cancellationTokenSource.Dispose();
             this.cancellationTokenSource = null;
-            //如果不延迟,异步读取可能会抛异常:使用了dispose的websocket
-            await  Game.Scene.GetComponent<TimerComponent>().WaitAsync(100);
             this.webSocket.Dispose();
             this.memoryStream.Dispose();
             this.recvStream.Dispose();

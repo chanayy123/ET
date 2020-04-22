@@ -18,10 +18,11 @@ namespace ETHotfix
                 reply();
                 return;
             }
+            response.List.Clear();//目前消息都从对象池取,每次使用前都需要重置一下
             response.List.AddRange(roomList);
             reply();
             //请求对应大厅的房间列表->玩家自动进入当前大厅
-            var hallPlayer = matchMgr.GetHallPlayer(request.UserId, request.GateSessionId);
+            var hallPlayer = matchMgr.GetHallPlayer(request.UserId, request.GateSessionId,true);
             matchMgr.EnterHall(request.HallId, hallPlayer);
             await ETTask.CompletedTask;
         }

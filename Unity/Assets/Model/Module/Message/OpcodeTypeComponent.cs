@@ -72,11 +72,17 @@ namespace ETModel
 				// 服务端因为有人探测端口，有可能会走到这一步，如果找不到opcode，抛异常
 				throw new Exception($"not found opcode: {opcode}");
 			}
-			return Activator.CreateInstance(type);
+            //return Activator.CreateInstance(type);
+            return SimplePool.Instance.Fetch(type);
 #else
 			return this.typeMessages[opcode];
 #endif
 		}
+
+        public void RecycleInstance(object obj)
+        {
+            SimplePool.Instance.Recycle(obj);
+        }
 
 		public override void Dispose()
 		{

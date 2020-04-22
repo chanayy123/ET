@@ -10,56 +10,54 @@ namespace ETHotfix
         public static void SynOnline(int userId,long gateSessionId )
         {
             var startCfg = StartConfigComponent.Instance.StartConfig;
+            GS_Online msg = GateFactory.CreateMsgGS_Online(userId, gateSessionId);
             if (startCfg.AppType == AppType.AllServer)
             {
                 var innerSession = NetInnerHelper.GetSessionByCfg(startCfg);
-                innerSession.Send(new GS_Online() { UserId = userId, GateSessionId = gateSessionId });
+                innerSession.Send(msg);
             }
             else
             {
                 var realS = NetInnerHelper.GetSessionByAppType(AppType.Realm);
-                realS.Send(new GS_Online() { UserId = userId, GateSessionId = gateSessionId });
+                realS.Send(msg);
                 var userS = NetInnerHelper.GetSessionByAppType(AppType.User);
-                userS.Send(new GS_Online() { UserId = userId, GateSessionId = gateSessionId });
+                userS.Send(msg);
             }
+            GateFactory.RecycleMsg(msg);
             var gateUser = GateUserComponent.Instance.Get(userId);
             if (gateUser.ActorId != 0)
             {
                 var gateSID = gateUser.GetComponent<GateUserSessionComponent>().Session.InstanceId;
-                NetInnerHelper.SendActorMsg(new Actor_OnlineState()
-                {
-                    ActorId = gateUser.ActorId,
-                    State = 1,
-                    GateSessionId = gateSID
-                });
+                Actor_OnlineState msg2 = GateFactory.CreateMsgActor_OnlineState(gateUser.ActorId, 1, gateSID);
+                NetInnerHelper.SendActorMsg(msg2);
+                GateFactory.RecycleMsg(msg2);
         }
     }
 
         public static void SynOffline(GateUser user)
         {
             var startCfg = StartConfigComponent.Instance.StartConfig;
+            GS_Offline msg = GateFactory.CreateMsgGS_Offline(user.UserId);
             if (startCfg.AppType == AppType.AllServer)
             {
                 var innerSession = NetInnerHelper.GetSessionByCfg(startCfg);
-                innerSession.Send(new GS_Offline() { UserId = user.UserId});
+                innerSession.Send(msg);
             }
             else
             {
                 var realS = NetInnerHelper.GetSessionByAppType(AppType.Realm);
-                realS.Send(new GS_Offline() { UserId = user.UserId });
+                realS.Send(msg);
                 var userS = NetInnerHelper.GetSessionByAppType(AppType.User);
-                userS.Send(new GS_Offline() { UserId = user.UserId });
+                userS.Send(msg);
                 var matchS = NetInnerHelper.GetSessionByAppType(AppType.Match);
-                matchS.Send(new GS_Offline() { UserId = user.UserId });
+                matchS.Send(msg);
             }
+            GateFactory.RecycleMsg(msg);
             if(user.ActorId != 0)
             {
-                NetInnerHelper.SendActorMsg(new Actor_OnlineState()
-                {
-                    ActorId = user.ActorId,
-                    State = 0,
-                    GateSessionId = 0
-                });
+                Actor_OnlineState msg2 = GateFactory.CreateMsgActor_OnlineState(user.ActorId, 0, 0);
+                NetInnerHelper.SendActorMsg(msg2);
+                GateFactory.RecycleMsg(msg2);
             }
         }
 

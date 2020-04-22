@@ -8,6 +8,8 @@ namespace ETModel
         public long GateSessionId { get; set; }
         public bool Online { get; set; }
         public long ActorId { get; set; }
+        public int GameId { get; set; }
+        public int RoomId { get; set; }
         public UserInfo UserInfo { get; set; }
 
         public void Awake(UserInfo info)

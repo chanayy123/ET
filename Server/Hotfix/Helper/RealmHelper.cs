@@ -13,7 +13,9 @@ namespace ETHotfix
             var gateSessionId = online.Get(userId);
             if (gateSessionId == 0) return;
             var session = NetInnerHelper.GetSessionByAppId(IdGenerater.GetAppId(gateSessionId));
-            await session.Call(new SG_KickUser { UserId = userId });
+            SG_KickUser msg = RealmFactory.CreateMsgSG_KickUser(userId);
+            await session.Call(msg);
+            RealmFactory.RecycleMsg(msg);
         }
     }
 }

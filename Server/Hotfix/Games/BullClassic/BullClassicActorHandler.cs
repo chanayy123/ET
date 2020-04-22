@@ -5,9 +5,9 @@ using ETModel;
 namespace ETHotfix
 {
     [ActorMessageHandler(AppType.Game)]
-    class BullClassicActorLeaveRoomHandler : AMActorRpcHandler<BullClassicPlayer, CS_ActorLeaveRoom, SC_ActorLeaveRoom>
+    class BullClassicActorLeaveRoomHandler : AMActorRpcHandler<BullClassicPlayer, CS_LeaveRoom, SC_LeaveRoom>
     {
-        protected override ETTask Run(BullClassicPlayer unit, CS_ActorLeaveRoom request, SC_ActorLeaveRoom response, Action reply)
+        protected override ETTask Run(BullClassicPlayer unit, CS_LeaveRoom request, SC_LeaveRoom response, Action reply)
         {
             var room = unit.Parent as BullClassicRoom;
             if(room.RoomData.State != (int)RoomState.GAMING)

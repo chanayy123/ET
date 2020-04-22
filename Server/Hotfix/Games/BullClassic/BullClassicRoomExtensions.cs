@@ -15,6 +15,16 @@ namespace ETHotfix
             self.RoomData = BullClassicFactory.CreateRoomData(roomId, 0);
         }
 
+        public static void EnterRoom(this BullClassicRoom self, List<BullClassicPlayer> playerList)
+        {
+            foreach (var item in playerList)
+            {
+                self.AddPlayer(item);
+            }
+            //广播进房间消息
+            self.BroadcastRoomInfo();
+        }
+
         public static void EnterRoom(this BullClassicRoom self, BullClassicPlayer player)
         {
             self.AddPlayer(player);
@@ -40,7 +50,7 @@ namespace ETHotfix
             self.playerDic.Add(playerData.UserId, player);
             //同步玩家actorId方便以后通信
             player.AddComponent<MailBoxComponent>();
-            GameHelper.SynActorId(player.PlayerData.GateSessionId, player.PlayerData.UserId, player.InstanceId);
+            GameHelper.SynActorId(player.PlayerData.GateSessionId, player.PlayerData.UserId, player.InstanceId,(int)GameId.BullClassic,self.RoomData.RoomId);
         }
 
         public static void RemovePlayer(this BullClassicRoom self, int userId)
@@ -64,6 +74,18 @@ namespace ETHotfix
             {
                 self.RoomData.State = rs;
                 GameHelper.SynRoomData(self.RoomData.RoomId, rs,self.InstanceId);
+            }
+        }
+
+        public static void BroadcastRoomInfo(this BullClassicRoom self)
+        {
+            foreach (var item in self.playerDic)
+            {
+                NetInnerHelper.SendActorMsg(new SC_GameRoomInfo()
+                {
+                    ActorId = item.Value.PlayerData.GateSessionId,
+                    RoomInfo = self.RoomData
+                });
             }
         }
 
@@ -106,26 +128,5 @@ namespace ETHotfix
             }
 
         }
-
-        [ObjectSystem]
-        public class BullClassicRoomAwakeSystem : AwakeSystem<BullClassicRoom, GameRoomData>
-        {
-            public override void Awake(BullClassicRoom self, GameRoomData data)
-            {
-                self.Awake(data);
-            }
-        }
-        [ObjectSystem]
-        public class BullClassicRoomAwakeSystem2 : AwakeSystem<BullClassicRoom, int>
-        {
-            public override void Awake(BullClassicRoom self, int roomId)
-            {
-                self.Awake(roomId);
-            }
-        }
-
-
-
-
     }
 }

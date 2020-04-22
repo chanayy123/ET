@@ -32,6 +32,24 @@ namespace ETHotfix
         }
     }
 
+    [Event(EventType.GameRoomMatch + "1")]
+    public class BullClassicMatchHandler : AEvent<int, List<GamePlayerData>>
+    {
+        private readonly List<BullClassicPlayer> tempList = new List<BullClassicPlayer>();
+        public override void Run(int roomId, List<GamePlayerData> playerList)
+        {
+            var roomMgr = Game.Scene.GetComponent<GameRoomComponent>();
+            var room = roomMgr.GetRoom<BullClassicRoom>(roomId);
+            tempList.Clear();
+            foreach (var item in playerList)
+            {
+                var player = BullClassicFactory.CreatePlayer(item);
+                tempList.Add(player);
+            }
+            room.EnterRoom(tempList);
+        }
+    }
+
     //[Event(EventType.GameRoomLeave+ "1")]
     //public class BullClassicLeaveHandler : AEvent<int,int>
     //{
