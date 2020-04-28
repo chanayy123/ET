@@ -76,7 +76,6 @@ namespace ETModel
 			}
 			
 			base.Dispose();
-			
 			this.socket.Close();
 			this.innArgs.Dispose();
 			this.outArgs.Dispose();

@@ -17,7 +17,7 @@ namespace ETHotfix
         }
     }
 
-    [MessageHandler(AppType.User)]
+    [MessageHandler(AppType.World)]
     class User_SynActorIdHandler : AMHandler<GS_SynActorId>
     {
         protected override async ETTask Run(Session session, GS_SynActorId message)

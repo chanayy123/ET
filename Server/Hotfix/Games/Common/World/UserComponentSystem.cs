@@ -24,4 +24,5 @@ namespace ETHotfix
             self.Awake(info);
         }
     }
+
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace ETModel
 {
@@ -297,7 +298,7 @@ namespace ETModel
 							}
 							else if (item.ParameterType.IsClass && item.ParameterType != typeof(string) && !string.IsNullOrEmpty(postbody))
 							{
-								object entity = JsonHelper.FromJson(item.ParameterType, postbody);
+                                object entity = JsonHelper.FromJson(item.ParameterType, postbody);
 								args[i] = entity;
 							}
 

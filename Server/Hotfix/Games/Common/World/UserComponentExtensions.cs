@@ -43,7 +43,7 @@ namespace ETHotfix
             return self.userDic.Values.ToArray();
         }
 
-        public static async ETTask<int> CheckLogin(this UserComponent self ,RU_Login msg, IResponse res)
+        public static async ETTask<int> CheckLogin(this UserComponent self ,RW_Login msg, IResponse res)
         {
             var userId = 0;
             LoginType type = (LoginType)msg.LoginType;
@@ -62,7 +62,7 @@ namespace ETHotfix
             return userId;
         }
 
-        public static async ETTask<int> CheckVoucherLogin(this UserComponent self,RU_Login msg, IResponse res)
+        public static async ETTask<int> CheckVoucherLogin(this UserComponent self,RW_Login msg, IResponse res)
         {
             var arr = msg.DataStr.Split("|");
             if (arr.Length != 2)
@@ -83,13 +83,13 @@ namespace ETHotfix
             return account.UserId;
         }
 
-        public static async ETTask<int> CheckWechatLogin(this UserComponent self, RU_Login msg, IResponse res)
+        public static async ETTask<int> CheckWechatLogin(this UserComponent self, RW_Login msg, IResponse res)
         {
             await ETTask.CompletedTask;
              throw new NotImplementedException();
         }
 
-        public static async ETTask<int> CheckTouristLogin(this UserComponent self, RU_Login msg, IResponse res)
+        public static async ETTask<int> CheckTouristLogin(this UserComponent self, RW_Login msg, IResponse res)
         {
             List<ComponentWithId> list = await self.DBProxy.Query<AccountInfo>(user => user.Acc.Equals(msg.DataStr));
             if (list.Count == 0)
@@ -124,7 +124,7 @@ namespace ETHotfix
             return account.UserId;
         }
 
-        public static async ETTask<int> CheckRegister(this UserComponent self ,RU_Register msg, IResponse res)
+        public static async ETTask<int> CheckRegister(this UserComponent self ,RW_Register msg, IResponse res)
         {
             List<ComponentWithId> list = await self.DBProxy.Query<AccountInfo>(user => user.Acc.Equals(msg.Account));
             if (list.Count > 0)

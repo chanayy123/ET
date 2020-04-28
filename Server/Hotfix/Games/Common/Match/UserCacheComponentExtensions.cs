@@ -13,7 +13,7 @@ namespace ETHotfix
             {
                 return user;
             }
-            user = await UserHelper.GetUserInfo(userId);
+            user = await WorldHelper.GetUserInfo(userId);
             self.userDic.Add(userId, user);
             return user;
         }

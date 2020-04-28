@@ -7,9 +7,9 @@ namespace ETHotfix
 {
     public static class RealmFactory
     {
-        public static RU_Login CreateMsgRU_Login(int LoginType, string dataStr)
+        public static RW_Login CreateMsgRW_Login(int LoginType, string dataStr)
         {
-            RU_Login msg = SimplePool.Instance.Fetch<RU_Login>();
+            RW_Login msg = SimplePool.Instance.Fetch<RW_Login>();
             msg.LoginType = LoginType;
             msg.DataStr = dataStr;
             return msg;
@@ -20,9 +20,9 @@ namespace ETHotfix
             msg.UserId = userId;
             return msg;
         }
-        public static RU_Register CreateMsgRU_Register(string acc,string name,string pwd)
+        public static RW_Register CreateMsgRW_Register(string acc,string name,string pwd)
         {
-            RU_Register msg = SimplePool.Instance.Fetch<RU_Register>();
+            RW_Register msg = SimplePool.Instance.Fetch<RW_Register>();
             msg.Account = acc;
             msg.Name = name;
             msg.Password = pwd;

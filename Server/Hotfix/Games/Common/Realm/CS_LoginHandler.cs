@@ -10,9 +10,9 @@ namespace ETHotfix
     {
         protected override async ETTask Run(Session session, CS_Login request, SC_Login response, Action reply)
         {
-            var userSession = NetInnerHelper.GetSessionByAppType(AppType.User);
-            RU_Login msg = RealmFactory.CreateMsgRU_Login(request.LoginType, request.DataStr);
-            var urLogin = (UR_Login)await userSession.Call(msg);
+            var userSession = NetInnerHelper.GetSessionByAppType(AppType.World);
+            RW_Login msg = RealmFactory.CreateMsgRW_Login(request.LoginType, request.DataStr);
+            var urLogin = (WR_Login)await userSession.Call(msg);
             RealmFactory.RecycleMsg(msg);
             if(urLogin.UserId == 0)
             {

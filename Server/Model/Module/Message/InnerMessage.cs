@@ -504,9 +504,9 @@ namespace ETModel
 
 	}
 
-//realm->user
-	[Message(InnerOpcode.RU_Login)]
-	public partial class RU_Login: IRequest
+//realm->world
+	[Message(InnerOpcode.RW_Login)]
+	public partial class RW_Login: IRequest
 	{
 		public int RpcId { get; set; }
 
@@ -518,9 +518,9 @@ namespace ETModel
 
 	}
 
-//user->realm
-	[Message(InnerOpcode.UR_Login)]
-	public partial class UR_Login: IResponse
+//world->realm
+	[Message(InnerOpcode.WR_Login)]
+	public partial class WR_Login: IResponse
 	{
 		public int RpcId { get; set; }
 
@@ -532,9 +532,9 @@ namespace ETModel
 
 	}
 
-//realm->user
-	[Message(InnerOpcode.RU_Register)]
-	public partial class RU_Register: IRequest
+//realm->world
+	[Message(InnerOpcode.RW_Register)]
+	public partial class RW_Register: IRequest
 	{
 		public int RpcId { get; set; }
 
@@ -546,9 +546,9 @@ namespace ETModel
 
 	}
 
-//user->realm
-	[Message(InnerOpcode.UR_Register)]
-	public partial class UR_Register: IResponse
+//world->realm
+	[Message(InnerOpcode.WR_Register)]
+	public partial class WR_Register: IResponse
 	{
 		public int RpcId { get; set; }
 
@@ -560,9 +560,9 @@ namespace ETModel
 
 	}
 
-//other server->user
-	[Message(InnerOpcode.SU_GetUserInfo)]
-	public partial class SU_GetUserInfo: IRequest
+//other server->world
+	[Message(InnerOpcode.SW_GetUserInfo)]
+	public partial class SW_GetUserInfo: IRequest
 	{
 		public int RpcId { get; set; }
 
@@ -570,8 +570,9 @@ namespace ETModel
 
 	}
 
-	[Message(InnerOpcode.US_GetUserInfo)]
-	public partial class US_GetUserInfo: IResponse
+//world -> other server
+	[Message(InnerOpcode.WS_GetUserInfo)]
+	public partial class WS_GetUserInfo: IResponse
 	{
 		public int RpcId { get; set; }
 
@@ -580,6 +581,26 @@ namespace ETModel
 		public string Message { get; set; }
 
 		public User UserInfo { get; set; }
+
+	}
+
+	[Message(InnerOpcode.SW_GetGameCfgList)]
+	public partial class SW_GetGameCfgList: IRequest
+	{
+		public int RpcId { get; set; }
+
+	}
+
+	[Message(InnerOpcode.WS_GetGameCfgList)]
+	public partial class WS_GetGameCfgList: IResponse
+	{
+		public int RpcId { get; set; }
+
+		public int Error { get; set; }
+
+		public string Message { get; set; }
+
+		public List<GameConfig> GameCfgList = new List<GameConfig>();
 
 	}
 

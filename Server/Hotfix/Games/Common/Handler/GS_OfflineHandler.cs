@@ -14,7 +14,7 @@ namespace ETHotfix
         }
     }
 
-    [MessageHandler(AppType.User)]
+    [MessageHandler(AppType.World)]
     class GS_OfflineUserHandler : AMHandler<GS_Offline>
     {
         protected override async ETTask Run(Session session, GS_Offline message)

@@ -5,10 +5,10 @@ using ETModel;
 
 namespace ETHotfix
 {
-    [MessageHandler(AppType.User)]
-    class SU_GetUserInfoHandler : AMRpcHandler<SU_GetUserInfo, US_GetUserInfo>
+    [MessageHandler(AppType.World)]
+    class SW_GetUserInfoHandler : AMRpcHandler<SW_GetUserInfo, WS_GetUserInfo>
     {
-        protected override async ETTask Run(Session session, SU_GetUserInfo request, US_GetUserInfo response, Action reply)
+        protected override async ETTask Run(Session session, SW_GetUserInfo request, WS_GetUserInfo response, Action reply)
         {
             User user = UserComponent.Instance.Get(request.UserId);
             if (user == null)

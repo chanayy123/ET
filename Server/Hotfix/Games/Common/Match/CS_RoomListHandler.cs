@@ -14,6 +14,7 @@ namespace ETHotfix
             var roomList = matchMgr.GetAll(request.HallId);
             if(roomList == null)
             {
+                response.List.Clear();
                 response.Message = $"请求房间列表失败: 无效id {request.HallId}";
                 reply();
                 return;

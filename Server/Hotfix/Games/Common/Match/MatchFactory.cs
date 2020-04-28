@@ -60,12 +60,26 @@ namespace ETHotfix
             return room;
         }
 
-        public static MatchRoom CreateCardModeRoom(int roomId, RoomConfig cfg)
+        public static MatchRoom CreateCardModeRoom(int roomId,int gameId,int mode)
         {
-            var room = ComponentFactory.Create<MatchRoom, int, RoomConfig>(roomId, cfg);
-            room.RoomType = RoomType.List;
+            var cfg = RoomHelper.GetRoomCfg(gameId,mode);
+            var room = ComponentFactory.Create<MatchRoom,int,RoomConfig>(roomId,cfg);
+            room.RoomType = RoomType.Card;
             return room;
         }
+
+        public static UserRoom CreateUserRoom(int roomId,int userId,int gameId, int gameMode,string gameParams)
+        {
+            UserRoom room = ComponentFactory.Create<UserRoom>();
+            room.RoomId = roomId;
+            room.CreateUserId = userId;
+            room.GameId = gameId;
+            room.GameMode = gameMode;
+            room.Params = gameParams;
+            return room;
+        }
+
+        
 
         public static MG_EnterRoom CreateMsgEnterRoom(GamePlayerData player,int roomId,int gameId)
         {
@@ -76,7 +90,16 @@ namespace ETHotfix
             return msg;
         }
 
-        public static void RecycleMsg(MG_EnterRoom msg)
+        public static MG_MatchRoom CreateMsgMG_MatchRoom(int gameId,int roomId,List<GamePlayerData> list)
+        {
+            MG_MatchRoom msg = SimplePool.Instance.Fetch<MG_MatchRoom>();
+            msg.GameId = gameId;
+            msg.RoomId = roomId;
+            msg.PlayerList = list;
+            return msg;
+        }
+
+        public static void RecycleMsg(object msg)
         {
             SimplePool.Instance.Recycle(msg);
         }

@@ -31,6 +31,23 @@ namespace ETHotfix
             return msg;
         }
 
+        public static SC_KickUser CreateMsgSC_KickUser(int error=0,string errorMsg="")
+        {
+            SC_KickUser msg = SimplePool.Instance.Fetch<SC_KickUser>();
+            msg.Error = error;
+            msg.Message = errorMsg;
+            return msg;
+        }
+
+        public static GateUser CreateUser(int userId,Session session)
+        {
+            var user = ComponentFactory.Create<GateUser>();
+            user.UserId = userId;
+            user.Session = session;
+            user.ActorId = 0;
+            return user;
+        }
+
         public static void RecycleMsg(object msg)
         {
             SimplePool.Instance.Recycle(msg);

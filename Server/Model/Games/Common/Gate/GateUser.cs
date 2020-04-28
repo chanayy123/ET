@@ -12,6 +12,7 @@ namespace ETModel
     {
         public int UserId { get; set; }
         public long ActorId { get; set; }
+        public Session Session { get; set; }
 
     }
 }

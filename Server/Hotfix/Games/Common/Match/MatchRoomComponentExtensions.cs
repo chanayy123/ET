@@ -26,6 +26,7 @@ namespace ETHotfix
             self.Config = cfg;
             self.State = 0;
             self.Count = 0;
+            self.RoomActorId = 0;
             self.PlayerList = self.PlayerList ?? new List<MatchPlayer>();
         }
     }
@@ -41,7 +42,7 @@ namespace ETHotfix
                 self.hallListModeDic.Add(hallId, list);
             }
             list.Add(room);
-            self.roomsDic.Add(room.RoomId, room);
+            self.AddMatchRoom(room.RoomId, room);
         }
 
         public static void EnterRoom(this MatchRoomComponent self, MatchPlayer player)
@@ -161,6 +162,10 @@ namespace ETHotfix
             {
                 return OpRetCode.RoomNotExist;
             }
+            if (!self.IsHallOpen(room.Config.Id))
+            {
+                return OpRetCode.RoomIsClosed;
+            }
             if (room.State == (int)RoomState.GAMING)
             {
                 return OpRetCode.RoomAlreadyGaming;
@@ -182,7 +187,7 @@ namespace ETHotfix
 
         public static OpRetCode CanLeaveRoom(this MatchRoomComponent self, int userId)
         {
-            if (!self.userRoomDic.ContainsKey(userId))
+            if (!self.IsInGameRoom(userId))
             {
                 return OpRetCode.RoomAlreadyOut;
             }
@@ -194,10 +199,25 @@ namespace ETHotfix
             return OpRetCode.Success;
         }
 
+        /// <summary>
+        /// 是否在匹配队列
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static bool IsInMatchQueue(this MatchRoomComponent self, int userId)
+        {
+            return self.userMatchDic.ContainsKey(userId);
+        }
+
         public static OpRetCode CanEnterMatchQueue(this MatchRoomComponent self, int hallId, User user)
         {
-            if (self.userMatchDic.TryGetValue(user.UserInfo.UserId, out MatchPlayer p)) {
+            if (self.IsInMatchQueue(user.UserInfo.UserId)) {
                 return OpRetCode.MatchAlreadyIn;
+            }
+            if (!self.IsHallOpen(hallId))
+            {
+                return OpRetCode.MatchIsClosed;
             }
             var cfg = self.roomConfigDic[hallId];
             if (user.UserInfo.Coin < cfg.MinLimitCoin)
@@ -213,19 +233,19 @@ namespace ETHotfix
 
         public static OpRetCode CanLeaveMatchQueue(this MatchRoomComponent self, int userId)
         {
-            if (!self.userMatchDic.TryGetValue(userId, out MatchPlayer p)) {
+            if (!self.IsInMatchQueue(userId)) {
                 return OpRetCode.MatchAlreadyOut;
             }
             return OpRetCode.Success;
         }
         public static void EnterMatchQueue(this MatchRoomComponent self, MatchPlayer player)
         {
-            if (!self.matchQueueDic.TryGetValue(player.HallId, out List<MatchPlayer> quque))
+            if (!self.matchQueueDic.TryGetValue(player.HallId, out List<MatchPlayer> list))
             {
-                quque = new List<MatchPlayer>();
-                self.matchQueueDic.Add(player.HallId, quque);
+                list = new List<MatchPlayer>();
+                self.matchQueueDic.Add(player.HallId, list);
             }
-            quque.Add(player);
+            list.Add(player);
             self.userMatchDic.Add(player.UserId, player);
 
         }
@@ -241,7 +261,12 @@ namespace ETHotfix
                 }
             }
         }
-
+        /// <summary>
+        /// 获得不在游戏可用的房间，没有就生成新的房间并缓存进组
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="hallId"></param>
+        /// <returns></returns>
         public static MatchRoom GetMatchModeRoom(this MatchRoomComponent self, int hallId)
         {
             if (!self.hallMatchModeDic.TryGetValue(hallId, out List<MatchRoom> list))
@@ -255,7 +280,7 @@ namespace ETHotfix
             {
                 matchRoom = MatchFactory.CreateMatchModeRoom(hallId, cfg);
                 list.Add(matchRoom);
-                self.roomsDic.Add(matchRoom.RoomId, matchRoom);
+                self.AddMatchRoom(matchRoom.RoomId, matchRoom);
             }
             return matchRoom;
         }
@@ -312,7 +337,7 @@ namespace ETHotfix
             }
             else
             {
-                Log.Warning($"EnterHall:{hallId} 无效玩家{player.UserId}");
+                Log.Debug($"EnterHall:玩家{player.UserId}重复进入大厅{hallId}");
             }
         }
 
@@ -341,4 +366,5 @@ namespace ETHotfix
         }
 
     }
+
 }

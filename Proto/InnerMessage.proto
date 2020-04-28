@@ -327,16 +327,16 @@ message GS_SynActorId // IMessage
 	int32 RoomId = 3;
 	int64 ActorId = 4;
 }
-//realm->user
-message RU_Login // IRequest
+//realm->world
+message RW_Login // IRequest
 {
 	int32 RpcId = 1;
 	int32 LoginType =2;
 	int32 PlatformType = 3;
 	string DataStr = 4;
 }
-//user->realm
-message UR_Login // IResponse
+//world->realm
+message WR_Login // IResponse
 {
 	int32 RpcId = 1;
     int32 Error = 2;
@@ -344,8 +344,8 @@ message UR_Login // IResponse
 	int32 UserId = 4;
 }
 
-//realm->user
-message RU_Register // IRequest
+//realm->world
+message RW_Register // IRequest
 {
 	int32 RpcId =1;
 	string Account = 2;
@@ -354,27 +354,39 @@ message RU_Register // IRequest
 }
 
 }
-//user->realm
-message UR_Register // IResponse
+//world->realm
+message WR_Register // IResponse
 {
 	int32 RpcId =1;
 	int32 Error =2;
 	int32 UserId = 3;
 	string Message = 4;
 }
-//other server->user
-message SU_GetUserInfo // IRequest
+//other server->world
+message SW_GetUserInfo // IRequest
 {
 	int32 RpcId = 1;
 	int32 UserId = 2;
 }
-
-message US_GetUserInfo //IResponse
+//world -> other server
+message WS_GetUserInfo //IResponse
 {
 	int32 RpcId =1;
 	int32 Error =2;
 	string Message = 3;
 	User UserInfo = 4;
+}
+message SW_GetGameCfgList //IRequest
+{
+	int32 RpcId = 1;	
+}
+
+message WS_GetGameCfgList //IResponse
+{
+	int32 RpcId =1;
+	int32 Error =2;
+	string Message = 3;
+	repeated GameConfig GameCfgList = 4;
 }
 
 

@@ -20,14 +20,14 @@ namespace ETHotfix
             {
                 var realS = NetInnerHelper.GetSessionByAppType(AppType.Realm);
                 realS.Send(msg);
-                var userS = NetInnerHelper.GetSessionByAppType(AppType.User);
+                var userS = NetInnerHelper.GetSessionByAppType(AppType.World);
                 userS.Send(msg);
             }
             GateFactory.RecycleMsg(msg);
             var gateUser = GateUserComponent.Instance.Get(userId);
             if (gateUser.ActorId != 0)
             {
-                var gateSID = gateUser.GetComponent<GateUserSessionComponent>().Session.InstanceId;
+                var gateSID = gateUser.Session.InstanceId;
                 Actor_OnlineState msg2 = GateFactory.CreateMsgActor_OnlineState(gateUser.ActorId, 1, gateSID);
                 NetInnerHelper.SendActorMsg(msg2);
                 GateFactory.RecycleMsg(msg2);
@@ -47,7 +47,7 @@ namespace ETHotfix
             {
                 var realS = NetInnerHelper.GetSessionByAppType(AppType.Realm);
                 realS.Send(msg);
-                var userS = NetInnerHelper.GetSessionByAppType(AppType.User);
+                var userS = NetInnerHelper.GetSessionByAppType(AppType.World);
                 userS.Send(msg);
                 var matchS = NetInnerHelper.GetSessionByAppType(AppType.Match);
                 matchS.Send(msg);

@@ -4,7 +4,13 @@ using System.Threading.Tasks;
 
 namespace ETHotfix
 {
-	[HttpHandler(AppType.Gate, "/")]
+
+    public class LoginData
+    {
+        public string Acc;
+    }
+
+    [HttpHandler(AppType.Gate, "/")]
 	public class HttpTest : AHttpHandler
 	{
 		[Get] // url-> /Login?name=11&age=1111
@@ -28,7 +34,13 @@ namespace ETHotfix
 			return 1;
 		}
 
-		[Get] // url-> /Test2
+        [Post] // url-> /Test1
+        public string TestPost(LoginData body, HttpListenerRequest req)
+        {
+            return $"{body.Acc}---";
+        }
+
+        [Get] // url-> /Test2
 		public int Test2(HttpListenerResponse resp)
 		{
 			return 1;
@@ -53,5 +65,12 @@ namespace ETHotfix
 				return Error("ID不存在！");
 			}
 		}
+
+        [Get]
+        public async ETTask<HttpResult> FetchGameConfig()
+        {
+            await GameConfigComponent.Instance.FetchGameCfgList();
+            return Ok("从数据库更新游戏配置成功!");
+        } 
 	}
 }

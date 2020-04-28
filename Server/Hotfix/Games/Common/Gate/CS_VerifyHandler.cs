@@ -19,34 +19,24 @@ namespace ETHotfix
                 return;
             }
             //判断是否在线,如果在线强制踢出
-            var user = GateUserComponent.Instance.Get(userId);
-            if (user != null)
+            var gateUser = GateUserComponent.Instance.Get(userId);
+            if (gateUser != null)
             {
-                user.GetComponent<GateUserSessionComponent>().Session.Dispose();
+                gateUser.Session.Dispose();
             }
             //创建网关用户
-            user = ComponentFactory.Create<GateUser>();
-            user.UserId = userId;
+            gateUser = GateFactory.CreateUser(userId, session);
             //session绑定用户信息
-            session.AddComponent<SessionGateUserComponent>().User = user;
-            user.AddComponent<GateUserSessionComponent>().Session = session;
+            session.AddComponent<SessionGateUserComponent>().User = gateUser;
             //添加邮箱组件,方便其他服务器通信
             session.AddComponent<MailBoxComponent, string>(MailboxType.GateSession);
             //添加用户进组方便管理
-            GateUserComponent.Instance.Add(user.UserId, user);
-            response.UserId = user.UserId;
+            GateUserComponent.Instance.Add(gateUser.UserId, gateUser);
             reply();
-            //推送用户详情
-            var userInfo = await UserHelper.GetUserInfo(userId);
-            if (userInfo.UserInfo != null)
-                session.Send(userInfo.UserInfo);
-            else
-                Log.Warning($"推送{userId}用户详情失败");
-            //更新acotrid
-            user.ActorId = userInfo.ActorId;
             //同步上线消息
-            GateHelper.SynOnline(user.UserId, session.Id);
-            Log.Debug($"{user.UserId} 上线");
+            GateHelper.SynOnline(gateUser.UserId, session.Id);
+            Log.Debug($"{gateUser.UserId} 上线");
+            await ETTask.CompletedTask;
         }
     }
 }

@@ -46,11 +46,13 @@ namespace ETModel
 		 public const ushort GM_SynRoomData = 1042;
 		 public const ushort Actor_OnlineState = 1043;
 		 public const ushort GS_SynActorId = 1044;
-		 public const ushort RU_Login = 1045;
-		 public const ushort UR_Login = 1046;
-		 public const ushort RU_Register = 1047;
-		 public const ushort UR_Register = 1048;
-		 public const ushort SU_GetUserInfo = 1049;
-		 public const ushort US_GetUserInfo = 1050;
+		 public const ushort RW_Login = 1045;
+		 public const ushort WR_Login = 1046;
+		 public const ushort RW_Register = 1047;
+		 public const ushort WR_Register = 1048;
+		 public const ushort SW_GetUserInfo = 1049;
+		 public const ushort WS_GetUserInfo = 1050;
+		 public const ushort SW_GetGameCfgList = 1051;
+		 public const ushort WS_GetGameCfgList = 1052;
 	}
 }

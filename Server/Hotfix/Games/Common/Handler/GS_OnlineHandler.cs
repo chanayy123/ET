@@ -14,7 +14,7 @@ namespace ETHotfix
         }
     }
 
-    [MessageHandler(AppType.User)]
+    [MessageHandler(AppType.World)]
     class GS_OnlineUserHandler : AMHandler<GS_Online>
     {
         protected override async ETTask Run(Session session, GS_Online message)
@@ -37,6 +37,15 @@ namespace ETHotfix
             {
                 user.Online = true;
                 user.GateSessionId = message.GateSessionId;
+            }
+            //玩家上线,主动推送玩家数据
+            var msg = WorldFactory.CreateMsgSC_PlayerData(user, GameConfigComponent.Instance.cfgList);
+            NetInnerHelper.SendActorMsg(msg);
+            WorldFactory.RecycleMsg(msg);
+            //如果玩家离线时在游戏中,同步更新网关用户actorid
+            if(user.ActorId != 0)
+            {
+                GameHelper.SynActorId(user.GateSessionId, message.UserId, user.ActorId, user.GameId, user.RoomId);
             }
         }
     }

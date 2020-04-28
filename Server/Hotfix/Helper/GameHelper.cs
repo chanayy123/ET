@@ -43,10 +43,19 @@ namespace ETHotfix
         public static void SynActorId(long gateSessionId, int userId, long actorId,int gameId=0,int roomId=0)
         {
             GS_SynActorId msg = GameFactory.CreateMsgGS_SynActorId(userId, actorId, gameId, roomId);
-            var session = NetInnerHelper.GetSessionByAppId(IdGenerater.GetAppId(gateSessionId));
-            session?.Send(msg);
-            session = NetInnerHelper.GetSessionByAppType(AppType.User);
-            session?.Send(msg);
+            var startCfg = StartConfigComponent.Instance.StartConfig;
+            if (startCfg.AppType == AppType.AllServer)
+            {
+                var innerSession = NetInnerHelper.GetSessionByCfg(startCfg);
+                innerSession.Send(msg);
+            }
+            else
+            {
+                var session = NetInnerHelper.GetSessionByAppId(IdGenerater.GetAppId(gateSessionId));
+                session?.Send(msg);
+                session = NetInnerHelper.GetSessionByAppType(AppType.World);
+                session?.Send(msg);
+            }
             GameFactory.RecycleMsg(msg);
         }
     }

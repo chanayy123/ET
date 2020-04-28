@@ -9,18 +9,15 @@ namespace ETHotfix
     {
         protected override async ETTask Run(Session session, SG_KickUser request, GS_KickUser response, Action reply)
         {
-            var user = Game.Scene.GetComponent<GateUserComponent>().Get(request.UserId);
-            if(user != null)
+            var gateUser = Game.Scene.GetComponent<GateUserComponent>().Get(request.UserId);
+            if(gateUser != null)
             {
-                var ses = user.GetComponent<GateUserSessionComponent>().Session;
-                SC_KickUser msg = SimplePool.Instance.Fetch<SC_KickUser>();
-                msg.Error = (int)OpRetCode.KickOtherLogin;
-                msg.Message = "你在别处登陆,已被强制踢出!";
-                ses.Send(msg);
-                SimplePool.Instance.Recycle(msg);
-                ses.Dispose();
+                SC_KickUser msg = GateFactory.CreateMsgSC_KickUser((int)OpRetCode.KickOtherLogin, "你在别处登陆,已被强制踢出!");
+                gateUser.Session.Send(msg);
+                GateFactory.RecycleMsg(msg);
+                gateUser.Session.Dispose();
                 reply();
-                Log.Debug($"{user.UserId} 异地登陆强制踢出");
+                Log.Debug($"{gateUser.UserId} 异地登陆强制踢出");
                 await ETTask.CompletedTask;
             }
             else

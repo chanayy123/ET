@@ -17,9 +17,16 @@ namespace ETHotfix
             var gameId = roomId / BaseId;
             var mode = (roomId - gameId * BaseId) / SubId;
             var temId = gameId * BaseId+mode*SubId;
-            var cfg = Game.Scene.GetComponent<ConfigComponent>().Get(typeof(RoomConfig), temId);
-            return cfg as RoomConfig;
+            Game.Scene.GetComponent<MatchRoomComponent>().GetRoomCfg(temId, out RoomConfig cfg);
+            return cfg;
 		}
+
+        public static RoomConfig GetRoomCfg(int gameId,int mode)
+        {
+            var temId = gameId * BaseId + mode * SubId;
+            Game.Scene.GetComponent<MatchRoomComponent>().GetRoomCfg(temId, out RoomConfig cfg);
+            return cfg;
+        }
 
         public static int GetGameId(int roomId)
         {

@@ -21,6 +21,10 @@ enum OpRetCode
 	Verify_Key_Invalid = 200016;
 	GateUser_Not_Exist = 200017;
 	Kick_Other_Login = 200018;
+	CreateRoom_Already_IN=200019;
+	Match_Is_Closed = 200020;
+	Room_Is_Closed = 200021;
+	
 }
 
 enum GameId
@@ -86,8 +90,7 @@ message SC_VerifyKey //IResponse
 {
 	int32 RpcId=1;
 	int32 Error=2;
-	int32 UserId=3;
-	string Message = 4;
+	string Message = 3;
 }
 
 message UserInfo //IMessage
@@ -98,7 +101,26 @@ message UserInfo //IMessage
 	int32 Head=4;
 	string Name=5;
 }
+//游戏配置:控制游戏是否开启,房间模式等
+message GameConfig //IMessage
+{
+	int64 HallId = 1;
+	int32 GameId = 2;
+	int32 GameMode = 3;
+	int32 State = 4;
+	int32 RoomType = 5;
+	int32 MinLimitCoin = 6;
+	int32 MaxLimitCoin = 7;
+}
 
+message SC_PlayerData //IActorMessage
+{
+	int32 GameId = 1;
+	int32 RoomId = 2;
+	int64 ActorId = 3;
+	UserInfo UserInfo = 4;
+	repeated GameConfig GameCfgList = 5;
+}
 
 message CS_UserInfo //IRequest
 {
@@ -144,6 +166,22 @@ message SC_RoomList //IResponse
 	repeated MatchRoom List=5;
 }
 
+message CS_CreateRoomList //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 UserId = 2;
+	int64 GateSessionId = 3;
+}
+
+message SC_CreateRoomList //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+	repeated MatchRoom List=4;
+}
+
+
 message CS_EnterRoom //IUserRequest
 {
 	int32 RpcId = 1;
@@ -167,6 +205,39 @@ message CS_LeaveRoom //IActorRequest
 }
 
 message SC_LeaveRoom //IActorResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+}
+
+message CS_CreateRoom //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 UserId =2;
+	int64 GateSessionId = 3;
+	int32 GameId = 4;
+	int32 GameMode = 5;
+	string Params = 7; //自定义参数
+}
+
+message SC_CreateRoom //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+	int32 RoomId = 4;
+}
+
+message CS_DisbandRoom //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 UserId =2;
+	int64 GateSessionId = 3;
+	int32 RoomId = 4;
+}
+
+message SC_DisbandRoom //IResponse
 {
 	int32 RpcId = 1;
 	int32 Error=2;

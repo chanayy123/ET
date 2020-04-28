@@ -15,14 +15,14 @@ namespace ETHotfix
 
         public static GateUser Get(this GateUserComponent self, int userId)
         {
-            bool flag = self.userDic.TryGetValue(userId, out GateUser user);
-            if (flag) return user;
-            else return null;
+            self.userDic.TryGetValue(userId, out GateUser user);
+            return user;
         }
 
-        public static bool Remove(this  GateUserComponent self, int userId)
+        public static void Remove(this  GateUserComponent self, int userId)
         {
-            return self.userDic.Remove(userId);
+             self.userDic.Remove(userId,out GateUser user);
+            user?.Dispose();
         }
 
         public static int Count(this GateUserComponent self)

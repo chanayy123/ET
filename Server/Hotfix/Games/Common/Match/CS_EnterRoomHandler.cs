@@ -28,9 +28,9 @@ namespace ETHotfix
                     NetInnerHelper.SendMsgByAcotrId(matchRoom.RoomActorId, msg);
                 }
                 roomMgr.EnterRoom(matchPlayer);
-                reply();
                 gamePlayer.Dispose();
                 MatchFactory.RecycleMsg(msg);
+                reply();
             }
             else
             {

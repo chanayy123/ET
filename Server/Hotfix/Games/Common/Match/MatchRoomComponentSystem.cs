@@ -24,25 +24,59 @@ namespace ETHotfix
         }
     }
 
-
+    /// <summary>
+    /// 初始化:从数据库取出所有玩家创建玩家数据,然后创建匹配房间
+    /// </summary>
     [ObjectSystem]
-    public class MatchRoomComponentAwakeSystem : AwakeSystem<MatchRoomComponent>
+    public class MatchRoomComponentAwakeSystem3 : AwakeSystem<MatchRoomComponent>
     {
-        public override void Awake(MatchRoomComponent self)
+        public override async void Awake(MatchRoomComponent self)
         {
+            var dbProxy = Game.Scene.GetComponent<DBProxyComponent>();
+            var list = await dbProxy.Query<UserRoom>((u) => true);
+            list.ForEach((room) =>
+            {
+                self.AddUserRoom(room as UserRoom);
+            });
+            foreach (var item in self.userCreateRoomList)
+            {
+                var matchRoom = MatchFactory.CreateCardModeRoom(item.RoomId, item.GameId, item.GameMode);
+                self.AddMatchRoom(item.RoomId, matchRoom);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 初始化列表模式房间预生成
+    /// </summary>
+    [ObjectSystem]
+    public class MatchRoomComponentStartSystem3 : StartSystem<MatchRoomComponent>
+    {
+        public override async void Start(MatchRoomComponent self)
+        {           
             IConfig[] list = Game.Scene.GetComponent<ConfigComponent>().GetAll(typeof(RoomConfig));
             //缓存房间配置
             foreach (var item in list)
             {
                 self.roomConfigDic.Add(item.Id, item as RoomConfig);
             }
+            //缓存游戏配置
+            List<GameConfig> cfgList = await WorldHelper.GetGameCfgList(3);
+            if(cfgList != null)
+            {
+                cfgList.ForEach((cfg) =>
+                {
+                    self.gameConfigDic.Add(cfg.HallId, cfg);
+                });
+            }
             //房间列表模式:预生成房间列表
             for (int i = 0; i < list.Length; ++i)
             {
                 var cfg = list[i] as RoomConfig;
+                if (!self.IsHallOpen(cfg.Id)) continue; //如果游戏没开启就不用创建房间
                 for (var j = 0; j < MatchFactory.DEFAULT_LISTMODE_COUNT; ++j)
                 {
-                    var room = MatchFactory.CreateListModeRoom((int)cfg.Id + j, cfg);
+                    var room = MatchFactory.CreateListModeRoom((int)cfg.Id + j+1, cfg);
                     self.AddListModeRoom(cfg.Id, room);
                 }
             }
@@ -88,34 +122,31 @@ namespace ETHotfix
                     var matchCount = 2;// RandomHelper.RandomNumber(cfg.MinLimitCoin, cfg.MaxLimitCoin + 1);
                     while (item.Value.Count >= matchCount)
                     {
-                        mpList.Clear();
-                        gpList.Clear();
+                        //凑成一桌,分配房间
+                        var room = self.GetMatchModeRoom((int)item.Key);
                         for (var i = 0; i < matchCount; ++i)
                         {
                             var p = item.Value[i];
                             mpList.Add(p);
+                            self.userMatchDic.Remove(p.UserId); //移除匹配玩家对象
                         }
-                        item.Value.RemoveRange(0, matchCount);
-                        //凑成一桌,分配房间
-                        var room = self.GetMatchModeRoom((int)item.Key);
+                        item.Value.RemoveRange(0, matchCount);//移除匹配队列玩家对象
                         //更新matchplayer的roomid字段,同时生成gameplayer
                         foreach (var mp in mpList)
                         {
                             mp.RoomId = room.RoomId;
-                            self.userMatchDic.Remove(mp.UserId); //移除匹配队列玩家对象
                             var gp = GameFactory.CreatePlayerData(mp, userMgr.Get(mp.UserId));
                             gpList.Add(gp);
                         }
                         var gameSession = MatchHelper.RandomGameSession;
-                        gameSession.Send(new MG_MatchRoom()
-                        {
-                            GameId = cfg.GameId,
-                            PlayerList = gpList,
-                            RoomId = room.RoomId
-                        });
+                        MG_MatchRoom msg = MatchFactory.CreateMsgMG_MatchRoom(cfg.GameId, room.RoomId, gpList);
+                        gameSession.Send(msg);
+                        self.EnterRoom(mpList);
                         //发送消息完毕,回收gameplayer对象
                         gpList.ForEach((data) => data.Dispose());
-                        self.EnterRoom(mpList);
+                        gpList.Clear();
+                        mpList.Clear();
+                        MatchFactory.RecycleMsg(msg);
                     }
                 }
             }

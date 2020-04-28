@@ -82,8 +82,9 @@ namespace App
 					case AppType.Location:
 						Game.Scene.AddComponent<LocationComponent>();
 						break;
-                    case AppType.User:
+                    case AppType.World:
                         Game.Scene.AddComponent<UserComponent>();
+                        Game.Scene.AddComponent<GameConfigComponent>();
                         break;
                     case AppType.Match:
                         Game.Scene.AddComponent<MatchRoomComponent>();
@@ -107,6 +108,7 @@ namespace App
                         Game.Scene.AddComponent<GateUserComponent>();
                         //user server
                         Game.Scene.AddComponent<UserComponent>();
+                        Game.Scene.AddComponent<GameConfigComponent>();
                         //房间匹配服
                         Game.Scene.AddComponent<MatchRoomComponent>();
                         //游戏逻辑服
