@@ -10,6 +10,5 @@ namespace ETModel
     /// 游戏玩家基类
     /// </summary>
     public abstract class AGamePlayer : Entity {
-        public virtual GamePlayerData PlayerData { get; set; }
     }
 }

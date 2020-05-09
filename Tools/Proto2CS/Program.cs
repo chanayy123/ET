@@ -32,6 +32,7 @@ namespace ETTools
             ProcessHelper.Run(protoc, "--csharp_out="+ clientMessagePath + " --proto_path=../ OuterMessage.proto", waitExit: true);
             //ProcessHelper.Run(protoc, "--csharp_out="+ hotfixMessagePath + " --proto_path=../ HotfixMessage.proto", waitExit: true);
             ProcessHelper.Run(protoc, "--csharp_out="+ clientMessagePath + " --proto_path=../ CommonMessage.proto", waitExit: true);
+            ProcessHelper.Run(protoc, "--csharp_out=" + clientMessagePath + " --proto_path=../ GameBullMessage.proto", waitExit: true);
 
             // InnerMessage.proto生成cs代码
             InnerProto2CS.Proto2CS(); 
@@ -40,6 +41,7 @@ namespace ETTools
 
             //Proto2CS("ETHotfix", "HotfixMessage.proto", hotfixMessagePath, "HotfixOpcode", 10000);
             Proto2CS("ETModel", "CommonMessage.proto", clientMessagePath, "CommonOpcode", 20000);
+            Proto2CS("ETModel", "GameBullMessage.proto", clientMessagePath, "GameBullOpcode", 30000);
 
             Console.WriteLine("proto2cs succeed!");
         }

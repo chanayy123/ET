@@ -60,41 +60,46 @@ namespace ETHotfix
             return room;
         }
 
-        public static MatchRoom CreateCardModeRoom(int roomId,int gameId,int mode)
+        public static MatchRoom CreateCardModeRoom(int roomId,int gameId,int mode,int hallType,string otherParams="")
         {
-            var cfg = RoomHelper.GetRoomCfg(gameId,mode);
+            var cfg = RoomHelper.GetRoomCfg(gameId,mode,hallType);
             var room = ComponentFactory.Create<MatchRoom,int,RoomConfig>(roomId,cfg);
             room.RoomType = RoomType.Card;
             return room;
         }
 
-        public static UserRoom CreateUserRoom(int roomId,int userId,int gameId, int gameMode,string gameParams)
+        public static UserRoom CreateUserRoom(int roomId,int userId,int gameId, int gameMode,int hallType, string gameParams)
         {
             UserRoom room = ComponentFactory.Create<UserRoom>();
             room.RoomId = roomId;
             room.CreateUserId = userId;
             room.GameId = gameId;
             room.GameMode = gameMode;
+            room.HallType = hallType;
             room.Params = gameParams;
             return room;
         }
 
         
 
-        public static MG_EnterRoom CreateMsgEnterRoom(GamePlayerData player,int roomId,int gameId)
+        public static MG_EnterRoom CreateMsgMG_EnterRoom(GamePlayerData player,int roomId,int gameId,int gameMode,int hallType)
         {
             var msg = SimplePool.Instance.Fetch<MG_EnterRoom>();
-            msg.player = player;
+            msg.Player = player;
             msg.RoomId = roomId;
             msg.GameId = gameId;
+            msg.GameMode = gameMode;
+            msg.HallType = hallType;
             return msg;
         }
 
-        public static MG_MatchRoom CreateMsgMG_MatchRoom(int gameId,int roomId,List<GamePlayerData> list)
+        public static MG_MatchRoom CreateMsgMG_MatchRoom(int roomId, int gameId,int gameMode,int hallType, List<GamePlayerData> list)
         {
             MG_MatchRoom msg = SimplePool.Instance.Fetch<MG_MatchRoom>();
             msg.GameId = gameId;
             msg.RoomId = roomId;
+            msg.GameMode = gameMode;
+            msg.HallType = hallType;
             msg.PlayerList = list;
             return msg;
         }

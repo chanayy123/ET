@@ -9,14 +9,14 @@ namespace ETHotfix
     public static class GameRoomComponentExtensions
     {
 
-        public static AGameRoom CreateRoom<T>(this GameRoomComponent self, int roomId) where T:AGameRoom
+        public static AGameRoom CreateRoom<T>(this GameRoomComponent self, int roomId,RoomConfig cfg) where T:AGameRoom
         {
             if (self.roomsDic.ContainsKey(roomId))
             {
                 Log.Warning($"创建房间: {roomId}已存在!");
                 return null;
             }
-            var room = ComponentFactory.Create<T, int>(roomId);
+            var room = ComponentFactory.Create<T, int,RoomConfig>(roomId,cfg);
             self.roomsDic.Add(roomId, room);
             return room;
         }

@@ -10,7 +10,6 @@ namespace ETModel
     /// 游戏房间主逻辑基类
     /// </summary>
     public abstract class AGameRoom : Entity {
-        public virtual GameRoomData RoomData { get; set; }
     }
 
 }

@@ -32,6 +32,7 @@ namespace ETModel {
     CreateRoomAlreadyIn = 200019,
     MatchIsClosed = 200020,
     RoomIsClosed = 200021,
+    RoomConfigError = 200022,
   }
 
   public enum GameId {
@@ -2318,6 +2319,14 @@ namespace ETModel {
       }
     }
 
+    private int hallType_;
+    public int HallType {
+      get { return hallType_; }
+      set {
+        hallType_ = value;
+      }
+    }
+
     private string params_ = "";
     /// <summary>
     ///自定义参数
@@ -2350,6 +2359,10 @@ namespace ETModel {
         output.WriteRawTag(40);
         output.WriteInt32(GameMode);
       }
+      if (HallType != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(HallType);
+      }
       if (Params.Length != 0) {
         output.WriteRawTag(58);
         output.WriteString(Params);
@@ -2373,6 +2386,9 @@ namespace ETModel {
       if (GameMode != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(GameMode);
       }
+      if (HallType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(HallType);
+      }
       if (Params.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Params);
       }
@@ -2385,6 +2401,7 @@ namespace ETModel {
       gateSessionId_ = 0;
       gameId_ = 0;
       gameMode_ = 0;
+      hallType_ = 0;
       params_ = "";
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -2410,6 +2427,10 @@ namespace ETModel {
           }
           case 40: {
             GameMode = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            HallType = input.ReadInt32();
             break;
           }
           case 58: {
@@ -2745,11 +2766,11 @@ namespace ETModel {
       }
     }
 
-    private int seatIndex_;
-    public int SeatIndex {
-      get { return seatIndex_; }
+    private int pos_;
+    public int Pos {
+      get { return pos_; }
       set {
-        seatIndex_ = value;
+        pos_ = value;
       }
     }
 
@@ -2782,9 +2803,9 @@ namespace ETModel {
         output.WriteRawTag(32);
         output.WriteInt32(Coin);
       }
-      if (SeatIndex != 0) {
+      if (Pos != 0) {
         output.WriteRawTag(40);
-        output.WriteInt32(SeatIndex);
+        output.WriteInt32(Pos);
       }
       if (Name.Length != 0) {
         output.WriteRawTag(50);
@@ -2807,8 +2828,8 @@ namespace ETModel {
       if (Coin != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Coin);
       }
-      if (SeatIndex != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SeatIndex);
+      if (Pos != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Pos);
       }
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
@@ -2823,7 +2844,7 @@ namespace ETModel {
       userId_ = 0;
       head_ = 0;
       coin_ = 0;
-      seatIndex_ = 0;
+      pos_ = 0;
       name_ = "";
       online_ = 0;
       uint tag;
@@ -2845,7 +2866,7 @@ namespace ETModel {
             break;
           }
           case 40: {
-            SeatIndex = input.ReadInt32();
+            Pos = input.ReadInt32();
             break;
           }
           case 50: {
@@ -2882,12 +2903,36 @@ namespace ETModel {
       }
     }
 
-    private static readonly pb::FieldCodec<global::ETModel.GamePlayerData> _repeated_playerList_codec
-        = pb::FieldCodec.ForMessage(26, global::ETModel.GamePlayerData.Parser);
-    private pbc::RepeatedField<global::ETModel.GamePlayerData> playerList_ = new pbc::RepeatedField<global::ETModel.GamePlayerData>();
-    public pbc::RepeatedField<global::ETModel.GamePlayerData> PlayerList {
-      get { return playerList_; }
-      set { playerList_ = value; }
+    private int roomType_;
+    public int RoomType {
+      get { return roomType_; }
+      set {
+        roomType_ = value;
+      }
+    }
+
+    private int gameId_;
+    public int GameId {
+      get { return gameId_; }
+      set {
+        gameId_ = value;
+      }
+    }
+
+    private int gameMode_;
+    public int GameMode {
+      get { return gameMode_; }
+      set {
+        gameMode_ = value;
+      }
+    }
+
+    private int hallType_;
+    public int HallType {
+      get { return hallType_; }
+      set {
+        hallType_ = value;
+      }
     }
 
     public void WriteTo(pb::CodedOutputStream output) {
@@ -2899,7 +2944,22 @@ namespace ETModel {
         output.WriteRawTag(16);
         output.WriteInt32(State);
       }
-      playerList_.WriteTo(output, _repeated_playerList_codec);
+      if (RoomType != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(RoomType);
+      }
+      if (GameId != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(GameId);
+      }
+      if (GameMode != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(GameMode);
+      }
+      if (HallType != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(HallType);
+      }
     }
 
     public int CalculateSize() {
@@ -2910,15 +2970,28 @@ namespace ETModel {
       if (State != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(State);
       }
-      size += playerList_.CalculateSize(_repeated_playerList_codec);
+      if (RoomType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomType);
+      }
+      if (GameId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(GameId);
+      }
+      if (GameMode != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(GameMode);
+      }
+      if (HallType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(HallType);
+      }
       return size;
     }
 
     public void MergeFrom(pb::CodedInputStream input) {
       roomId_ = 0;
       state_ = 0;
-      for (int i = 0; i < playerList_.Count; i++) { MessagePool.Instance.Recycle(playerList_[i]); }
-      playerList_.Clear();
+      roomType_ = 0;
+      gameId_ = 0;
+      gameMode_ = 0;
+      hallType_ = 0;
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -2933,8 +3006,20 @@ namespace ETModel {
             State = input.ReadInt32();
             break;
           }
-          case 26: {
-            playerList_.AddEntriesFrom(input, _repeated_playerList_codec);
+          case 24: {
+            RoomType = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            GameId = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            GameMode = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            HallType = input.ReadInt32();
             break;
           }
         }
@@ -3011,74 +3096,6 @@ namespace ETModel {
 
   }
 
-  public partial class SC_PlayerEnter : pb::IMessage {
-    private static readonly pb::MessageParser<SC_PlayerEnter> _parser = new pb::MessageParser<SC_PlayerEnter>(() => (SC_PlayerEnter)MessagePool.Instance.Fetch(typeof(SC_PlayerEnter)));
-    public static pb::MessageParser<SC_PlayerEnter> Parser { get { return _parser; } }
-
-    private long actorId_;
-    public long ActorId {
-      get { return actorId_; }
-      set {
-        actorId_ = value;
-      }
-    }
-
-    private global::ETModel.GamePlayerData player_;
-    public global::ETModel.GamePlayerData Player {
-      get { return player_; }
-      set {
-        player_ = value;
-      }
-    }
-
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (ActorId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(ActorId);
-      }
-      if (player_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Player);
-      }
-    }
-
-    public int CalculateSize() {
-      int size = 0;
-      if (ActorId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(ActorId);
-      }
-      if (player_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Player);
-      }
-      return size;
-    }
-
-    public void MergeFrom(pb::CodedInputStream input) {
-      actorId_ = 0;
-      if (player_ != null) MessagePool.Instance.Recycle(player_); player_ = null;
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            input.SkipLastField();
-            break;
-          case 8: {
-            ActorId = input.ReadInt64();
-            break;
-          }
-          case 18: {
-            if (player_ == null) {
-              player_ = new global::ETModel.GamePlayerData();
-            }
-            input.ReadMessage(player_);
-            break;
-          }
-        }
-      }
-    }
-
-  }
-
   public partial class SC_PlayerLeave : pb::IMessage {
     private static readonly pb::MessageParser<SC_PlayerLeave> _parser = new pb::MessageParser<SC_PlayerLeave>(() => (SC_PlayerLeave)MessagePool.Instance.Fetch(typeof(SC_PlayerLeave)));
     public static pb::MessageParser<SC_PlayerLeave> Parser { get { return _parser; } }
@@ -3099,6 +3116,14 @@ namespace ETModel {
       }
     }
 
+    private int pos_;
+    public int Pos {
+      get { return pos_; }
+      set {
+        pos_ = value;
+      }
+    }
+
     public void WriteTo(pb::CodedOutputStream output) {
       if (ActorId != 0L) {
         output.WriteRawTag(8);
@@ -3107,6 +3132,10 @@ namespace ETModel {
       if (UserId != 0) {
         output.WriteRawTag(16);
         output.WriteInt32(UserId);
+      }
+      if (Pos != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Pos);
       }
     }
 
@@ -3118,12 +3147,16 @@ namespace ETModel {
       if (UserId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(UserId);
       }
+      if (Pos != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Pos);
+      }
       return size;
     }
 
     public void MergeFrom(pb::CodedInputStream input) {
       actorId_ = 0;
       userId_ = 0;
+      pos_ = 0;
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -3136,6 +3169,10 @@ namespace ETModel {
           }
           case 16: {
             UserId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            Pos = input.ReadInt32();
             break;
           }
         }

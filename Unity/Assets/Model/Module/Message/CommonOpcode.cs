@@ -92,9 +92,6 @@ namespace ETModel
 	[Message(CommonOpcode.SC_GameRoomInfo)]
 	public partial class SC_GameRoomInfo : IActorMessage {}
 
-	[Message(CommonOpcode.SC_PlayerEnter)]
-	public partial class SC_PlayerEnter : IActorMessage {}
-
 	[Message(CommonOpcode.SC_PlayerLeave)]
 	public partial class SC_PlayerLeave : IActorMessage {}
 
@@ -148,12 +145,11 @@ namespace ETModel
 		 public const ushort GamePlayerData = 20028;
 		 public const ushort GameRoomData = 20029;
 		 public const ushort SC_GameRoomInfo = 20030;
-		 public const ushort SC_PlayerEnter = 20031;
-		 public const ushort SC_PlayerLeave = 20032;
-		 public const ushort SC_RoomListChanged = 20033;
-		 public const ushort CS_EnterScene = 20034;
-		 public const ushort SC_EnterScene = 20035;
-		 public const ushort CS_LeaveScene = 20036;
-		 public const ushort SC_LeaveScene = 20037;
+		 public const ushort SC_PlayerLeave = 20031;
+		 public const ushort SC_RoomListChanged = 20032;
+		 public const ushort CS_EnterScene = 20033;
+		 public const ushort SC_EnterScene = 20034;
+		 public const ushort CS_LeaveScene = 20035;
+		 public const ushort SC_LeaveScene = 20036;
 	}
 }

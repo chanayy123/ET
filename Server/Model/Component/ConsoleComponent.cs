@@ -37,7 +37,12 @@ namespace ETModel
                         Console.Write($"{this.Mode}> ");
                         return Console.In.ReadLine();
                     }, this.CancellationTokenSource.Token);
-                    
+                    if(line == null)
+                    {
+                        var cfg = StartConfigComponent.Instance.StartConfig;
+                        Log.Warning($"{cfg.AppId}-{cfg.AppType}===>标准输入获取输入为空,禁用ConsoleComponent!");
+                        return;
+                    }
                     line = line.Trim();
 
                     if (this.Mode != "")

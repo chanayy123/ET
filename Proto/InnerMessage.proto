@@ -286,7 +286,10 @@ message MG_EnterRoom // IMessage
 {
 	int32 RoomId = 2;
 	int32 GameId = 3;
-	GamePlayerData player = 4;
+	int32 GameMode = 4;
+	int32 HallType = 5;
+	int32 RoomType = 6;
+	GamePlayerData Player = 7;
 }
 
 //game->match
@@ -301,7 +304,10 @@ message MG_MatchRoom // IMessage
 {
 	int32 RoomId = 2;
 	int32 GameId = 3;
-	repeated GamePlayerData PlayerList = 4;
+	int32 GameMode = 4;
+	int32 HallType = 5;
+	int32 RoomType = 6;
+	repeated GamePlayerData PlayerList = 7;
 }
 
 //game->match

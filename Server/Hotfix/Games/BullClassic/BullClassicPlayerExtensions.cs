@@ -6,11 +6,12 @@ namespace ETHotfix
 {
     public static class BullClassicPlayerExtensions
     {
-        public static void Awake(this BullClassicPlayer self,GamePlayerData data)
+        public static void Awake(this BullClassicPlayer self, BullPlayerData data)
         {
             self.PlayerData = data;
             self.PlayerData.Parent = self;
         }
+
     }
 
 

@@ -6,13 +6,10 @@ namespace ETHotfix
 {
     public static class BullClassicRoomExtensions
     {
-        public static void Awake(this BullClassicRoom self, GameRoomData data)
+        public static void Awake(this BullClassicRoom self, int roomId, RoomConfig cfg)
         {
-            self.RoomData = data;
-        }
-        public static void Awake(this BullClassicRoom self, int roomId)
-        {
-            self.RoomData = BullClassicFactory.CreateRoomData(roomId, 0);
+            self.RoomData = BullClassicFactory.CreateRoomData(roomId,cfg);
+            self.Cfg = cfg;
         }
 
         public static void EnterRoom(this BullClassicRoom self, List<BullClassicPlayer> playerList)
@@ -39,18 +36,30 @@ namespace ETHotfix
             var state = self.playerDic.Keys.Count == 0 ? RoomState.IDLE : RoomState.WAIT;
             self.ChangeState(state);
             self.BroadcastPlayerLeave(userId);
-            GameHelper.SynLeaveRoom(self.RoomData.RoomId, userId);
+            GameHelper.SynLeaveRoom(self.RoomId, userId);
+        }
+
+        public static OpRetCode CanLeaveRoom(this BullClassicRoom self, int userId)
+        {
+            if(self.State != (int)RoomState.GAMING)
+            {
+                return OpRetCode.Success;
+            }
+            else
+            {
+                return OpRetCode.RoomAlreadyGaming;
+            }
+
         }
 
         public static void AddPlayer(this BullClassicRoom self, BullClassicPlayer player)
         {
             player.Parent = self; //方便通过玩家对象获取房间对象
-            var playerData = player.PlayerData;
-            self.RoomData.PlayerList.Add(playerData);
-            self.playerDic.Add(playerData.UserId, player);
+            self.RoomData.PlayerList.Add(player.PlayerData);
+            self.playerDic.Add(player.UserId, player);
             //同步玩家actorId方便以后通信
             player.AddComponent<MailBoxComponent>();
-            GameHelper.SynActorId(player.PlayerData.GateSessionId, player.PlayerData.UserId, player.InstanceId,(int)GameId.BullClassic,self.RoomData.RoomId);
+            GameHelper.SynActorId(player.GateSessionId, player.UserId, player.InstanceId,(int)GameId.BullClassic,self.RoomId);
         }
 
         public static void RemovePlayer(this BullClassicRoom self, int userId)
@@ -63,17 +72,17 @@ namespace ETHotfix
             }
             self.RoomData.PlayerList.Remove(player.PlayerData);
             //离开游戏房间重置玩家actorid
-            GameHelper.SynActorId(player.PlayerData.GateSessionId, player.PlayerData.UserId, 0);
+            GameHelper.SynActorId(player.GateSessionId, player.UserId, 0);
             player.Dispose();
         }
 
         private static void ChangeState(this BullClassicRoom self, RoomState state)
         {
             var rs = (int)state;
-            if (self.RoomData.State != rs)
+            if (self.State != rs)
             {
-                self.RoomData.State = rs;
-                GameHelper.SynRoomData(self.RoomData.RoomId, rs,self.InstanceId);
+                self.State = rs;
+                GameHelper.SynRoomData(self.RoomId, rs,self.InstanceId);
             }
         }
 
@@ -81,11 +90,10 @@ namespace ETHotfix
         {
             foreach (var item in self.playerDic)
             {
-                NetInnerHelper.SendActorMsg(new SC_GameRoomInfo()
-                {
-                    ActorId = item.Value.PlayerData.GateSessionId,
-                    RoomInfo = self.RoomData
-                });
+                var bullPlayer = item.Value;
+                SC_BullRoomInfo msg = BullClassicFactory.CreateMsgSC_BullRoomInfo(bullPlayer.GateSessionId, self.RoomData);
+                NetInnerHelper.SendActorMsg(msg);
+                BullClassicFactory.RecycleMsg(msg);
             }
         }
 
@@ -93,21 +101,18 @@ namespace ETHotfix
         {
             foreach (var item in self.playerDic)
             {
-                if (item.Key != player.PlayerData.UserId)
+                if (item.Key != player.UserId)
                 {
-                    NetInnerHelper.SendActorMsg( new SC_PlayerEnter()
-                    {
-                        ActorId = item.Value.PlayerData.GateSessionId,
-                        Player = player.PlayerData
-                    });
+                    var bullPlayer = item.Value;
+                    SC_BullPlayerEnter msg = BullClassicFactory.CreateMsgSC_BullPlayerEnter(bullPlayer.GateSessionId, player.PlayerData);
+                    NetInnerHelper.SendActorMsg(msg);
+                    BullClassicFactory.RecycleMsg(msg);
                 }
                 else
                 {
-                    NetInnerHelper.SendActorMsg( new SC_GameRoomInfo()
-                    {
-                        ActorId = player.PlayerData.GateSessionId,
-                        RoomInfo = self.RoomData
-                    });
+                    SC_BullRoomInfo msg = BullClassicFactory.CreateMsgSC_BullRoomInfo(player.GateSessionId, self.RoomData);
+                    NetInnerHelper.SendActorMsg(msg);
+                    BullClassicFactory.RecycleMsg(msg);
                 }
             }
         }
@@ -118,12 +123,10 @@ namespace ETHotfix
             {
                 if (item.Key != userId)
                 {
-                    NetInnerHelper.SendActorMsg( new SC_PlayerLeave()
-                    {
-                        ActorId = item.Value.PlayerData.GateSessionId,
-                        UserId = userId
-                    });
-
+                    var bullPlayer = item.Value;
+                    SC_PlayerLeave msg = GameFactory.CreateMsgSC_PlayerLeave(bullPlayer.GateSessionId, userId, 0);
+                    NetInnerHelper.SendActorMsg(msg);
+                    GameFactory.RecycleMsg(msg);
                 }
             }
 

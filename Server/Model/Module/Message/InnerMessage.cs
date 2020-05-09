@@ -440,7 +440,13 @@ namespace ETModel
 
 		public int GameId { get; set; }
 
-		public GamePlayerData player { get; set; }
+		public int GameMode { get; set; }
+
+		public int HallType { get; set; }
+
+		public int RoomType { get; set; }
+
+		public GamePlayerData Player { get; set; }
 
 	}
 
@@ -461,6 +467,12 @@ namespace ETModel
 		public int RoomId { get; set; }
 
 		public int GameId { get; set; }
+
+		public int GameMode { get; set; }
+
+		public int HallType { get; set; }
+
+		public int RoomType { get; set; }
 
 		public List<GamePlayerData> PlayerList = new List<GamePlayerData>();
 

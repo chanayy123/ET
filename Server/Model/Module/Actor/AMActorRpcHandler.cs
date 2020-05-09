@@ -31,7 +31,7 @@ namespace ETModel
                 response.Message = "";
                 void Reply()
 				{
-					// 等回调回来,session可以已经断开了,所以需要判断session InstanceId是否一样
+					// 等回调回来,session可能已经断开了,所以需要判断session InstanceId是否一样
 					if (session.InstanceId != instanceId)
 					{
                         SimplePool.Instance.Recycle(response);

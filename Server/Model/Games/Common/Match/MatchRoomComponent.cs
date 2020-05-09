@@ -10,14 +10,6 @@ namespace ETModel
     public class MatchRoomComponent : Component
     {
         /// <summary>
-        /// 房间配置缓存
-        /// </summary>
-        public readonly Dictionary<long, RoomConfig> roomConfigDic = new Dictionary<long, RoomConfig>();
-        /// <summary>
-        /// 游戏配置缓存
-        /// </summary>
-        public readonly Dictionary<long, GameConfig> gameConfigDic = new Dictionary<long, GameConfig>();
-        /// <summary>
         /// 房间大厅id:列表模式房间列表
         /// </summary>
         public readonly Dictionary<long, List<MatchRoom>> hallListModeDic = new Dictionary<long, List<MatchRoom>>();
@@ -94,21 +86,9 @@ namespace ETModel
             userCreateRoomList.Remove(room);
         }
 
-        public  RoomConfig GetRoomCfg(long hallId,out RoomConfig cfg)
-        {
-            this.roomConfigDic.TryGetValue(hallId, out cfg);
-            return cfg;
-        }
-
         public bool IsRoomExist(int roomId)
         {
             return roomsDic.ContainsKey(roomId);
-        }
-
-        public bool IsHallOpen(long hallId)
-        {
-            gameConfigDic.TryGetValue(hallId, out GameConfig cfg);
-            return cfg != null && cfg.State == 1;
         }
 
     }

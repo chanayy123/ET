@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using MongoDB.Driver;
 
 namespace ETModel
@@ -19,14 +21,16 @@ namespace ETModel
 	{
 		public MongoClient mongoClient;
 		public IMongoDatabase database;
-		
-		public const int taskCount = 32;
+
+        public const int taskCount = 32;
 		public List<DBTaskQueue> tasks = new List<DBTaskQueue>(taskCount);
 
 		public void Awake()
 		{
-			DBConfig config = StartConfigComponent.Instance.StartConfig.GetComponent<DBConfig>();
-			string connectionString = config.ConnectionString;
+            var config = StartConfigComponent.Instance.StartConfig.GetComponent<DBConfig>();
+            var option = Game.Scene.GetComponent<OptionComponent>().Options;
+            string connectionString = this.GetConnectionString(config,option);
+            Log.Debug("mongo connectionString: " + connectionString);
 			mongoClient = new MongoClient(connectionString);
 			this.database = this.mongoClient.GetDatabase(config.DBName);
 			
@@ -37,7 +41,34 @@ namespace ETModel
 			}
 		}
 		
-		public IMongoCollection<ComponentWithId> GetCollection(string name)
+        public string GetConnectionString(DBConfig cfg,Options option=null)
+        {
+            string connectionString = cfg.ConnectionString;
+            if (option !=null && !string.IsNullOrEmpty(option.MongoAlias))
+            { 
+                //暂定原始配置ip都是127.0.0.1
+                IPAddress address;
+                //目前dotnet2.X在linux下域名访问支持不太好,这里手动域名转ip
+                try
+                {
+                    var list = Dns.GetHostAddresses(option.MongoAlias);
+                    if (list != null && list.Length > 0)
+                    {
+                        address = list[0];
+                        connectionString = connectionString.Replace("127.0.0.1", address.ToString());
+                        Log.Debug("mongo连接域名: " + option.MongoAlias + "对应IP列表: " + string.Join<IPAddress>(",", list));
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Error("mongo连接域名无效: " + e.ToString());
+                }
+            }
+            return connectionString;
+        }
+
+
+        public IMongoCollection<ComponentWithId> GetCollection(string name)
 		{
 			return this.database.GetCollection<ComponentWithId>(name);
 		}

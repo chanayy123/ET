@@ -1,0 +1,41 @@
+version: '3'
+services:
+  et-mongo:
+    image: "mongo"
+    #container_name: "et-mongo"
+    volumes:
+     - et-cfgdb:/data/configdb
+     - et-db:/data/db
+    networks:
+       et-network:
+    restart: always   
+    hostname: et-mongo
+    #stdin_open: false
+    command: --auth
+  et-server:
+    build:
+     context: .
+    #image: "et-server1"
+    #container_name: "et-server"
+    command: --appId=1 --appType=Manager --config=../Config/StartConfig/127.0.0.1.txt --mongoAlias=et-mongo
+    #tty: true
+    #entrypoint: bash
+    depends_on:
+      - "et-mongo"
+    volumes:
+     - et-logs:/et-server/Logs/
+    networks:
+       et-network:
+    restart: always
+    hostname: et-server
+    stdin_open: true
+    ports:
+     - "10002:10002"
+     - "10003:10003"
+     - "10004:10004"
+volumes:
+  et-cfgdb:
+  et-db:
+  et-logs:
+networks:
+  et-network:

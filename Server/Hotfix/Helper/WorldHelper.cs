@@ -19,7 +19,7 @@ namespace ETHotfix
         /// </summary>
         /// <param name="tryCount"></param>
         /// <returns></returns>
-        public static async ETTask<List<GameConfig>> GetGameCfgList(int tryCount)
+        public static async ETTask<List<GameConfig>> GetGameCfgList(int tryCount=3)
         {
             while(tryCount-- > 0)
             {

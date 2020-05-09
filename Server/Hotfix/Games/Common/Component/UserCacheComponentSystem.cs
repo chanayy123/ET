@@ -18,7 +18,10 @@ namespace ETHotfix
     {
         public override void Awake(MatchRoomComponent self)
         {
-            Game.Scene.AddComponent<UserCacheComponent>();
+            if(Game.Scene.GetComponent<UserCacheComponent>() == null)
+            {
+                Game.Scene.AddComponent<UserCacheComponent>();
+            }
         }
     }
 }

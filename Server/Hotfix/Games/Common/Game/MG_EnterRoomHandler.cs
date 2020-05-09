@@ -12,12 +12,13 @@ namespace ETHotfix
             var roomMgr = Game.Scene.GetComponent<GameRoomComponent>();
             if(roomMgr.GetRoom(message.RoomId) != null)
             {
-                Game.EventSystem.Run(EventType.GameRoomEnter+message.GameId, message.RoomId, message.player);
+                Game.EventSystem.Run(EventType.GameRoomEnter+message.GameId, message.RoomId, message.Player);
             }
             else
             {
-                Game.EventSystem.Run(EventType.GameRoomCreate+message.GameId, message.RoomId);
-                Game.EventSystem.Run(EventType.GameRoomEnter + message.GameId, message.RoomId, message.player);
+                var roomCfg = RoomHelper.GetRoomCfg(message.GameId, message.GameMode, message.HallType);
+                Game.EventSystem.Run(EventType.GameRoomCreate+message.GameId, message.RoomId, roomCfg);
+                Game.EventSystem.Run(EventType.GameRoomEnter + message.GameId, message.RoomId, message.Player);
             }
             return ETTask.CompletedTask;
         }

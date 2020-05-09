@@ -167,6 +167,8 @@
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\OuterOpcode.cs" Link="Module\Message\OuterOpcode.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\CommonMessage.cs" Link="Module\Message\CommonMessage.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\CommonOpcode.cs" Link="Module\Message\CommonOpcode.cs" />
+    <Compile Include="..\..\Unity\Assets\Model\Module\Message\GameBullMessage.cs" Link="Module\Message\GameBullMessage.cs" />
+     <Compile Include="..\..\Unity\Assets\Model\Module\Message\GameBullOpcode.cs" Link="Module\Message\GameBullOpcode.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\ProtobufHelper.cs" Link="Module\Message\ProtobufHelper.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\ProtobufPacker.cs" Link="Module\Message\ProtobufPacker.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\RpcException.cs" Link="Module\Message\RpcException.cs" />

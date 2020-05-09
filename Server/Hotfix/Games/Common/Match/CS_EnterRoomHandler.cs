@@ -17,7 +17,8 @@ namespace ETHotfix
                 var matchRoom = roomMgr.GetByRoomId(request.RoomId);
                 var matchPlayer = MatchFactory.CreateMatchPlayer(request.UserId, request.RoomId,request.GateSessionId);
                 var gamePlayer = GameFactory.CreatePlayerData(matchPlayer,user);
-                var msg = MatchFactory.CreateMsgEnterRoom(gamePlayer, request.RoomId, matchRoom.Config.GameId);
+                var roomCfg = matchRoom.Config;
+                var msg = MatchFactory.CreateMsgMG_EnterRoom(gamePlayer, request.RoomId, roomCfg.GameId, roomCfg.GameMode, roomCfg.HallType);
                 if(matchRoom.RoomActorId == 0)
                 {
                     var gameSession = MatchHelper.RandomGameSession;

@@ -40,7 +40,7 @@ namespace ETHotfix
             });
             foreach (var item in self.userCreateRoomList)
             {
-                var matchRoom = MatchFactory.CreateCardModeRoom(item.RoomId, item.GameId, item.GameMode);
+                var matchRoom = MatchFactory.CreateCardModeRoom(item.RoomId, item.GameId, item.GameMode,item.HallType,item.Params);
                 self.AddMatchRoom(item.RoomId, matchRoom);
             }
         }
@@ -54,29 +54,17 @@ namespace ETHotfix
     {
         public override async void Start(MatchRoomComponent self)
         {           
-            IConfig[] list = Game.Scene.GetComponent<ConfigComponent>().GetAll(typeof(RoomConfig));
-            //缓存房间配置
-            foreach (var item in list)
-            {
-                self.roomConfigDic.Add(item.Id, item as RoomConfig);
-            }
             //缓存游戏配置
-            List<GameConfig> cfgList = await WorldHelper.GetGameCfgList(3);
-            if(cfgList != null)
-            {
-                cfgList.ForEach((cfg) =>
-                {
-                    self.gameConfigDic.Add(cfg.HallId, cfg);
-                });
-            }
+            await GameConfigCacheComponent.Instance.GetAllAsync();
+            var configDIc = RoomConfigComponent.Instance.roomConfigDic;
             //房间列表模式:预生成房间列表
-            for (int i = 0; i < list.Length; ++i)
+            foreach (var item in configDIc)
             {
-                var cfg = list[i] as RoomConfig;
+                var cfg = item.Value;
                 if (!self.IsHallOpen(cfg.Id)) continue; //如果游戏没开启就不用创建房间
                 for (var j = 0; j < MatchFactory.DEFAULT_LISTMODE_COUNT; ++j)
                 {
-                    var room = MatchFactory.CreateListModeRoom((int)cfg.Id + j+1, cfg);
+                    var room = MatchFactory.CreateListModeRoom((int)cfg.Id + j + 1, cfg);
                     self.AddListModeRoom(cfg.Id, room);
                 }
             }
@@ -118,7 +106,7 @@ namespace ETHotfix
                 await TimerComponent.Instance.WaitAsync(MATCH_ROOM_INTERVAL);
                 foreach (var item in self.matchQueueDic)
                 {
-                    var cfg = self.roomConfigDic[item.Key];
+                    var cfg = RoomConfigComponent.Instance.Get(item.Key);
                     var matchCount = 2;// RandomHelper.RandomNumber(cfg.MinLimitCoin, cfg.MaxLimitCoin + 1);
                     while (item.Value.Count >= matchCount)
                     {
@@ -139,7 +127,7 @@ namespace ETHotfix
                             gpList.Add(gp);
                         }
                         var gameSession = MatchHelper.RandomGameSession;
-                        MG_MatchRoom msg = MatchFactory.CreateMsgMG_MatchRoom(cfg.GameId, room.RoomId, gpList);
+                        MG_MatchRoom msg = MatchFactory.CreateMsgMG_MatchRoom( room.RoomId, cfg.GameId,cfg.GameMode,cfg.HallType, gpList);
                         gameSession.Send(msg);
                         self.EnterRoom(mpList);
                         //发送消息完毕,回收gameplayer对象

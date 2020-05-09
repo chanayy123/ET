@@ -9,12 +9,12 @@ namespace ETHotfix
     /// 1是经典牛牛游戏id
     /// </summary>
     [Event(EventType.GameRoomCreate+"1")]
-    public class BullClassicCreateHandler : AEvent<int>
+    public class BullClassicCreateHandler : AEvent<int,RoomConfig>
     {
-        public override void Run(int roomId)
+        public override void Run(int roomId,RoomConfig cfg)
         {
             var roomMgr = Game.Scene.GetComponent<GameRoomComponent>();
-            var room =  roomMgr.CreateRoom<BullClassicRoom>(roomId);
+            var room =  roomMgr.CreateRoom<BullClassicRoom>(roomId,cfg);
             roomMgr.AddRoom(roomId, room);
             GameHelper.SynRoomData(roomId, 0, room.InstanceId);
         }

@@ -6,28 +6,20 @@ namespace ETHotfix
 {
 
     [ObjectSystem]
-    public class BullClassicPlayerAwakeSystem : AwakeSystem<BullClassicPlayer, GamePlayerData>
+    public class BullClassicPlayerAwakeSystem : AwakeSystem<BullClassicPlayer, BullPlayerData>
     {
-        public override void Awake(BullClassicPlayer self, GamePlayerData data)
+        public override void Awake(BullClassicPlayer self, BullPlayerData data)
         {
             self.Awake(data);
         }
     }
 
     [ObjectSystem]
-    public class BullClassicRoomAwakeSystem : AwakeSystem<BullClassicRoom, GameRoomData>
+    public class BullClassicRoomAwakeSystem2 : AwakeSystem<BullClassicRoom, int,RoomConfig>
     {
-        public override void Awake(BullClassicRoom self, GameRoomData data)
+        public override void Awake(BullClassicRoom self, int roomId, RoomConfig cfg)
         {
-            self.Awake(data);
-        }
-    }
-    [ObjectSystem]
-    public class BullClassicRoomAwakeSystem2 : AwakeSystem<BullClassicRoom, int>
-    {
-        public override void Awake(BullClassicRoom self, int roomId)
-        {
-            self.Awake(roomId);
+            self.Awake(roomId,cfg);
         }
     }
 

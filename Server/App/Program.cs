@@ -11,13 +11,13 @@ namespace App
 		{
 			// 异步方法全部会回掉到主线程
 			SynchronizationContext.SetSynchronizationContext(OneThreadSynchronizationContext.Instance);
-			
 			try
 			{			
 				Game.EventSystem.Add(DLLType.Model, typeof(Game).Assembly);
 				Game.EventSystem.Add(DLLType.Hotfix, DllHelper.GetHotfixAssembly());
 
 				Options options = Game.Scene.AddComponent<OptionComponent, string[]>(args).Options;
+                Log.Debug("进程启动参数: " + options.AppId + " " + options.AppType + " " + options.Config + " " + options.MongoAlias);
 				StartConfig startConfig = Game.Scene.AddComponent<StartConfigComponent, string, int>(options.Config, options.AppId).StartConfig;
 
 				if (!options.AppType.Is(startConfig.AppType))
@@ -25,7 +25,7 @@ namespace App
 					Log.Error("命令行参数apptype与配置不一致");
 					return;
 				}
-
+                Console.Title = $"{startConfig.AppId}--{startConfig.AppType}";
                 IdGenerater.AppId = options.AppId;
 
 				LogManager.Configuration.Variables["appType"] = $"{startConfig.AppType}";
@@ -106,7 +106,7 @@ namespace App
                         //gate server
                         Game.Scene.AddComponent<GateSessionKeyComponent>();
                         Game.Scene.AddComponent<GateUserComponent>();
-                        //user server
+                        //world server
                         Game.Scene.AddComponent<UserComponent>();
                         Game.Scene.AddComponent<GameConfigComponent>();
                         //房间匹配服

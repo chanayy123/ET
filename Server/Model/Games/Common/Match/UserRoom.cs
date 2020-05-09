@@ -14,6 +14,7 @@ namespace ETModel
         public int CreateUserId { get; set; }
         public int GameId { get; set; }
         public int GameMode { get; set; }
+        public int HallType { get; set; }
         public string Params { get; set; }
     }
 

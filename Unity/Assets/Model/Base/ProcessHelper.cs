@@ -37,10 +37,10 @@ namespace ETModel
                     WorkingDirectory = workingDirectory,
                     RedirectStandardOutput = redirectStandardOutput,
                     RedirectStandardError = redirectStandardError,
+                    
                 };
                 
                 Process process = Process.Start(info);
-
                 if (waitExit)
                 {
                     process.WaitForExit();

@@ -6,12 +6,14 @@ namespace ETHotfix
 {
     public static class GameFactory
     {
-        public static GameRoomData CreateRoomData(int roomId, int state)
+        public static GameRoomData CreateRoomData(int roomId, RoomConfig cfg)
         {
             var data = ComponentFactory.Create<GameRoomData>();
             data.RoomId = roomId;
-            data.State = state;
-            data.PlayerList.Clear();
+            data.State = 0;
+            data.GameId = cfg.GameId;
+            data.GameMode = cfg.GameMode;
+            data.HallType = cfg.HallType;
             return data;
         }
 
@@ -50,6 +52,20 @@ namespace ETHotfix
             msg.GameId = gameId;
             msg.RoomId = roomId;
             return msg;
+        }
+
+        public static SC_PlayerLeave CreateMsgSC_PlayerLeave(long gateSessionId, int userId,int pos)
+        {
+            var msg = SimplePool.Instance.Fetch<SC_PlayerLeave>();
+            msg.ActorId = gateSessionId;
+            msg.UserId = userId;
+            msg.Pos = pos;
+            return msg;
+        }
+
+        public static void DisposeComponent(Component com)
+        {
+            com.Dispose();
         }
 
         public static void RecycleMsg(object msg)

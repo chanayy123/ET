@@ -24,6 +24,7 @@ enum OpRetCode
 	CreateRoom_Already_IN=200019;
 	Match_Is_Closed = 200020;
 	Room_Is_Closed = 200021;
+	Room_Config_Error=200022;
 	
 }
 
@@ -218,6 +219,7 @@ message CS_CreateRoom //IUserRequest
 	int64 GateSessionId = 3;
 	int32 GameId = 4;
 	int32 GameMode = 5;
+	int32 HallType = 6;
 	string Params = 7; //自定义参数
 }
 
@@ -249,7 +251,7 @@ message GamePlayerData //IMessage
 	int32 UserId = 1;
 	int32 Head = 3;
 	int32 Coin = 4;
-	int32 SeatIndex =5;
+	int32 Pos =5;
 	string Name = 6;
 	int32 Online = 7;
 }
@@ -258,7 +260,10 @@ message GameRoomData //IMessage
 {
 	int32 RoomId = 1;
 	int32 State = 2;
-	repeated GamePlayerData playerList = 3;
+	int32 RoomType = 3;
+	int32 GameId = 4;
+	int32 GameMode = 5;
+	int32 HallType = 6;
 }
 
 message SC_GameRoomInfo //IActorMessage
@@ -267,16 +272,11 @@ message SC_GameRoomInfo //IActorMessage
 	GameRoomData roomInfo = 2;
 }
 
-message SC_PlayerEnter //IActorMessage
-{
-	int64 ActorId = 1;
-	GamePlayerData player = 2;
-}
-
 message SC_PlayerLeave //IActorMessage
 {
 	int64 ActorId = 1;
 	int32 UserId = 2;
+	int32 Pos = 3;
 }
 
 message SC_RoomListChanged //IActorMessage

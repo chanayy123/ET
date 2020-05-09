@@ -12,7 +12,7 @@ namespace ETHotfix
             List<ComponentWithId> list = await self.DBProxy.Query<GameConfig>((cfg) => true);
             if (list.Count == 0)//数据库没有就把本地配置文件写入
             {
-                List<ComponentWithId> tmpList = new List<ComponentWithId>();
+                List <ComponentWithId> tmpList = new List<ComponentWithId>();
                 IConfig[] _list = Game.Scene.GetComponent<ConfigComponent>().GetAll(typeof(RoomConfig));
                 Array.ForEach(_list, (cfg) =>
                 {
@@ -30,6 +30,7 @@ namespace ETHotfix
                 {
                     self.cfgList.Add(cfg as GameConfig);
                 });
+                Log.Debug("数据库最新游戏配置更新cfgList");
             }
         }
     }

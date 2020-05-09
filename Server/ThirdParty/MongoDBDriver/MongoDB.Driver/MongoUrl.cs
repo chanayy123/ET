@@ -82,7 +82,7 @@ namespace MongoDB.Driver
         public MongoUrl(string url)
         {
             _originalUrl = url;
-
+            
             var builder = new MongoUrlBuilder(url); // parses url
             _applicationName = builder.ApplicationName;
             _authenticationMechanism = builder.AuthenticationMechanism;

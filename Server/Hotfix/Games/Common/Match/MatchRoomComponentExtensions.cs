@@ -219,7 +219,11 @@ namespace ETHotfix
             {
                 return OpRetCode.MatchIsClosed;
             }
-            var cfg = self.roomConfigDic[hallId];
+            var cfg = RoomConfigComponent.Instance.Get(hallId);
+            if(cfg == null)
+            {
+                return OpRetCode.RoomConfigError;
+            }
             if (user.UserInfo.Coin < cfg.MinLimitCoin)
             {
                 return OpRetCode.RoomNotEnoughCoin;
@@ -274,7 +278,7 @@ namespace ETHotfix
                 list = new List<MatchRoom>();
                 self.hallMatchModeDic.Add(hallId, list);
             }
-            var cfg = self.roomConfigDic[hallId];
+            var cfg = RoomConfigComponent.Instance.Get(hallId);
             var matchRoom = list.Find((room) => room.State != (int)RoomState.GAMING);
             if (matchRoom == null)
             {
@@ -363,6 +367,11 @@ namespace ETHotfix
                 return p;
             }
             return null;
+        }
+
+        public static bool IsHallOpen(this MatchRoomComponent self,long hallId)
+        {
+            return GameConfigCacheComponent.Instance.IsHallOpen(hallId);
         }
 
     }

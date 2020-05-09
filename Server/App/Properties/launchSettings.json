@@ -1,9 +1,10 @@
 {
   "profiles": {
     "Server.App": {
-      "commandName": "Project",
-      "commandLineArgs": "--appId=1 --appType=AllServer --config=../Config/StartConfig/LocalAllServer.txt",
-      "workingDirectory": "../../Bin"
+        "commandName": "Project",
+        //"commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/127.0.0.1.txt",
+        "commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/LocalAllServer.txt",
+        "workingDirectory": "../../Bin"
     }
   }
 }

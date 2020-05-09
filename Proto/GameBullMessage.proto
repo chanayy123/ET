@@ -1,0 +1,117 @@
+syntax = "proto3";
+package ETModel;
+import "CommonMessage.proto";
+
+enum BullCardType
+{
+	BCT_Invalid =0;
+	BCT_Bull0=1;
+	BCT_Bull1=2;
+}
+
+enum BullOpCode
+{
+	BOC_Invalid=0;
+	BOC_BetBank=1;
+	BOC_BetPlayer=2;
+	BOC_ShowCard=3;
+}
+
+message BullPlayerData
+{
+	GamePlayerData Data =1;
+	int32 Rate = 2;
+	repeated int32 HandCards = 3;
+	BullCardType CardType = 4; 
+}
+
+message BullRoomData //IMessage
+{
+	GameRoomData Data = 1;
+	repeated BullPlayerData PlayerList = 2;
+	int32 BankerPos = 3;
+}
+
+message SC_BullRoomInfo //IActorMessage
+{
+	int64 ActorId = 1;
+	BullRoomData Data = 2;
+}
+
+message SC_BullPlayerEnter //IActorMessage
+{
+	int64 ActorId = 1;
+	BullPlayerData Player=2;
+}
+
+message SC_BullState //IActorMessage
+{
+	int64 ActorId = 1;
+	int32 State = 2;
+	repeated int32 Params = 3;
+}
+
+message CS_BullOp //IActorRequest
+{
+	int32 RpcId = 1;
+	int64 ActorId = 2;
+	BullOpCode OpCode = 3;
+}
+
+message SC_BullOp //IActorResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+}
+
+message SC_BullBankerRate //IActorMessage
+{
+	int64 ActorId = 1;
+	int32 Pos = 2;
+	int32 Rate = 3;
+}
+
+message SC_BullPlayerRate //IActorMessage
+{
+	int64 ActorId = 1;
+	int32 Pos = 2;
+	int32 Rate = 3;
+}
+
+message SC_BullBankerPos //IActorMessage
+{
+	int64 ActorId = 1;
+	int32 Pos = 2;
+}
+
+message SC_BullCardsInfo //IActorMessage
+{
+	int64 ActorId = 1;
+	int32 Pos = 2;
+	repeated int32 Cards = 3;
+	BullCardType CardType = 4;
+}
+
+message BullBillInfo
+{
+	int32 Pos =1;
+	int64 GainCoin = 2;
+	int64 TotalCoin = 3;
+}
+
+message SC_BullBillInfo //IActorMessage
+{
+	int64 ActorId = 1;
+	repeated BullBillInfo Datas = 2;
+}
+
+
+
+
+
+
+
+
+
+

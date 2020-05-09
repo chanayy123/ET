@@ -79,6 +79,7 @@ namespace ETModel
                     //校验地址是否有效:应该以http://开头
                     var url = prefix.IndexOf("http://") == -1 ? $"http://{prefix}/" : $"{prefix}/";
                     this.httpListener.Prefixes.Add(url);
+                    Log.Debug("Wservice listen " + url);
                 }
                 
                 httpListener.Start();

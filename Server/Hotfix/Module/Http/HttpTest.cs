@@ -10,7 +10,7 @@ namespace ETHotfix
         public string Acc;
     }
 
-    [HttpHandler(AppType.Gate, "/")]
+    [HttpHandler(AppType.Http, "/")]
 	public class HttpTest : AHttpHandler
 	{
 		[Get] // url-> /Login?name=11&age=1111
