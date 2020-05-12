@@ -3,11 +3,12 @@
 namespace ETHotfix
 {
 	[ObjectSystem]
-	public class NetOuterComponentAwakeSystem : AwakeSystem<NetOuterComponent>
+	public class NetOuterComponentAwakeSystem : AwakeSystem<NetOuterComponent, NetworkProtocol>
 	{
-		public override void Awake(NetOuterComponent self)
+		public override void Awake(NetOuterComponent self,NetworkProtocol protocol)
 		{
-			self.Awake(self.Protocol);
+            self.Protocol = protocol;
+			self.Awake(protocol);
 			self.MessagePacker = new ProtobufPacker();
 			self.MessageDispatcher = new OuterMessageDispatcher();
 		}
@@ -18,16 +19,37 @@ namespace ETHotfix
 	{
 		public override void Awake(NetOuterComponent self, string address)
 		{
-			self.Awake(self.Protocol, address);
+			self.Awake(self.Protocol, NetworkHelper.ToAvailAddress(address, self.Protocol));
 			self.MessagePacker = new ProtobufPacker();
 			self.MessageDispatcher = new OuterMessageDispatcher();
 		}
 	}
 
     [ObjectSystem]
-    public class NetOuterComponentAwake2System : AwakeSystem<NetOuterComponent, string>
+    public class NetOuterComponentAwake2System : AwakeSystem<NetOuterComponent, NetworkProtocol,string>
+    {
+        public override void Awake(NetOuterComponent self, NetworkProtocol protocol, string address)
+        {
+            self.Protocol = protocol;
+            self.Awake(protocol, NetworkHelper.ToAvailAddress(address, self.Protocol));
+            self.MessagePacker = new ProtobufPacker();
+            self.MessageDispatcher = new OuterMessageDispatcher();
+        }
+    }
+
+    [ObjectSystem]
+    public class NetOuterComponentAwake3System : AwakeSystem<NetOuterComponent, string>
     {
         public override void Awake(NetOuterComponent self, string address)
+        {
+            Game.Scene.AddComponent<RouteMessageDispatcherComponent>();
+        }
+    }
+
+    [ObjectSystem]
+    public class NetOuterComponentAwake4System : AwakeSystem<NetOuterComponent, NetworkProtocol,string>
+    {
+        public override void Awake(NetOuterComponent self, NetworkProtocol protocol,string address)
         {
             Game.Scene.AddComponent<RouteMessageDispatcherComponent>();
         }

@@ -1,0 +1,3 @@
+{ "_t" : "StartConfig", "_id" : NumberLong("96832366182401"), "C" : [{ "_t" : "InnerConfig", "Address" : "127.0.0.1:20001" }, { "_t" : "OuterConfig", "Address" : "*:10001", "Address2" : "127.0.0.1:10001" }], "AppId" : 1, "AppType" : "Manager", "ServerIP" : "*" }
+{ "_t" : "StartConfig", "C" : [{ "_t" : "OuterConfig", "Address" : "127.0.0.1:10002", "Address2" : "127.0.0.1:10002" }], "AppId" : 2, "AppType" : "BenchmarkTCPServer", "ServerIP" : "*" }
+{ "_t" : "StartConfig", "C" : [{ "_t" : "ClientConfig", "Address" : "127.0.0.1:10002" }], "AppId" : 3, "AppType" : "BenchmarkTCPClient", "ServerIP" : "*" }

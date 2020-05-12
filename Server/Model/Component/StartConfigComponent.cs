@@ -116,6 +116,12 @@ namespace ETModel
 			this.StartConfig = this.Get(appId);
 		}
 
+        public  bool IsBenchmark(AppType type)
+        {
+            return type.Is(AppType.BenchmarkKCPClient) || type.Is(AppType.BenchmarkKCPServer) || type.Is(AppType.BenchmarkTCPClient) || type.Is(AppType.BenchmarkTCPServer)
+                || type.Is(AppType.BenchmarkWebsocketClient) || type.Is(AppType.BenchmarkWebsocketServer);
+        }
+
 		public override void Dispose()
 		{
 			if (this.IsDisposed)

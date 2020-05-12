@@ -72,12 +72,6 @@ namespace ETModel
 			{
 				action.Invoke(new ErrorResponse { Error = this.Error });
 			}
-
-			//int error = this.channel.Error;
-			//if (this.channel.Error != 0)
-			//{
-			//	Log.Trace($"session dispose: {this.Id} ErrorCode: {error}, please see ErrorCode.cs!");
-			//}
 			
 			this.channel.Dispose();
 			
@@ -273,7 +267,7 @@ namespace ETModel
 
 		public void Send(IMessage message)
 		{
-			OpcodeTypeComponent opcodeTypeComponent = this.Network.Entity.GetComponent<OpcodeTypeComponent>();
+            OpcodeTypeComponent opcodeTypeComponent = this.Network.Entity.GetComponent<OpcodeTypeComponent>();
 			ushort opcode = opcodeTypeComponent.GetOpcode(message.GetType());
 			
 			Send(opcode, message);

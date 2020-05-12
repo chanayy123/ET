@@ -15,16 +15,16 @@ namespace ETHotfix
 	[ObjectSystem]
 	public class NetInnerComponentAwake1System : AwakeSystem<NetInnerComponent, string>
 	{
-		public override void Awake(NetInnerComponent self, string a)
+		public override void Awake(NetInnerComponent self, string address)
 		{
-			self.Awake(a);
+			self.Awake(address);
 		}
 	}
 
     [ObjectSystem]
     public class NetInnerComponentAwake2System : AwakeSystem<NetInnerComponent, string>
     {
-        public override void Awake(NetInnerComponent self, string a)
+        public override void Awake(NetInnerComponent self, string address)
         {
             Game.Scene.AddComponent<MessageDispatcherComponent>();
         }

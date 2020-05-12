@@ -26,6 +26,11 @@ namespace ETHotfix
 		public static void Awake(this DBProxyComponent self)
 		{
 			StartConfig dbStartConfig = StartConfigComponent.Instance.DBConfig;
+            if(dbStartConfig == null)
+            {
+                Log.Warning("只有DBProxyComponent: 缺少DBComponent!");
+                return;
+            }
 			self.dbAddress = dbStartConfig.GetComponent<InnerConfig>().IPEndPoint;
 		}
 

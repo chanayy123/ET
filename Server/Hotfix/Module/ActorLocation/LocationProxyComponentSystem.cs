@@ -18,6 +18,11 @@ namespace ETHotfix
 			StartConfigComponent startConfigComponent = StartConfigComponent.Instance;
 
 			StartConfig startConfig = startConfigComponent.LocationConfig;
+            if (startConfig == null)
+            {
+                Log.Warning("只有LocationProxyComponent: 缺少LocationComponent!");
+                return;
+            }
 			self.LocationAddress = startConfig.GetComponent<InnerConfig>().IPEndPoint;
 		}
 

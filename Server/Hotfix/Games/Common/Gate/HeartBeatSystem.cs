@@ -15,7 +15,12 @@ namespace ETHotfix
         {
             if(self.Network.AppType == AppType.None) //表明是外网组件，内网组件都会配置类型
             {
-                self.AddComponent<HeartBeatComponent>();
+                var appType = StartConfigComponent.Instance.StartConfig.AppType;
+                //基准测试连接不需要检测心跳
+                if (!StartConfigComponent.Instance.IsBenchmark(appType))
+                {
+                    self.AddComponent<HeartBeatComponent>();
+                }
             }
         }
     }
@@ -27,6 +32,18 @@ namespace ETHotfix
     public class NetOuterComponentAwake9System : AwakeSystem<NetOuterComponent, string>
     {
         public override void Awake(NetOuterComponent self, string address)
+        {
+            Game.Scene.AddComponent<HeartBeatManagerComponnet>();
+        }
+    }
+
+    /// <summary>
+    /// 注册外网组件创建事件: 只有外网组件才需要心跳管理组件
+    /// </summary>
+    [ObjectSystem]
+    public class NetOuterComponentAwake8System : AwakeSystem<NetOuterComponent, NetworkProtocol,string>
+    {
+        public override void Awake(NetOuterComponent self, NetworkProtocol protocol, string address)
         {
             Game.Scene.AddComponent<HeartBeatManagerComponnet>();
         }

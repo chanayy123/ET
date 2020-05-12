@@ -41,7 +41,7 @@ namespace ETModel
 				StartProcess(startConfig.AppId);
 			}
 
-			this.WatchProcessAsync().Coroutine();
+			//this.WatchProcessAsync().Coroutine();
 		}
 
 		private void StartProcess(int appId)
@@ -51,9 +51,9 @@ namespace ETModel
 			string configFile = optionComponent.Options.Config;
 			StartConfig startConfig = startConfigComponent.Get(appId);
 			const string exe = "dotnet";
-			string arguments = $"App.dll --appId={startConfig.AppId} --appType={startConfig.AppType} --config={configFile} --mongoAlias={optionComponent.Options.MongoAlias}";
-
-			Log.Info($"{exe} {arguments}");
+			string arguments = $"App.dll --appId={startConfig.AppId} --appType={startConfig.AppType} --config={configFile}";
+            arguments += string.IsNullOrEmpty(optionComponent.Options.MongoAlias) ? "" : $" --mongoAlias={optionComponent.Options.MongoAlias}";
+            Log.Info($"{exe} {arguments}");
 			try
 			{
 				Process process = ProcessHelper.Run(exe, arguments);

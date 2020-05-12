@@ -1,0 +1,1 @@
+{ "_t" : "StartConfig", "C" : [{ "_t" : "ClientConfig", "Address" : "192.168.2.128:10002" }], "AppId" : 1, "AppType" : "BenchmarkKCPClient", "ServerIP" : "*" }

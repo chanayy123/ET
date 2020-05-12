@@ -1,0 +1,2 @@
+{ "_t" : "StartConfig", "C" : [{ "_t" : "InnerConfig", "Address" : "127.0.0.1:20002" },{ "_t" : "OuterConfig", "Address" : "0.0.0.0:10002", "Address2" : "127.0.0.1:10002" }], "AppId" : 1, "AppType" : "BenchmarkWebsocketServer", "ServerIP" : "*" }
+

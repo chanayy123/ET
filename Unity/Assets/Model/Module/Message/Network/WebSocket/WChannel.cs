@@ -56,14 +56,20 @@ namespace ETModel
             this.CloseSocket();
         }
 
-
         private async void CloseSocket()
         {
             //WebSocketState.Open: 服务端主动断开连接,这时候需要异步关掉socket,之后才可以dispose释放
             //WebSocketState.CloseReceived: 客户端主动断开连接,这时只需要dispose释放
             if (webSocket.State == WebSocketState.Open)
             {
-                await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "closing websocket", CancellationToken.None);
+                if(this.ChannelType == ChannelType.Connect) //客户端调用
+                {
+                    await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "closing websocket", CancellationToken.None);
+                }
+                else //服务器调用
+                {
+                    await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "closing websocket", CancellationToken.None);
+                }
             }
             this.cancellationTokenSource.Cancel();
             this.cancellationTokenSource.Dispose();

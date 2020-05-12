@@ -17,7 +17,8 @@ services:
      context: .
     #image: "et-server1"
     #container_name: "et-server"
-    command: --appId=1 --appType=Manager --config=../Config/StartConfig/127.0.0.1.txt --mongoAlias=et-mongo
+    #command: --appId=1 --appType=Manager --config=../Config/StartConfig/127.0.0.1.txt --mongoAlias=et-mongo
+    command: --appId=1 --appType=BenchmarkKCPServer --config=../Config/StartConfig/BenchmarkKCPServer.txt --mongoAlias=et-mongo
     #tty: true
     #entrypoint: bash
     depends_on:
@@ -30,7 +31,7 @@ services:
     hostname: et-server
     stdin_open: true
     ports:
-     - "10002:10002"
+     - "10002:10002/udp"
      - "10003:10003"
      - "10004:10004"
 volumes:

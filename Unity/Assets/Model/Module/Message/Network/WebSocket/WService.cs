@@ -40,7 +40,7 @@ namespace ETModel
             ClientWebSocket webSocket = new ClientWebSocket();
             WChannel channel = new WChannel(webSocket, this);
             this.channels[channel.Id] = channel;
-            channel.ConnectAsync("ws://" + ipEndPoint.ToString() + "/").Coroutine();
+            channel.ConnectAsync($"ws://{ipEndPoint.ToString()}/").Coroutine();
             return channel;
         }
 
@@ -49,7 +49,7 @@ namespace ETModel
 			ClientWebSocket webSocket = new ClientWebSocket();
             WChannel channel = new WChannel(webSocket, this);
             this.channels[channel.Id] = channel;
-            channel.ConnectAsync(address).Coroutine();
+            channel.ConnectAsync($"ws://{address}/").Coroutine();
             return channel;
         }
 
@@ -76,10 +76,8 @@ namespace ETModel
             {
                 foreach (string prefix in prefixs)
                 {
-                    //校验地址是否有效:应该以http://开头
-                    var url = prefix.IndexOf("http://") == -1 ? $"http://{prefix}/" : $"{prefix}/";
-                    this.httpListener.Prefixes.Add(url);
-                    Log.Debug("Wservice listen " + url);
+                    this.httpListener.Prefixes.Add(prefix);
+                    Log.Debug("Wservice listen " + prefix);
                 }
                 
                 httpListener.Start();

@@ -1,0 +1,1 @@
+{ "_t" : "StartConfig", "C" : [{ "_t" : "ClientConfig", "Address" : "127.0.0.1:10002" }], "AppId" : 1, "AppType" : "BenchmarkTCPClient", "ServerIP" : "*" }

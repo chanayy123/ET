@@ -4,6 +4,12 @@
         "commandName": "Project",
         //"commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/127.0.0.1.txt",
         "commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/LocalAllServer.txt",
+        //"commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/BenchmarkWebsocket.txt",
+        //"commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/BenchmarkTCP.txt",
+        //"commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/BenchmarkKCP.txt",
+        //"commandLineArgs": "--appId=1 --appType=BenchmarkWebsocketClient --config=../Config/StartConfig/BenchmarkWebsocketClient.txt",
+        //"commandLineArgs": "--appId=1 --appType=BenchmarkTCPClient --config=../Config/StartConfig/BenchmarkTCPClient.txt",
+        //"commandLineArgs": "--appId=1 --appType=BenchmarkKCPClient --config=../Config/StartConfig/BenchmarkKCPClient.txt",
         "workingDirectory": "../../Bin"
     }
   }

@@ -6,25 +6,24 @@ using ETModel;
 namespace ETHotfix
 {
 	[ObjectSystem]
-	public class BenchmarkComponentSystem : AwakeSystem<BenchmarkComponent, string>
+	public class BenchmarkComponentSystem : AwakeSystem<BenchmarkComponent, NetworkProtocol,  string>
 	{
-		public override void Awake(BenchmarkComponent self, string a)
+		public override void Awake(BenchmarkComponent self, NetworkProtocol protocol,string address)
 		{
-			self.Awake(a);
+			self.Awake(protocol,address);
 		}
 	}
 
 	public static class BenchmarkComponentHelper
 	{
-		public static void Awake(this BenchmarkComponent self, string address)
+		public static void Awake(this BenchmarkComponent self, NetworkProtocol protocol,string address)
 		{
 			try
 			{
-				IPEndPoint ipEndPoint = NetworkHelper.ToIPEndPoint(address);
-				NetOuterComponent networkComponent = Game.Scene.GetComponent<NetOuterComponent>();
-				for (int i = 0; i < 2000; i++)
+                NetOuterComponent networkComponent = Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol>(protocol);
+				for (int i = 0; i < 2000; i++) //2000
 				{
-					self.TestAsync(networkComponent, ipEndPoint, i);
+					self.TestAsync(networkComponent, address, i);
 				}
 			}
 			catch (Exception e)
@@ -33,15 +32,15 @@ namespace ETHotfix
 			}
 		}
 
-		public static async void TestAsync(this BenchmarkComponent self, NetOuterComponent networkComponent, IPEndPoint ipEndPoint, int j)
+		public static async void TestAsync(this BenchmarkComponent self, NetOuterComponent networkComponent, string address, int j)
 		{
 			try
 			{
-				using (Session session = networkComponent.Create(ipEndPoint))
-				{
-					int i = 0;
-					while (i < 100000000)
-					{
+                using (Session session = networkComponent.Create(address))
+                {
+                    int i = 0;
+					while (i < 100000000)//100000000
+                    {
 						++i;
 						await self.Send(session, j);
 					}
@@ -57,7 +56,9 @@ namespace ETHotfix
 		{
 			try
 			{
+                //var msg = SimplePool.Instance.Fetch<CS_Ping>();
 				await session.Call(new CS_Ping());
+                //SimplePool.Instance.Recycle(msg)
 				++self.k;
 
 				if (self.k % 100000 != 0)
@@ -68,7 +69,7 @@ namespace ETHotfix
 				long time2 = TimeHelper.ClientNow();
 				long time = time2 - self.time1;
 				self.time1 = time2;
-				Log.Info($"Benchmark k: {self.k} 每10W次耗时: {time} ms {session.Network.Count}");
+				Log.Info($"Benchmark k: {self.k} 每10万次耗时: {time} ms {session.Network.Count}");
 			}
 			catch (Exception e)
 			{

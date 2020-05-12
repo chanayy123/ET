@@ -21,8 +21,8 @@ namespace ETHotfix
             var hb = session.GetComponent<HeartBeatComponent>();
             if (hb == null)
             {
-                Log.Warning("当前session没有心跳组件!");
-                return false;
+                //Log.Warning("当前session没有心跳组件 默认合法!");
+                return true;
             }
             else
             {

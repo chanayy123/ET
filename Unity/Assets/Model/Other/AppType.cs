@@ -18,17 +18,21 @@ namespace ETModel
         Game= 1<<8,
         World = 1<<9,  //世界服:处理全局配置数据,比如用户数据,游戏配置数据,还有其他等等
 
-		BenchmarkWebsocketServer = 1 << 26,
-		BenchmarkWebsocketClient = 1 << 27,
-		Robot = 1 << 28,
-		Benchmark = 1 << 29,
+
+        BenchmarkTCPClient = 1 << 23,
+        BenchmarkTCPServer = 1 << 24,
+        BenchmarkWebsocketServer = 1 << 25,
+		BenchmarkWebsocketClient = 1 << 26,
+        BenchmarkKCPServer = 1 << 27,
+        BenchmarkKCPClient = 1 << 28,
+        Robot = 1 << 29,
 		// 客户端Hotfix层
 		ClientH = 1 << 30,
 		// 客户端Model层
 		ClientM = 1 << 31,
 
 		// 7
-		AllServer = Manager | Realm | Gate | Http | DB | Location | Map | BenchmarkWebsocketServer | Match | Game | World
+		AllServer = Manager | Realm | Gate | Http | DB | Location | Map | Match | Game | World | BenchmarkWebsocketServer  | BenchmarkTCPServer | BenchmarkKCPServer
     }
 
 	public static class AppTypeHelper
