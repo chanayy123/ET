@@ -45,7 +45,7 @@ namespace ETHotfix
         public static void SendActorMsg( IActorMessage msg)
         {
             var session = GetSessionByAppId(IdGenerater.GetAppId(msg.ActorId));
-            session.Send(msg);
+            session?.Send(msg);
         }
         /// <summary>
         /// 根据消息actor字段发送actor请求
@@ -55,6 +55,7 @@ namespace ETHotfix
         public static async ETTask<IResponse> CallActorMsg(IActorRequest request)
         {
             var session = GetSessionByAppId(IdGenerater.GetAppId(request.ActorId));
+            if (session == null) return null;
             IResponse res = await session.Call(request);
             return res;
         }

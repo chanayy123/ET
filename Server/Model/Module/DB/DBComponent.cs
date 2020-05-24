@@ -76,7 +76,6 @@ namespace ETModel
 		public ETTask Add(ComponentWithId component, string collectionName = "")
 		{
 			ETTaskCompletionSource tcs = new ETTaskCompletionSource();
-
 			if (string.IsNullOrEmpty(collectionName))
 			{
 				collectionName = component.GetType().Name;

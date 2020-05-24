@@ -118,8 +118,8 @@ namespace ETModel
 
         public  bool IsBenchmark(AppType type)
         {
-            return type.Is(AppType.BenchmarkKCPClient) || type.Is(AppType.BenchmarkKCPServer) || type.Is(AppType.BenchmarkTCPClient) || type.Is(AppType.BenchmarkTCPServer)
-                || type.Is(AppType.BenchmarkWebsocketClient) || type.Is(AppType.BenchmarkWebsocketServer);
+            return type ==AppType.BenchmarkKCPClient || type == AppType.BenchmarkKCPServer || type == AppType.BenchmarkTCPClient || type ==AppType.BenchmarkTCPServer
+                || type == AppType.BenchmarkWebsocketClient || type == AppType.BenchmarkWebsocketServer;
         }
 
 		public override void Dispose()

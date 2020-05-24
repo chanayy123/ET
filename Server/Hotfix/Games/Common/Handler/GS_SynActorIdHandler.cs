@@ -27,7 +27,7 @@ namespace ETHotfix
             user.ActorId = message.ActorId;
             user.GameId = message.GameId;
             user.RoomId = message.RoomId;
-            Log.Debug($"用户服: 用户{message.UserId}更新actorId: {message.ActorId} gameId: {message.GameId} roomId: {message.RoomId}");
+            Log.Debug($"世界服: 用户{message.UserId}更新actorId: {message.ActorId} gameId: {message.GameId} roomId: {message.RoomId}");
             await ETTask.CompletedTask;
         }
     }

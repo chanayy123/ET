@@ -33,11 +33,38 @@ namespace ETModel {
     MatchIsClosed = 200020,
     RoomIsClosed = 200021,
     RoomConfigError = 200022,
+    GameOpInvalid = 200023,
+  }
+
+  public enum PlayerState {
+    None = 0,
+    Online = 1,
+    Ready = 2,
+    /// <summary>
+    ///托管
+    /// </summary>
+    Auto = 4,
+    /// <summary>
+    ///已看牌
+    /// </summary>
+    Check = 8,
+    /// <summary>
+    ///弃牌
+    /// </summary>
+    Fold = 16,
+    /// <summary>
+    ///暂离
+    /// </summary>
+    Leave = 32,
+    /// <summary>
+    ///观众
+    /// </summary>
+    Audience = 64,
   }
 
   public enum GameId {
     Default = 0,
-    BullClassic = 1,
+    BullFight = 1,
   }
 
   #endregion
@@ -2782,11 +2809,11 @@ namespace ETModel {
       }
     }
 
-    private int online_;
-    public int Online {
-      get { return online_; }
+    private global::ETModel.PlayerState state_ = 0;
+    public global::ETModel.PlayerState State {
+      get { return state_; }
       set {
-        online_ = value;
+        state_ = value;
       }
     }
 
@@ -2811,9 +2838,9 @@ namespace ETModel {
         output.WriteRawTag(50);
         output.WriteString(Name);
       }
-      if (Online != 0) {
+      if (State != 0) {
         output.WriteRawTag(56);
-        output.WriteInt32(Online);
+        output.WriteEnum((int) State);
       }
     }
 
@@ -2834,8 +2861,8 @@ namespace ETModel {
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (Online != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Online);
+      if (State != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) State);
       }
       return size;
     }
@@ -2846,7 +2873,6 @@ namespace ETModel {
       coin_ = 0;
       pos_ = 0;
       name_ = "";
-      online_ = 0;
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -2874,7 +2900,7 @@ namespace ETModel {
             break;
           }
           case 56: {
-            Online = input.ReadInt32();
+            state_ = (global::ETModel.PlayerState) input.ReadEnum();
             break;
           }
         }
@@ -3594,6 +3620,176 @@ namespace ETModel {
           }
           case 26: {
             Message = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public partial class SC_CoinChange : pb::IMessage {
+    private static readonly pb::MessageParser<SC_CoinChange> _parser = new pb::MessageParser<SC_CoinChange>(() => (SC_CoinChange)MessagePool.Instance.Fetch(typeof(SC_CoinChange)));
+    public static pb::MessageParser<SC_CoinChange> Parser { get { return _parser; } }
+
+    private long actorId_;
+    public long ActorId {
+      get { return actorId_; }
+      set {
+        actorId_ = value;
+      }
+    }
+
+    private int pos_;
+    public int Pos {
+      get { return pos_; }
+      set {
+        pos_ = value;
+      }
+    }
+
+    private int changeCoin_;
+    public int ChangeCoin {
+      get { return changeCoin_; }
+      set {
+        changeCoin_ = value;
+      }
+    }
+
+    private int totalCoin_;
+    public int TotalCoin {
+      get { return totalCoin_; }
+      set {
+        totalCoin_ = value;
+      }
+    }
+
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ActorId != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(ActorId);
+      }
+      if (Pos != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Pos);
+      }
+      if (ChangeCoin != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(ChangeCoin);
+      }
+      if (TotalCoin != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(TotalCoin);
+      }
+    }
+
+    public int CalculateSize() {
+      int size = 0;
+      if (ActorId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(ActorId);
+      }
+      if (Pos != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Pos);
+      }
+      if (ChangeCoin != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ChangeCoin);
+      }
+      if (TotalCoin != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TotalCoin);
+      }
+      return size;
+    }
+
+    public void MergeFrom(pb::CodedInputStream input) {
+      actorId_ = 0;
+      pos_ = 0;
+      changeCoin_ = 0;
+      totalCoin_ = 0;
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            ActorId = input.ReadInt64();
+            break;
+          }
+          case 16: {
+            Pos = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            ChangeCoin = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            TotalCoin = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public partial class CS_GetRoomInfo : pb::IMessage {
+    private static readonly pb::MessageParser<CS_GetRoomInfo> _parser = new pb::MessageParser<CS_GetRoomInfo>(() => (CS_GetRoomInfo)MessagePool.Instance.Fetch(typeof(CS_GetRoomInfo)));
+    public static pb::MessageParser<CS_GetRoomInfo> Parser { get { return _parser; } }
+
+    private int rpcId_;
+    public int RpcId {
+      get { return rpcId_; }
+      set {
+        rpcId_ = value;
+      }
+    }
+
+    private long actorId_;
+    public long ActorId {
+      get { return actorId_; }
+      set {
+        actorId_ = value;
+      }
+    }
+
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (RpcId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(RpcId);
+      }
+      if (ActorId != 0L) {
+        output.WriteRawTag(16);
+        output.WriteInt64(ActorId);
+      }
+    }
+
+    public int CalculateSize() {
+      int size = 0;
+      if (RpcId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RpcId);
+      }
+      if (ActorId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(ActorId);
+      }
+      return size;
+    }
+
+    public void MergeFrom(pb::CodedInputStream input) {
+      rpcId_ = 0;
+      actorId_ = 0;
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            RpcId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            ActorId = input.ReadInt64();
             break;
           }
         }

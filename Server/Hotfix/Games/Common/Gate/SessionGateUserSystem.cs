@@ -13,7 +13,6 @@ namespace ETHotfix
             GateHelper.SynOffline(self.User);
             GateUserComponent.Instance.Remove(self.User.UserId);
             Log.Debug($"{self.User.UserId}下线");
-            self.User = null;
         }
     }
 }

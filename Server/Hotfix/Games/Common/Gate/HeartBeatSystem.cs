@@ -29,7 +29,7 @@ namespace ETHotfix
     /// 注册外网组件创建事件: 只有外网组件才需要心跳管理组件
     /// </summary>
     [ObjectSystem]
-    public class NetOuterComponentAwake9System : AwakeSystem<NetOuterComponent, string>
+    public class NetOuterHeartBeatAwakeSystem : AwakeSystem<NetOuterComponent, string>
     {
         public override void Awake(NetOuterComponent self, string address)
         {
@@ -41,7 +41,7 @@ namespace ETHotfix
     /// 注册外网组件创建事件: 只有外网组件才需要心跳管理组件
     /// </summary>
     [ObjectSystem]
-    public class NetOuterComponentAwake8System : AwakeSystem<NetOuterComponent, NetworkProtocol,string>
+    public class NetOuterHeartBeatAwake2System : AwakeSystem<NetOuterComponent, NetworkProtocol,string>
     {
         public override void Awake(NetOuterComponent self, NetworkProtocol protocol, string address)
         {

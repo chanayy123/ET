@@ -14,6 +14,14 @@ namespace ETModel
         {
             Instance = this;
         }
+        public  void Add(HeartBeatComponent hb)
+        {
+            this.dic.Add(hb.InstanceId, hb);
+        }
+        public  void Remove( long id)
+        {
+            this.dic.Remove(id);
+        }
     }
     /// <summary>
     /// 绑定session的心跳组件

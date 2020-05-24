@@ -10,24 +10,56 @@ namespace ETModel {
 
   #region Enums
   public enum BullCardType {
-    BctInvalid = 0,
-    BctBull0 = 1,
-    BctBull1 = 2,
+    BullCtInvalid = 0,
+    BullCtBull0 = 1,
+    BullCtBull1 = 2,
+    BullCtBull2 = 3,
+    BullCtBull3 = 4,
+    BullCtBull4 = 5,
+    BullCtBull5 = 6,
+    BullCtBull6 = 7,
+    BullCtBull7 = 8,
+    BullCtBull8 = 9,
+    BullCtBull9 = 10,
+    BullCtBull10 = 11,
   }
 
   public enum BullOpCode {
-    BocInvalid = 0,
-    BocBetBank = 1,
-    BocBetPlayer = 2,
-    BocShowCard = 3,
+    BullOpInvalid = 0,
+    BullOpBetBank = 1,
+    BullOpBetPlayer = 2,
+    BullOpShowCard = 3,
+  }
+
+  public enum BullGameState {
+    BullGsIdle = 0,
+    BullGsWaitPlayer = 1,
+    BullGsWaitStart = 2,
+    BullGsRobbank = 3,
+    BullGsSelbank = 4,
+    BullGsPlayerbet = 5,
+    BullGsDispatch = 6,
+    BullGsShowcard = 7,
+    BullGsBill = 8,
+  }
+
+  public enum BullDefines {
+    Default = 0,
+    WaitStartTime = 3000,
+    RobBankTime = 6000,
+    SelBankTime = 2000,
+    PlayerBetTime = 5000,
+    DispatchTime = 2000,
+    ShowCardTime = 5000,
+    BillTime = 5000,
   }
 
   #endregion
 
   #region Messages
-  public partial class BullPlayerData : pb::IMessage {
-    private static readonly pb::MessageParser<BullPlayerData> _parser = new pb::MessageParser<BullPlayerData>(() => (BullPlayerData)MessagePool.Instance.Fetch(typeof(BullPlayerData)));
-    public static pb::MessageParser<BullPlayerData> Parser { get { return _parser; } }
+  public partial class BullFightPlayerData : pb::IMessage {
+    private static readonly pb::MessageParser<BullFightPlayerData> _parser = new pb::MessageParser<BullFightPlayerData>(() => (BullFightPlayerData)MessagePool.Instance.Fetch(typeof(BullFightPlayerData)));
+    public static pb::MessageParser<BullFightPlayerData> Parser { get { return _parser; } }
 
     private global::ETModel.GamePlayerData data_;
     public global::ETModel.GamePlayerData Data {
@@ -128,9 +160,9 @@ namespace ETModel {
 
   }
 
-  public partial class BullRoomData : pb::IMessage {
-    private static readonly pb::MessageParser<BullRoomData> _parser = new pb::MessageParser<BullRoomData>(() => (BullRoomData)MessagePool.Instance.Fetch(typeof(BullRoomData)));
-    public static pb::MessageParser<BullRoomData> Parser { get { return _parser; } }
+  public partial class BullFightRoomData : pb::IMessage {
+    private static readonly pb::MessageParser<BullFightRoomData> _parser = new pb::MessageParser<BullFightRoomData>(() => (BullFightRoomData)MessagePool.Instance.Fetch(typeof(BullFightRoomData)));
+    public static pb::MessageParser<BullFightRoomData> Parser { get { return _parser; } }
 
     private global::ETModel.GameRoomData data_;
     public global::ETModel.GameRoomData Data {
@@ -140,10 +172,10 @@ namespace ETModel {
       }
     }
 
-    private static readonly pb::FieldCodec<global::ETModel.BullPlayerData> _repeated_playerList_codec
-        = pb::FieldCodec.ForMessage(18, global::ETModel.BullPlayerData.Parser);
-    private pbc::RepeatedField<global::ETModel.BullPlayerData> playerList_ = new pbc::RepeatedField<global::ETModel.BullPlayerData>();
-    public pbc::RepeatedField<global::ETModel.BullPlayerData> PlayerList {
+    private static readonly pb::FieldCodec<global::ETModel.BullFightPlayerData> _repeated_playerList_codec
+        = pb::FieldCodec.ForMessage(18, global::ETModel.BullFightPlayerData.Parser);
+    private pbc::RepeatedField<global::ETModel.BullFightPlayerData> playerList_ = new pbc::RepeatedField<global::ETModel.BullFightPlayerData>();
+    public pbc::RepeatedField<global::ETModel.BullFightPlayerData> PlayerList {
       get { return playerList_; }
       set { playerList_ = value; }
     }
@@ -224,8 +256,8 @@ namespace ETModel {
       }
     }
 
-    private global::ETModel.BullRoomData data_;
-    public global::ETModel.BullRoomData Data {
+    private global::ETModel.BullFightRoomData data_;
+    public global::ETModel.BullFightRoomData Data {
       get { return data_; }
       set {
         data_ = value;
@@ -269,7 +301,118 @@ namespace ETModel {
           }
           case 18: {
             if (data_ == null) {
-              data_ = new global::ETModel.BullRoomData();
+              data_ = new global::ETModel.BullFightRoomData();
+            }
+            input.ReadMessage(data_);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///断线重连,客户端主动请求当前游戏房间信息
+  /// </summary>
+  public partial class SC_GetBullRoomInfo : pb::IMessage {
+    private static readonly pb::MessageParser<SC_GetBullRoomInfo> _parser = new pb::MessageParser<SC_GetBullRoomInfo>(() => (SC_GetBullRoomInfo)MessagePool.Instance.Fetch(typeof(SC_GetBullRoomInfo)));
+    public static pb::MessageParser<SC_GetBullRoomInfo> Parser { get { return _parser; } }
+
+    private int rpcId_;
+    public int RpcId {
+      get { return rpcId_; }
+      set {
+        rpcId_ = value;
+      }
+    }
+
+    private int error_;
+    public int Error {
+      get { return error_; }
+      set {
+        error_ = value;
+      }
+    }
+
+    private string message_ = "";
+    public string Message {
+      get { return message_; }
+      set {
+        message_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    private global::ETModel.BullFightRoomData data_;
+    public global::ETModel.BullFightRoomData Data {
+      get { return data_; }
+      set {
+        data_ = value;
+      }
+    }
+
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (RpcId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(RpcId);
+      }
+      if (Error != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Error);
+      }
+      if (Message.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Message);
+      }
+      if (data_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(Data);
+      }
+    }
+
+    public int CalculateSize() {
+      int size = 0;
+      if (RpcId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RpcId);
+      }
+      if (Error != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Error);
+      }
+      if (Message.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Message);
+      }
+      if (data_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Data);
+      }
+      return size;
+    }
+
+    public void MergeFrom(pb::CodedInputStream input) {
+      rpcId_ = 0;
+      error_ = 0;
+      message_ = "";
+      if (data_ != null) MessagePool.Instance.Recycle(data_); data_ = null;
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            RpcId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            Error = input.ReadInt32();
+            break;
+          }
+          case 26: {
+            Message = input.ReadString();
+            break;
+          }
+          case 34: {
+            if (data_ == null) {
+              data_ = new global::ETModel.BullFightRoomData();
             }
             input.ReadMessage(data_);
             break;
@@ -292,8 +435,8 @@ namespace ETModel {
       }
     }
 
-    private global::ETModel.BullPlayerData player_;
-    public global::ETModel.BullPlayerData Player {
+    private global::ETModel.BullFightPlayerData player_;
+    public global::ETModel.BullFightPlayerData Player {
       get { return player_; }
       set {
         player_ = value;
@@ -337,7 +480,7 @@ namespace ETModel {
           }
           case 18: {
             if (player_ == null) {
-              player_ = new global::ETModel.BullPlayerData();
+              player_ = new global::ETModel.BullFightPlayerData();
             }
             input.ReadMessage(player_);
             break;
@@ -360,8 +503,8 @@ namespace ETModel {
       }
     }
 
-    private int state_;
-    public int State {
+    private global::ETModel.BullGameState state_ = 0;
+    public global::ETModel.BullGameState State {
       get { return state_; }
       set {
         state_ = value;
@@ -383,7 +526,7 @@ namespace ETModel {
       }
       if (State != 0) {
         output.WriteRawTag(16);
-        output.WriteInt32(State);
+        output.WriteEnum((int) State);
       }
       params_.WriteTo(output, _repeated_params_codec);
     }
@@ -394,7 +537,7 @@ namespace ETModel {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(ActorId);
       }
       if (State != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(State);
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) State);
       }
       size += params_.CalculateSize(_repeated_params_codec);
       return size;
@@ -402,7 +545,6 @@ namespace ETModel {
 
     public void MergeFrom(pb::CodedInputStream input) {
       actorId_ = 0;
-      state_ = 0;
       params_.Clear();
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -415,7 +557,7 @@ namespace ETModel {
             break;
           }
           case 16: {
-            State = input.ReadInt32();
+            state_ = (global::ETModel.BullGameState) input.ReadEnum();
             break;
           }
           case 26:
@@ -457,6 +599,14 @@ namespace ETModel {
       }
     }
 
+    private static readonly pb::FieldCodec<int> _repeated_params_codec
+        = pb::FieldCodec.ForInt32(34);
+    private pbc::RepeatedField<int> params_ = new pbc::RepeatedField<int>();
+    public pbc::RepeatedField<int> Params {
+      get { return params_; }
+      set { params_ = value; }
+    }
+
     public void WriteTo(pb::CodedOutputStream output) {
       if (RpcId != 0) {
         output.WriteRawTag(8);
@@ -470,6 +620,7 @@ namespace ETModel {
         output.WriteRawTag(24);
         output.WriteEnum((int) OpCode);
       }
+      params_.WriteTo(output, _repeated_params_codec);
     }
 
     public int CalculateSize() {
@@ -483,12 +634,14 @@ namespace ETModel {
       if (OpCode != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) OpCode);
       }
+      size += params_.CalculateSize(_repeated_params_codec);
       return size;
     }
 
     public void MergeFrom(pb::CodedInputStream input) {
       rpcId_ = 0;
       actorId_ = 0;
+      params_.Clear();
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -505,6 +658,11 @@ namespace ETModel {
           }
           case 24: {
             opCode_ = (global::ETModel.BullOpCode) input.ReadEnum();
+            break;
+          }
+          case 34:
+          case 32: {
+            params_.AddEntriesFrom(input, _repeated_params_codec);
             break;
           }
         }
@@ -945,11 +1103,11 @@ namespace ETModel {
       }
     }
 
-    private long gainCoin_;
-    public long GainCoin {
-      get { return gainCoin_; }
+    private long changeCoin_;
+    public long ChangeCoin {
+      get { return changeCoin_; }
       set {
-        gainCoin_ = value;
+        changeCoin_ = value;
       }
     }
 
@@ -966,9 +1124,9 @@ namespace ETModel {
         output.WriteRawTag(8);
         output.WriteInt32(Pos);
       }
-      if (GainCoin != 0L) {
+      if (ChangeCoin != 0L) {
         output.WriteRawTag(16);
-        output.WriteInt64(GainCoin);
+        output.WriteInt64(ChangeCoin);
       }
       if (TotalCoin != 0L) {
         output.WriteRawTag(24);
@@ -981,8 +1139,8 @@ namespace ETModel {
       if (Pos != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Pos);
       }
-      if (GainCoin != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(GainCoin);
+      if (ChangeCoin != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(ChangeCoin);
       }
       if (TotalCoin != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(TotalCoin);
@@ -992,7 +1150,7 @@ namespace ETModel {
 
     public void MergeFrom(pb::CodedInputStream input) {
       pos_ = 0;
-      gainCoin_ = 0;
+      changeCoin_ = 0;
       totalCoin_ = 0;
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -1005,7 +1163,7 @@ namespace ETModel {
             break;
           }
           case 16: {
-            GainCoin = input.ReadInt64();
+            ChangeCoin = input.ReadInt64();
             break;
           }
           case 24: {

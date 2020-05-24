@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ETModel;
+
 namespace ETHotfix
 {
 
@@ -18,7 +19,10 @@ namespace ETHotfix
         public static void Add(this UserComponent self, int userId, User user)
         {
             bool flag = self.userDic.TryAdd(userId, user);
-            if (!flag) Log.Warning($"{userId}已经存在,无法添加用户");
+            if (!flag)
+            {
+                Log.Warning($"{userId}已经存在,无法添加用户");
+            }
         }
 
         public static User Get(this UserComponent self, int userId)
@@ -27,11 +31,13 @@ namespace ETHotfix
             return user;
         }
 
+
         public static void Remove(this  UserComponent self, int userId)
         {
             self.userDic.Remove(userId,out User user);
             user?.Dispose();
         }
+
 
         public static int Count(this UserComponent self)
         {
@@ -78,7 +84,7 @@ namespace ETHotfix
             }
             //更新登陆时间
             var account = list[0] as AccountInfo;
-            account.LastLoginTIme = DateTime.Now;
+            account.LastLoginTIme = DateTime.UtcNow;
             await self.DBProxy.Save(account);
             return account.UserId;
         }
@@ -86,7 +92,7 @@ namespace ETHotfix
         public static async ETTask<int> CheckWechatLogin(this UserComponent self, RW_Login msg, IResponse res)
         {
             await ETTask.CompletedTask;
-             throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public static async ETTask<int> CheckTouristLogin(this UserComponent self, RW_Login msg, IResponse res)
@@ -115,11 +121,14 @@ namespace ETHotfix
                 userInfo.Coin = 10000;
                 //同步用户信息=>db
                 await self.DBProxy.Save(userInfo);
-                return userInfo.UserId;
+                var userId = userInfo.UserId;
+                accInfo.Dispose();
+                userInfo.Dispose();
+                return userId;
             }
             var account = list[0] as AccountInfo;
             //更新登陆时间
-            account.LastLoginTIme = DateTime.Now;
+            account.LastLoginTIme = DateTime.UtcNow;
             await self.DBProxy.Save(account);
             return account.UserId;
         }
@@ -155,7 +164,10 @@ namespace ETHotfix
             userInfo.Coin = 10000;
             //同步用户信息=>db
             await self.DBProxy.Save(userInfo);
-            return userInfo.UserId;
+            var userId = userInfo.UserId;
+            accInfo.Dispose();
+            userInfo.Dispose();
+            return userId;
         }
         /// <summary>
         /// 从数据库用户表里找到最大userId

@@ -22,11 +22,11 @@ namespace ETHotfix
             return msg;
         }
 
-        public static Actor_OnlineState CreateMsgActor_OnlineState(long actorId,int state,long gateSessionId)
+        public static Actor_OnlineState CreateMsgActor_OnlineState(long actorId,bool flag,long gateSessionId)
         {
             Actor_OnlineState msg = SimplePool.Instance.Fetch<Actor_OnlineState>();
             msg.ActorId = actorId;
-            msg.State = state;
+            msg.Flag = flag;
             msg.GateSessionId = gateSessionId;
             return msg;
         }

@@ -50,9 +50,9 @@ namespace ETModel
         /// </summary>
         public readonly Dictionary<int, MatchRoom> hallCardModeDic = new Dictionary<int, MatchRoom>();
         /// <summary>
-        /// 玩家创建房间列表
+        /// 玩家创建房间配置列表
         /// </summary>
-        public readonly List<UserRoom> userCreateRoomList = new List<UserRoom>();
+        public readonly List<UserRoomCfg> userRoomCfgList = new List<UserRoomCfg>();
 
 
         public void AddMatchRoom(int roomId, MatchRoom room)
@@ -67,23 +67,18 @@ namespace ETModel
             return room;
         }
 
-        public bool IsCreateRoomIdValid(int roomId)
-        {
-            return userCreateRoomList.Find((room) => room.RoomId == roomId) == null;
-        }
-
         public bool IsInMatchOrRoom(int userId)
         {
             return userRoomDic.ContainsKey(userId) || userMatchDic.ContainsKey(userId);
         }
 
-        public void AddUserRoom(UserRoom room)
+        public void AddUserRoomCfg(UserRoomCfg room)
         {
-            userCreateRoomList.Add(room);
+            userRoomCfgList.Add(room);
         }
-        public void RemoveUserRoom(UserRoom room)
+        public void RemoveUserRoomCfg(UserRoomCfg room)
         {
-            userCreateRoomList.Remove(room);
+            userRoomCfgList.Remove(room);
         }
 
         public bool IsRoomExist(int roomId)

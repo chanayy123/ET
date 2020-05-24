@@ -28,7 +28,7 @@ namespace ETHotfix
             if (gateUser.ActorId != 0)
             {
                 var gateSID = gateUser.Session.InstanceId;
-                Actor_OnlineState msg2 = GateFactory.CreateMsgActor_OnlineState(gateUser.ActorId, 1, gateSID);
+                Actor_OnlineState msg2 = GateFactory.CreateMsgActor_OnlineState(gateUser.ActorId, true, gateSID);
                 NetInnerHelper.SendActorMsg(msg2);
                 GateFactory.RecycleMsg(msg2);
         }
@@ -55,14 +55,14 @@ namespace ETHotfix
             GateFactory.RecycleMsg(msg);
             if(user.ActorId != 0)
             {
-                Actor_OnlineState msg2 = GateFactory.CreateMsgActor_OnlineState(user.ActorId, 0, 0);
+                Actor_OnlineState msg2 = GateFactory.CreateMsgActor_OnlineState(user.ActorId,false, 0);
                 NetInnerHelper.SendActorMsg(msg2);
                 GateFactory.RecycleMsg(msg2);
             }
         }
 
         /// <summary>
-        /// 随机获取一个网关服务器地址
+        /// 随机获取一个网关服务器配置
         /// </summary>
         /// <returns></returns>
         public static StartConfig RandomGateCfg

@@ -35,7 +35,7 @@ namespace ETHotfix
 
 
         /// <summary>
-        /// 同步玩家游戏acotrid ->gate server/user server
+        /// 同步玩家游戏acotrid ->gate server/world server
         /// </summary>
         /// <param name="gateSessionId"></param>
         /// <param name="userId"></param>

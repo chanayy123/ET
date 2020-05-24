@@ -33,12 +33,12 @@ namespace ETHotfix
         public override async void Awake(MatchRoomComponent self)
         {
             var dbProxy = Game.Scene.GetComponent<DBProxyComponent>();
-            var list = await dbProxy.Query<UserRoom>((u) => true);
+            var list = await dbProxy.Query<UserRoomCfg>((u) => true);
             list.ForEach((room) =>
             {
-                self.AddUserRoom(room as UserRoom);
+                self.AddUserRoomCfg(room as UserRoomCfg);
             });
-            foreach (var item in self.userCreateRoomList)
+            foreach (var item in self.userRoomCfgList)
             {
                 var matchRoom = MatchFactory.CreateCardModeRoom(item.RoomId, item.GameId, item.GameMode,item.HallType,item.Params);
                 self.AddMatchRoom(item.RoomId, matchRoom);

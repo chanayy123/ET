@@ -54,5 +54,7 @@ namespace ETModel
 		 public const ushort WS_GetUserInfo = 1050;
 		 public const ushort SW_GetGameCfgList = 1051;
 		 public const ushort WS_GetGameCfgList = 1052;
+		 public const ushort SW_UpdateUserInfo = 1053;
+		 public const ushort WS_UpdateUserInfo = 1054;
 	}
 }

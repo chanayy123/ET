@@ -31,7 +31,7 @@ namespace ETHotfix
                 while (true)
                 {
                     roomId = RandomHelper.RandomNumber(10000, 100000);
-                    if (!matchMgr.IsRoomExist(roomId) || matchMgr.IsCreateRoomIdValid(roomId)) return roomId;
+                    if (!matchMgr.IsRoomExist(roomId)) return roomId;
                 }
             }
         }

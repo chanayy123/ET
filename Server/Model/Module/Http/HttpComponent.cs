@@ -149,8 +149,9 @@ namespace ETModel
 					getHandlers.Add(httpHandlerAttribute.Path + path, method);
 					//Log.Debug($"add handler[{httpHandler}.{method.Name}] path {httpHandlerAttribute.Path + path}");
 				}
+                
 
-				object[] postAttrs = method.GetCustomAttributes(typeof(PostAttribute), false);
+                object[] postAttrs = method.GetCustomAttributes(typeof(PostAttribute), false);
 				if (postAttrs.Length != 0)
 				{
 					// Post处理方法

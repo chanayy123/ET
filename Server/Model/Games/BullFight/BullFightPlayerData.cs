@@ -6,13 +6,12 @@ using ETModel;
 
 namespace ETModel
 {
-    public partial class BullRoomData : Component
+    public partial class BullFightPlayerData : Component
     {
         public override void Dispose()
         {
             if (this.IsDisposed) return;
             base.Dispose();
-            PlayerList.Clear();
             Data?.Dispose();
         }
     }

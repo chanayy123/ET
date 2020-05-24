@@ -5,64 +5,64 @@ using NLog;
 
 namespace App
 {
-	internal static class Program
-	{
-		private static void Main(string[] args)
-		{
-			// 异步方法全部会回掉到主线程
-			SynchronizationContext.SetSynchronizationContext(OneThreadSynchronizationContext.Instance);
-			try
-			{			
-				Game.EventSystem.Add(DLLType.Model, typeof(Game).Assembly);
-				Game.EventSystem.Add(DLLType.Hotfix, DllHelper.GetHotfixAssembly());
+    internal static class Program
+    {
+        private static void Main(string[] args)
+        {
+            // 异步方法全部会回掉到主线程
+            SynchronizationContext.SetSynchronizationContext(OneThreadSynchronizationContext.Instance);
+            try
+            {
+                Log.Debug("当前进场主线程ID: " + Thread.CurrentThread.ManagedThreadId);
+                Game.EventSystem.Add(DLLType.Model, typeof(Game).Assembly);
+                Game.EventSystem.Add(DLLType.Hotfix, DllHelper.GetHotfixAssembly());
 
-				Options options = Game.Scene.AddComponent<OptionComponent, string[]>(args).Options;
+                Options options = Game.Scene.AddComponent<OptionComponent, string[]>(args).Options;
                 Log.Debug("进程启动参数: " + options.AppId + " " + options.AppType + " " + options.Config + " " + options.MongoAlias);
-				StartConfig startConfig = Game.Scene.AddComponent<StartConfigComponent, string, int>(options.Config, options.AppId).StartConfig;
+                StartConfig startConfig = Game.Scene.AddComponent<StartConfigComponent, string, int>(options.Config, options.AppId).StartConfig;
 
-				if (!options.AppType.Is(startConfig.AppType))
-				{
-					Log.Error("命令行参数apptype与配置不一致");
-					return;
-				}
+                if (!options.AppType.Is(startConfig.AppType))
+                {
+                    Log.Error("命令行参数apptype与配置不一致");
+                    return;
+                }
                 Console.Title = $"{startConfig.AppId}--{startConfig.AppType}";
                 IdGenerater.AppId = options.AppId;
+                LogManager.Configuration.Variables["appType"] = $"{startConfig.AppType}";
+                LogManager.Configuration.Variables["appId"] = $"{startConfig.AppId}";
+                LogManager.Configuration.Variables["appTypeFormat"] = $"{startConfig.AppType,-8}";
+                LogManager.Configuration.Variables["appIdFormat"] = $"{startConfig.AppId:0000}";
 
-				LogManager.Configuration.Variables["appType"] = $"{startConfig.AppType}";
-				LogManager.Configuration.Variables["appId"] = $"{startConfig.AppId}";
-				LogManager.Configuration.Variables["appTypeFormat"] = $"{startConfig.AppType, -8}";
-				LogManager.Configuration.Variables["appIdFormat"] = $"{startConfig.AppId:0000}";
-
-				Log.Info($"server start........................ {startConfig.AppId} {startConfig.AppType}");
+                Log.Info($"server start........................ {startConfig.AppId} {startConfig.AppType}");
                 OuterConfig outerConfig = startConfig.GetComponent<OuterConfig>();
-				ClientConfig clientConfig = startConfig.GetComponent<ClientConfig>();
+                ClientConfig clientConfig = startConfig.GetComponent<ClientConfig>();
                 //添加通用组件
                 AddCommonComponents();
                 ///////////////////////根据不同服务器类型添加相应组件//////////////////////
                 switch (startConfig.AppType)
-				{
-					case AppType.Manager:
-						Game.Scene.AddComponent<AppManagerComponent>();
-						Game.Scene.AddComponent<NetOuterComponent,NetworkProtocol, string>(outerConfig.Protocol,outerConfig.Address);
-						break;
-					case AppType.Realm:
-                        Game.Scene.AddComponent<NetOuterComponent,NetworkProtocol, string>(outerConfig.Protocol, outerConfig.Address);
+                {
+                    case AppType.Manager:
+                        Game.Scene.AddComponent<AppManagerComponent>();
+                        Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol, string>(outerConfig.Protocol, outerConfig.Address);
+                        break;
+                    case AppType.Realm:
+                        Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol, string>(outerConfig.Protocol, outerConfig.Address);
                         Game.Scene.AddComponent<RealmOnlineUserComponent>();
                         break;
                     case AppType.DB:
                         Game.Scene.AddComponent<DBComponent>();
                         break;
-					case AppType.Gate:
+                    case AppType.Gate:
                         Game.Scene.AddComponent<GateUserComponent>();
-						Game.Scene.AddComponent<NetOuterComponent,NetworkProtocol, string>(outerConfig.Protocol,outerConfig.Address);
-						Game.Scene.AddComponent<GateSessionKeyComponent>();
-						break;
+                        Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol, string>(outerConfig.Protocol, outerConfig.Address);
+                        Game.Scene.AddComponent<GateSessionKeyComponent>();
+                        break;
                     case AppType.Http:
                         Game.Scene.AddComponent<HttpComponent>();
                         break;
-					case AppType.Location:
+                    case AppType.Location:
                         Game.Scene.AddComponent<LocationComponent>();
-						break;
+                        break;
                     case AppType.World:
                         Game.Scene.AddComponent<UserComponent>();
                         Game.Scene.AddComponent<GameConfigComponent>();
@@ -81,7 +81,7 @@ namespace App
                         //http server
                         Game.Scene.AddComponent<HttpComponent>();
                         // 外网消息组件
-                        Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol,string>(outerConfig.Protocol, outerConfig.Address);
+                        Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol, string>(outerConfig.Protocol, outerConfig.Address);
                         //realm验证服
                         Game.Scene.AddComponent<RealmOnlineUserComponent>();
                         //gate server
@@ -95,11 +95,11 @@ namespace App
                         //游戏逻辑服
                         Game.Scene.AddComponent<GameRoomComponent>();
                         break;
-					case AppType.BenchmarkTCPClient: 
-                        Game.Scene.AddComponent<BenchmarkComponent, NetworkProtocol,string>(NetworkProtocol.TCP,clientConfig.Address);
-						break;
+                    case AppType.BenchmarkTCPClient:
+                        Game.Scene.AddComponent<BenchmarkComponent, NetworkProtocol, string>(NetworkProtocol.TCP, clientConfig.Address);
+                        break;
                     case AppType.BenchmarkTCPServer:
-                        Game.Scene.AddComponent<NetOuterComponent,NetworkProtocol, string>(NetworkProtocol.TCP,outerConfig.Address);
+                        Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol, string>(NetworkProtocol.TCP, outerConfig.Address);
                         break;
                     case AppType.BenchmarkWebsocketClient:
                         Game.Scene.AddComponent<BenchmarkComponent, NetworkProtocol, string>(NetworkProtocol.WebSocket, clientConfig.Address);
@@ -114,27 +114,27 @@ namespace App
                         Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol, string>(NetworkProtocol.KCP, outerConfig.Address);
                         break;
                     default:
-						throw new Exception($"命令行参数没有设置正确的AppType: {startConfig.AppType}");
-				}
+                        throw new Exception($"命令行参数没有设置正确的AppType: {startConfig.AppType}");
+                }
                 while (true)
-				{
-					try
-					{
-						Thread.Sleep(1);
-						OneThreadSynchronizationContext.Instance.Update();
-						Game.EventSystem.Update();
-					}
-					catch (Exception e)
-					{
-						Log.Error(e);
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Log.Error(e);
-			}
-		}
+                {
+                    try
+                    {
+                        Thread.Sleep(1);
+                        OneThreadSynchronizationContext.Instance.Update();
+                        Game.EventSystem.Update();
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error(e);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+            }
+        }
         private static void AddCommonComponents()
         {
             StartConfig startConfig = StartConfigComponent.Instance.StartConfig;
@@ -142,7 +142,7 @@ namespace App
             Game.Scene.AddComponent<TimerComponent>();
             Game.Scene.AddComponent<OpcodeTypeComponent>();
             //内网网络组件
-            if(innerConfig != null)
+            if (innerConfig != null)
             {
                 Game.Scene.AddComponent<NetInnerComponent, string>(innerConfig.Address);
             }

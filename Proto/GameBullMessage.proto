@@ -4,20 +4,55 @@ import "CommonMessage.proto";
 
 enum BullCardType
 {
-	BCT_Invalid =0;
-	BCT_Bull0=1;
-	BCT_Bull1=2;
+	Bull_CT_Invalid =0;
+	Bull_CT_Bull0=1;
+	Bull_CT_Bull1=2;
+	Bull_CT_Bull2=3;
+	Bull_CT_Bull3=4;
+	Bull_CT_Bull4=5;
+	Bull_CT_Bull5=6;
+	Bull_CT_Bull6=7;
+	Bull_CT_Bull7=8;
+	Bull_CT_Bull8=9;
+	Bull_CT_Bull9=10;
+	Bull_CT_Bull10=11;
 }
 
 enum BullOpCode
 {
-	BOC_Invalid=0;
-	BOC_BetBank=1;
-	BOC_BetPlayer=2;
-	BOC_ShowCard=3;
+	Bull_OP_Invalid=0;
+	Bull_OP_BetBank=1;
+	Bull_OP_BetPlayer=2;
+	Bull_OP_ShowCard=3;
 }
 
-message BullPlayerData
+enum BullGameState
+{
+	Bull_GS_IDLE=0;
+	Bull_GS_WAIT_PLAYER=1;
+	Bull_GS_WAIT_START=2;
+	Bull_GS_ROBBANK=3;
+	Bull_GS_SELBANK=4;
+	Bull_GS_PLAYERBET=5;
+	Bull_GS_DISPATCH=6;
+	Bull_GS_SHOWCARD=7;
+	Bull_GS_BILL=8;
+}
+
+enum BullDefines
+{
+	option allow_alias = true;
+	DEFAULT = 0;
+	WAIT_START_TIME = 3000;
+	ROB_BANK_TIME = 6000;
+	SEL_BANK_TIME = 2000;
+	PLAYER_BET_TIME = 5000;
+	DISPATCH_TIME = 2000;
+	SHOW_CARD_TIME = 5000;
+	BILL_TIME = 5000;
+}
+
+message BullFightPlayerData
 {
 	GamePlayerData Data =1;
 	int32 Rate = 2;
@@ -25,29 +60,37 @@ message BullPlayerData
 	BullCardType CardType = 4; 
 }
 
-message BullRoomData //IMessage
+message BullFightRoomData //IMessage
 {
 	GameRoomData Data = 1;
-	repeated BullPlayerData PlayerList = 2;
+	repeated BullFightPlayerData PlayerList = 2;
 	int32 BankerPos = 3;
 }
 
 message SC_BullRoomInfo //IActorMessage
 {
 	int64 ActorId = 1;
-	BullRoomData Data = 2;
+	BullFightRoomData Data = 2;
+}
+//断线重连,客户端主动请求当前游戏房间信息
+message SC_GetBullRoomInfo //IActorResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+	BullFightRoomData Data = 4;
 }
 
 message SC_BullPlayerEnter //IActorMessage
 {
 	int64 ActorId = 1;
-	BullPlayerData Player=2;
+	BullFightPlayerData Player=2;
 }
 
 message SC_BullState //IActorMessage
 {
 	int64 ActorId = 1;
-	int32 State = 2;
+	BullGameState State = 2;
 	repeated int32 Params = 3;
 }
 
@@ -56,6 +99,7 @@ message CS_BullOp //IActorRequest
 	int32 RpcId = 1;
 	int64 ActorId = 2;
 	BullOpCode OpCode = 3;
+	repeated int32 Params = 4;
 }
 
 message SC_BullOp //IActorResponse
@@ -96,7 +140,7 @@ message SC_BullCardsInfo //IActorMessage
 message BullBillInfo
 {
 	int32 Pos =1;
-	int64 GainCoin = 2;
+	int64 ChangeCoin = 2;
 	int64 TotalCoin = 3;
 }
 

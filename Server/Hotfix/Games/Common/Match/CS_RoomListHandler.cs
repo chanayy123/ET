@@ -5,6 +5,9 @@ using ETModel;
 
 namespace ETHotfix
 {
+    /// <summary>
+    /// 获取大厅的房间列表
+    /// </summary>
     [MessageHandler(AppType.Match)]
     class CS_RoomListHandler : AMRpcHandler<CS_RoomList, SC_RoomList>
     {

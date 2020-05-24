@@ -2,8 +2,10 @@
 using ETModel;
 namespace ETModel
 {
+
     [BsonIgnoreExtraElements]
     public partial class UserInfo : Entity
     {
+        public const string Property_Coin = "Coin";
     }
 }

@@ -24,6 +24,9 @@ namespace ETHotfix
             data.GateSessionId = player.GateSessionId;
             data.Name = user.UserInfo.Name;
             data.Head = user.UserInfo.Head;
+            data.Coin = user.UserInfo.Coin;
+            data.Pos = -1;
+            data.State = PlayerState.None;
             return data;
         }
 
@@ -63,9 +66,13 @@ namespace ETHotfix
             return msg;
         }
 
-        public static void DisposeComponent(Component com)
+        public static SW_UpdateUserInfo CreateMsgSW_UpdateUserInfo(int userId, string key ,string value)
         {
-            com.Dispose();
+            var msg = SimplePool.Instance.Fetch<SW_UpdateUserInfo>();
+            msg.UserId = userId;
+            msg.Key = key;
+            msg.Value = value;
+            return msg;
         }
 
         public static void RecycleMsg(object msg)

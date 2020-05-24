@@ -1,14 +1,18 @@
 using ETModel;
 namespace ETModel
 {
-	[Message(GameBullOpcode.BullPlayerData)]
-	public partial class BullPlayerData {}
+	[Message(GameBullOpcode.BullFightPlayerData)]
+	public partial class BullFightPlayerData {}
 
-	[Message(GameBullOpcode.BullRoomData)]
-	public partial class BullRoomData : IMessage {}
+	[Message(GameBullOpcode.BullFightRoomData)]
+	public partial class BullFightRoomData : IMessage {}
 
 	[Message(GameBullOpcode.SC_BullRoomInfo)]
 	public partial class SC_BullRoomInfo : IActorMessage {}
+
+//断线重连,客户端主动请求当前游戏房间信息
+	[Message(GameBullOpcode.SC_GetBullRoomInfo)]
+	public partial class SC_GetBullRoomInfo : IActorResponse {}
 
 	[Message(GameBullOpcode.SC_BullPlayerEnter)]
 	public partial class SC_BullPlayerEnter : IActorMessage {}
@@ -45,18 +49,19 @@ namespace ETModel
 {
 	public static partial class GameBullOpcode
 	{
-		 public const ushort BullPlayerData = 30001;
-		 public const ushort BullRoomData = 30002;
+		 public const ushort BullFightPlayerData = 30001;
+		 public const ushort BullFightRoomData = 30002;
 		 public const ushort SC_BullRoomInfo = 30003;
-		 public const ushort SC_BullPlayerEnter = 30004;
-		 public const ushort SC_BullState = 30005;
-		 public const ushort CS_BullOp = 30006;
-		 public const ushort SC_BullOp = 30007;
-		 public const ushort SC_BullBankerRate = 30008;
-		 public const ushort SC_BullPlayerRate = 30009;
-		 public const ushort SC_BullBankerPos = 30010;
-		 public const ushort SC_BullCardsInfo = 30011;
-		 public const ushort BullBillInfo = 30012;
-		 public const ushort SC_BullBillInfo = 30013;
+		 public const ushort SC_GetBullRoomInfo = 30004;
+		 public const ushort SC_BullPlayerEnter = 30005;
+		 public const ushort SC_BullState = 30006;
+		 public const ushort CS_BullOp = 30007;
+		 public const ushort SC_BullOp = 30008;
+		 public const ushort SC_BullBankerRate = 30009;
+		 public const ushort SC_BullPlayerRate = 30010;
+		 public const ushort SC_BullBankerPos = 30011;
+		 public const ushort SC_BullCardsInfo = 30012;
+		 public const ushort BullBillInfo = 30013;
+		 public const ushort SC_BullBillInfo = 30014;
 	}
 }

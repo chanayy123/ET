@@ -490,7 +490,7 @@ namespace ETModel
 
 	}
 
-//game->match
+//gate->game
 	[Message(InnerOpcode.Actor_OnlineState)]
 	public partial class Actor_OnlineState: IActorMessage
 	{
@@ -498,7 +498,7 @@ namespace ETModel
 
 		public long GateSessionId { get; set; }
 
-		public int State { get; set; }
+		public bool Flag { get; set; }
 
 	}
 
@@ -613,6 +613,30 @@ namespace ETModel
 		public string Message { get; set; }
 
 		public List<GameConfig> GameCfgList = new List<GameConfig>();
+
+	}
+
+	[Message(InnerOpcode.SW_UpdateUserInfo)]
+	public partial class SW_UpdateUserInfo: IRequest
+	{
+		public int RpcId { get; set; }
+
+		public int UserId { get; set; }
+
+		public string Key { get; set; }
+
+		public string Value { get; set; }
+
+	}
+
+	[Message(InnerOpcode.WS_UpdateUserInfo)]
+	public partial class WS_UpdateUserInfo: IResponse
+	{
+		public int RpcId { get; set; }
+
+		public int Error { get; set; }
+
+		public string Message { get; set; }
 
 	}
 

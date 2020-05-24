@@ -18,6 +18,8 @@ namespace ETModel
             GateSessionId = 0;
             Online = false;
             ActorId = 0;
+            GameId = 0;
+            RoomId = 0;
         }
     }
 }

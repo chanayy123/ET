@@ -110,6 +110,12 @@ namespace ETModel
 	[Message(CommonOpcode.SC_LeaveScene)]
 	public partial class SC_LeaveScene : IResponse {}
 
+	[Message(CommonOpcode.SC_CoinChange)]
+	public partial class SC_CoinChange : IActorMessage {}
+
+	[Message(CommonOpcode.CS_GetRoomInfo)]
+	public partial class CS_GetRoomInfo : IActorRequest {}
+
 }
 namespace ETModel
 {
@@ -151,5 +157,7 @@ namespace ETModel
 		 public const ushort SC_EnterScene = 20034;
 		 public const ushort CS_LeaveScene = 20035;
 		 public const ushort SC_LeaveScene = 20036;
+		 public const ushort SC_CoinChange = 20037;
+		 public const ushort CS_GetRoomInfo = 20038;
 	}
 }

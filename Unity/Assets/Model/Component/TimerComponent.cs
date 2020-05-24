@@ -112,7 +112,7 @@ namespace ETModel
 		{
             //ETTaskCompletionSource tcs = new ETTaskCompletionSource();
             //Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = tillTime, tcs = tcs };
-            Timer timer = MakeTimer(tillTime);
+            Timer timer = CreateTimer(tillTime);
             this.timers[timer.Id] = timer;
 			this.timeId.Add(timer.Time, timer.Id);
 			if (timer.Time < this.minTime)
@@ -127,7 +127,7 @@ namespace ETModel
 		{
             //ETTaskCompletionSource tcs = new ETTaskCompletionSource();
             //Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = tillTime, tcs = tcs };
-            Timer timer = MakeTimer(tillTime);
+            Timer timer = CreateTimer(tillTime);
             this.timers[timer.Id] = timer;
 			this.timeId.Add(timer.Time, timer.Id);
 			if (timer.Time < this.minTime)
@@ -141,14 +141,15 @@ namespace ETModel
 		{
             //ETTaskCompletionSource tcs = new ETTaskCompletionSource();
             //Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = TimeHelper.Now() + time, tcs = tcs };
-            Timer timer = MakeTimer(TimeHelper.Now() + time);
-            this.timers[timer.Id] = timer;
-			this.timeId.Add(timer.Time, timer.Id);
+            Timer timer = CreateTimer(TimeHelper.Now() + time);
+            var timeId = timer.Id;
+            this.timers[timeId] = timer;
+			this.timeId.Add(timer.Time, timeId);
 			if (timer.Time < this.minTime)
 			{
 				this.minTime = timer.Time;
 			}
-			cancellationToken.Register(() => { this.Remove(timer.Id); });
+			cancellationToken.Register(() => { this.Remove(timeId); });
 			return timer.tcs.Task;
 		}
 
@@ -156,7 +157,7 @@ namespace ETModel
 		{
             //ETTaskCompletionSource tcs = new ETTaskCompletionSource();
             //Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = TimeHelper.Now() + time, tcs = tcs };
-            Timer timer = MakeTimer(TimeHelper.Now() + time);
+            Timer timer = CreateTimer(TimeHelper.Now() + time);
             this.timers[timer.Id] = timer;
 			this.timeId.Add(timer.Time, timer.Id);
 			if (timer.Time < this.minTime)
@@ -166,7 +167,7 @@ namespace ETModel
 			return timer.tcs.Task;
 		}
 
-        private Timer MakeTimer(long time)
+        private Timer CreateTimer(long time)
         {
             Timer timer = SimplePool.Instance.Fetch<Timer>();
             timer.Id = IdGenerater.GenerateId();

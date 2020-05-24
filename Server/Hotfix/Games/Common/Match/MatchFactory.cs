@@ -68,9 +68,9 @@ namespace ETHotfix
             return room;
         }
 
-        public static UserRoom CreateUserRoom(int roomId,int userId,int gameId, int gameMode,int hallType, string gameParams)
+        public static UserRoomCfg CreateUserRoomCfg(int roomId,int userId,int gameId, int gameMode,int hallType, string gameParams)
         {
-            UserRoom room = ComponentFactory.Create<UserRoom>();
+            UserRoomCfg room = ComponentFactory.Create<UserRoomCfg>();
             room.RoomId = roomId;
             room.CreateUserId = userId;
             room.GameId = gameId;

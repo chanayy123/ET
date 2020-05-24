@@ -112,7 +112,7 @@ namespace ETHotfix
                 Log.Error($"消息没有处理: {opcode} {JsonHelper.ToJson(message)}");
                 return;
             }
-            //一些消息服务器补足字段,不需要客户端填充
+            //IUserRequest消息服务器补足字段,不需要客户端填充
             if (message is IUserRequest iu)
             {
                     iu.GateSessionId = session.Id;

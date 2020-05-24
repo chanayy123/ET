@@ -7,9 +7,9 @@ using ETModel;
 namespace ETModel
 {
     /// <summary>
-    /// 玩家创建的房间
+    /// 玩家创建的房间配置
     /// </summary>
-    public  class UserRoom : Entity {
+    public  class UserRoomCfg : Entity {
         public int RoomId { get; set; }
         public int CreateUserId { get; set; }
         public int GameId { get; set; }

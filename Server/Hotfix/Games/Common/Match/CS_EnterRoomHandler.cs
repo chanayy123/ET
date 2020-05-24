@@ -19,7 +19,7 @@ namespace ETHotfix
                 var gamePlayer = GameFactory.CreatePlayerData(matchPlayer,user);
                 var roomCfg = matchRoom.Config;
                 var msg = MatchFactory.CreateMsgMG_EnterRoom(gamePlayer, request.RoomId, roomCfg.GameId, roomCfg.GameMode, roomCfg.HallType);
-                if(matchRoom.RoomActorId == 0)
+                if(matchRoom.RoomActorId == 0)//游服没有此房间就随机选个游服
                 {
                     var gameSession = MatchHelper.RandomGameSession;
                     gameSession.Send(msg);
@@ -28,9 +28,10 @@ namespace ETHotfix
                 {
                     NetInnerHelper.SendMsgByAcotrId(matchRoom.RoomActorId, msg);
                 }
-                roomMgr.EnterRoom(matchPlayer);
-                gamePlayer.Dispose();
                 MatchFactory.RecycleMsg(msg);
+                gamePlayer.Dispose();
+                //进入游戏房间之后,同步添加匹配玩家进入匹配房间
+                roomMgr.EnterRoom(matchPlayer);
                 reply();
             }
             else

@@ -125,7 +125,7 @@ namespace ETHotfix
                 {
                     foreach (var player in list)
                     {
-                        if (self.IsInGameRoom(player.UserId)) continue;
+                        if (self.IsInMatchOrRoom(player.UserId)) continue;
                         msg.ActorId = player.GateSessionId;
                         msg.List.Clear();
                         msg.List.AddRange(item.Value);
@@ -140,20 +140,10 @@ namespace ETHotfix
                 item.Value.Clear();
             }
         }
-        /// <summary>
-        /// 是否在游戏房间
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public static bool IsInGameRoom(this MatchRoomComponent self,int userId)
-        {
-            return self.userRoomDic.ContainsKey(userId);
-        }
 
         public static OpRetCode CanEnterRoom(this MatchRoomComponent self, int roomId, User user)
         {
-            if (self.IsInGameRoom(user.UserInfo.UserId))
+            if (self.IsInMatchOrRoom(user.UserInfo.UserId))
             {
                 return OpRetCode.RoomAlreadyIn;
             }
@@ -187,7 +177,7 @@ namespace ETHotfix
 
         public static OpRetCode CanLeaveRoom(this MatchRoomComponent self, int userId)
         {
-            if (!self.IsInGameRoom(userId))
+            if (!self.IsInMatchOrRoom(userId))
             {
                 return OpRetCode.RoomAlreadyOut;
             }

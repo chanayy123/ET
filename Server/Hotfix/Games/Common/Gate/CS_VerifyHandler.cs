@@ -24,6 +24,8 @@ namespace ETHotfix
             {
                 gateUser.Session.Dispose();
             }
+            //验证key成功删除key
+            gateKeys.Remove(request.Key);
             //创建网关用户
             gateUser = GateFactory.CreateUser(userId, session);
             //session绑定用户信息

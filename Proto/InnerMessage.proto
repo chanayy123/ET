@@ -318,12 +318,12 @@ message GM_SynRoomData // IMessage
 	int64 RoomActorId = 3;
 }
 
-//game->match
+//gate->game
 message Actor_OnlineState //IActorMessage
 {
 	int64 ActorId = 1;
 	int64 GateSessionId = 2;
-	int32 State = 3; //0 离线 1 在线
+	bool Flag = 3;
 }
 //game->other
 message GS_SynActorId // IMessage
@@ -394,6 +394,22 @@ message WS_GetGameCfgList //IResponse
 	string Message = 3;
 	repeated GameConfig GameCfgList = 4;
 }
+
+message SW_UpdateUserInfo //IRequest
+{
+	int32 RpcId = 1;	
+	int32 UserId = 2;
+	string Key =3;
+	string Value = 4;
+}
+
+message WS_UpdateUserInfo //IResponse
+{
+	int32 RpcId =1;
+	int32 Error =2;
+	string Message = 3;
+}
+
 
 
 

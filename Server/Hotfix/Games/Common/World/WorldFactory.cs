@@ -36,6 +36,7 @@ namespace ETHotfix
         {
             var gameCfg = ComponentFactory.Create<GameConfig>();
             gameCfg.GameId = cfg.GameId;
+            gameCfg.GameMode = cfg.GameMode;
             gameCfg.MinLimitCoin = cfg.MinLimitCoin;
             gameCfg.MaxLimitCoin = cfg.MaxLimitCoin;
             gameCfg.HallId = cfg.Id;
