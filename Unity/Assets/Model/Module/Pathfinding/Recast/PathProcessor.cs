@@ -360,7 +360,7 @@ namespace PF {
 					if (p == null) {
 						yield return null;
 					}
-				}
+				}                                                                                                                                                                                                                          
 
 
 				IPathInternals ip = (IPathInternals)p;

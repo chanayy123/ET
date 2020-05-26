@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using ETModel;
+using Google.Protobuf.Collections;
+
 namespace ETHotfix
 {
     /// <summary>
@@ -127,11 +129,41 @@ namespace ETHotfix
         {
             room.State = BullGameState.BullGsBill;
             room.BroadcastGameState();
-            //模拟扣除金币结算
+            //金币结算:暂时只考虑够赔的情况
+            var banker = room.seatPlayerDIc[room.BankerPos];
+            RepeatedField<BullBillInfo> billList = BullFightFactory.CreateBullBillInfoList();
+            BullBillInfo bankBillInfo = BullFightFactory.CreateBullBillInfo(room.BankerPos);
+            billList.Add(bankBillInfo);
             foreach (var item in room.playerDic)
             {
-                item.Value.ChangeCoin(RandomHelper.RandomNumber(-100, 100));
+                var player = item.Value;
+                if(player.Pos != room.BankerPos)//闲家和庄家比大小
+                {
+                    BullBillInfo billInfo = BullFightFactory.CreateBullBillInfo(player.Pos);
+                    var result = BullFightHelper.Compare(banker, player);
+                    if(result > 0) //庄家赢
+                    {
+                        var changeCoin = room.Cfg.BaseScore * BullFightHelper.GetBankerRate(banker.Rate) * BullFightHelper.GetPlayerRate(player.Rate, room.Cfg) * BullFightHelper.GetTypeRate(banker.CardType);
+                        bankBillInfo.ChangeCoin += changeCoin;
+                        billInfo.ChangeCoin = -changeCoin;
+                        billInfo.TotalCoin = player.Coin + billInfo.ChangeCoin;
+                        //同步世界服金币变更
+                        player.ChangeCoin((int)billInfo.ChangeCoin);
+                    }
+                    else
+                    {
+                        var changeCoin = room.Cfg.BaseScore * BullFightHelper.GetBankerRate(banker.Rate) * BullFightHelper.GetPlayerRate(player.Rate, room.Cfg) * BullFightHelper.GetTypeRate(player.CardType);
+                        bankBillInfo.ChangeCoin -= changeCoin;
+                        billInfo.ChangeCoin = changeCoin;
+                        billInfo.TotalCoin = player.Coin + billInfo.ChangeCoin;
+                        //同步世界服金币变更
+                        player.ChangeCoin((int)billInfo.ChangeCoin);
+                    }
+                }
             }
+            //庄家金币结算完成同步世界服金币变更
+            bankBillInfo.TotalCoin = banker.Coin + bankBillInfo.ChangeCoin;
+            banker.ChangeCoin((int)bankBillInfo.ChangeCoin);
             room.DelayCheckSwitchState((int)BullDefines.BillTime, room.CheckPlayerCount,true);
         }
 

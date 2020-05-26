@@ -4,6 +4,8 @@ using System.Threading;
 using System.Linq;
 using System.Text;
 using ETModel;
+using Google.Protobuf.Collections;
+
 namespace ETHotfix
 {
     public static class BullFightRoomExtensions
@@ -389,6 +391,17 @@ namespace ETHotfix
             {
                 if (!item.Value.IsOnline) continue;
                 SC_BullCardsInfo msg = BullFightFactory.CreateMsgSC_BullCardsInfo(item.Value.GateSessionId,player.Pos,player.HandCards,player.CardType);
+                NetInnerHelper.SendActorMsg(msg);
+                BullFightFactory.RecycleMsg(msg);
+            }
+        }
+
+        public static void BroadcastBill(this BullFightRoom self,RepeatedField<BullBillInfo> billList)
+        {
+            foreach (var item in self.playerDic)
+            {
+                if (!item.Value.IsOnline) continue;
+                SC_BullBillInfo msg = BullFightFactory.CreateMsgSC_BullBillInfo(item.Value.GateSessionId, billList);
                 NetInnerHelper.SendActorMsg(msg);
                 BullFightFactory.RecycleMsg(msg);
             }

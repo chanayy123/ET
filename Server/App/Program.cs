@@ -13,7 +13,6 @@ namespace App
             SynchronizationContext.SetSynchronizationContext(OneThreadSynchronizationContext.Instance);
             try
             {
-                Log.Debug("当前进场主线程ID: " + Thread.CurrentThread.ManagedThreadId);
                 Game.EventSystem.Add(DLLType.Model, typeof(Game).Assembly);
                 Game.EventSystem.Add(DLLType.Hotfix, DllHelper.GetHotfixAssembly());
 

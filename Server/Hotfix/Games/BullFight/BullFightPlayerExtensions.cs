@@ -42,7 +42,7 @@ namespace ETHotfix
         /// <param name="timeout"></param>
         public static void ChooseShowCard(this BullFightPlayer self, RepeatedField<int> list,bool timeout =false)
         {
-            BullCardType type = BullFightHelper.UpdateBestGroup(self.HandCards);
+            BullCardType type = BullFightHelper.UpdateBestSort(self.HandCards);
             self.CardType = type;
             self.Room.BroadcastShowCard(self);
             if(!timeout) self.Room.CheckShowCard();

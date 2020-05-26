@@ -58,7 +58,6 @@ namespace ETHotfix
     [ActorMessageHandler(AppType.Game)]
     class BullFightActorOpHandler : AMActorRpcHandler<BullFightPlayer, CS_BullOp, SC_BullOp>
     {
-        public readonly int[] BankerRate = {0,1,2,3,4};
         protected override ETTask Run(BullFightPlayer player, CS_BullOp request, SC_BullOp response, Action reply)
         {
             var room = player.Room;
@@ -67,7 +66,7 @@ namespace ETHotfix
                 if (request.Params.Count == 1)
                 {
                     var index = request.Params[0];
-                    if (index >= 0 && index < BankerRate.Length)
+                    if (index >= 0 && index < BullFightHelper.BankerRate.Length)
                     {
                         player.ChooseBankRate(index);
                     }

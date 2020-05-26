@@ -106,6 +106,38 @@ namespace ETHotfix
             return msg;
         }
 
+        public static SC_BullBillInfo CreateMsgSC_BullBillInfo(long gateSessionId, RepeatedField<BullBillInfo> billList)
+        {
+            var msg = SimplePool.Instance.Fetch<SC_BullBillInfo>();
+            msg.ActorId = gateSessionId;
+            msg.Datas.Clear();
+            msg.Datas.AddRange(billList);
+            return msg;
+        }
+
+        public static BullBillInfo CreateBullBillInfo(int pos,long changeCoin=0,long totalCoin=0)
+        {
+            var bill = SimplePool.Instance.Fetch<BullBillInfo>();
+            bill.Pos = pos;
+            bill.ChangeCoin = changeCoin;
+            bill.TotalCoin = totalCoin;
+            return bill;
+        }
+
+        public static RepeatedField<BullBillInfo> CreateBullBillInfoList()
+        {
+            var billList = SimplePool.Instance.Fetch<RepeatedField<BullBillInfo>>();
+            billList.Clear();
+            return billList;
+        }
+
+
+
+        public static void RecycleObj(object obj)
+        {
+            SimplePool.Instance.Recycle(obj);
+        }
+
         public static void RecycleMsg(object msg)
         {
             SimplePool.Instance.Recycle(msg);
