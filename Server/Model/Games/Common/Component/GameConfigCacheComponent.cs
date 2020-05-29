@@ -8,7 +8,6 @@ namespace ETModel
     {
         public static GameConfigCacheComponent Instance { get; private set; }
         public readonly Dictionary<long, GameConfig> gameConfigDic = new Dictionary<long, GameConfig>();
-
         public void Awake()
         {
             Instance = this;

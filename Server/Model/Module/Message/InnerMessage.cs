@@ -456,7 +456,7 @@ namespace ETModel
 	{
 		public int RoomId { get; set; }
 
-		public int UserId { get; set; }
+		public List<int> UserIdList = new List<int>();
 
 	}
 

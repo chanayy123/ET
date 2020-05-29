@@ -133,9 +133,14 @@ namespace ETHotfix
 
 
 
-        public static void RecycleObj(object obj)
+        public static void RecycleBillInfoList(RepeatedField<BullBillInfo> list)
         {
-            SimplePool.Instance.Recycle(obj);
+            foreach (var item in list)
+            {
+                SimplePool.Instance.Recycle(item);
+            }
+            list.Clear();
+            SimplePool.Instance.Recycle(list);
         }
 
         public static void RecycleMsg(object msg)

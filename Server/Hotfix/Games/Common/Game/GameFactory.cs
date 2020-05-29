@@ -30,11 +30,12 @@ namespace ETHotfix
             return data;
         }
 
-        public static GM_LeaveRoom CreateMsgGM_LeaveRoom(int roomId,int userId)
+        public static GM_LeaveRoom CreateMsgGM_LeaveRoom(int roomId,params int[] userIdList)
         {
             GM_LeaveRoom msg = SimplePool.Instance.Fetch<GM_LeaveRoom>();
             msg.RoomId = roomId;
-            msg.UserId = userId;
+            msg.UserIdList.Clear();
+            msg.UserIdList.AddRange(userIdList);
             return msg;
         }
 
@@ -57,12 +58,11 @@ namespace ETHotfix
             return msg;
         }
 
-        public static SC_PlayerLeave CreateMsgSC_PlayerLeave(long gateSessionId, int userId,int pos)
+        public static SC_PlayerLeave CreateMsgSC_PlayerLeave(long gateSessionId, int userId)
         {
             var msg = SimplePool.Instance.Fetch<SC_PlayerLeave>();
             msg.ActorId = gateSessionId;
             msg.UserId = userId;
-            msg.Pos = pos;
             return msg;
         }
 
@@ -72,6 +72,14 @@ namespace ETHotfix
             msg.UserId = userId;
             msg.Key = key;
             msg.Value = value;
+            return msg;
+        }
+
+        public static SC_KickPlayer CreateMsgSC_KickPlayer(long gateSessionId, int reason)
+        {
+            var msg = SimplePool.Instance.Fetch<SC_KickPlayer>();
+            msg.ActorId = gateSessionId;
+            msg.Reason = reason;
             return msg;
         }
 

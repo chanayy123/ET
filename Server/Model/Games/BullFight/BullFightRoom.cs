@@ -15,6 +15,7 @@ namespace ETModel
         public const int MAX_PLAYERS = 5;
         public BullFightRoomData RoomData { get; set; }
         public RoomConfig Cfg { get; set; }
+        public RoomType RoomType { get; set; }
         public CancellationTokenSource StateCancelTS { get; set; }
         /// <summary>
         /// 一副卡牌数据 54张

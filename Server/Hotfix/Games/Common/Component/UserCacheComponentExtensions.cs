@@ -14,7 +14,11 @@ namespace ETHotfix
                 return user;
             }
             user = await WorldHelper.GetUserInfo(userId);
-            self.userDic.Add(userId, user);
+            bool flag = self.userDic.TryAdd(userId, user);
+            if (!flag)
+            {
+                Log.Warning($"UserCacheComponent: 重复添加{userId}");
+            }
             return user;
         }
         public static User Get(this UserCacheComponent self,int userId)

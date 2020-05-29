@@ -19,7 +19,7 @@ namespace ETHotfix
             room.Reset();
             room.State = BullGameState.BullGsWaitPlayer;
             room.BroadcastGameState();
-            GameHelper.SynRoomData(room.RoomId, (int)RoomState.WAIT, room.InstanceId);
+            GameHelper.SynRoomData(room.RoomId, (int)RoomState.IDLE, room.InstanceId);
         }
     }
 
@@ -67,7 +67,7 @@ namespace ETHotfix
             var max = room.seatPlayerDIc.Max((pair) => pair.Value.Rate);
             //在多个玩家随机选择一个庄家
             var list= room.seatPlayerDIc.Where((pair) => pair.Value.Rate == max);
-            Log.Debug($"当前有{list.Count()}个玩家选中倍率:{max}");
+            Log.Debug($"当前有{list.Count()}个玩家同时选中最高倍率:{max}");
             var randIdx = RandomHelper.RandomNumber(0, list.Count());
             var banker = list.ElementAt(randIdx).Value;
             //定完庄,切换闲家选倍率
@@ -140,6 +140,7 @@ namespace ETHotfix
                 if(player.Pos != room.BankerPos)//闲家和庄家比大小
                 {
                     BullBillInfo billInfo = BullFightFactory.CreateBullBillInfo(player.Pos);
+                    billList.Add(billInfo);
                     var result = BullFightHelper.Compare(banker, player);
                     if(result > 0) //庄家赢
                     {
@@ -164,7 +165,10 @@ namespace ETHotfix
             //庄家金币结算完成同步世界服金币变更
             bankBillInfo.TotalCoin = banker.Coin + bankBillInfo.ChangeCoin;
             banker.ChangeCoin((int)bankBillInfo.ChangeCoin);
-            room.DelayCheckSwitchState((int)BullDefines.BillTime, room.CheckPlayerCount,true);
+            //广播结算消息
+            room.BroadcastBill(billList);
+            BullFightFactory.RecycleBillInfoList(billList);
+            room.DelayCheckSwitchState((int)BullDefines.BillTime, room.CheckNewRound, true);
         }
 
     }

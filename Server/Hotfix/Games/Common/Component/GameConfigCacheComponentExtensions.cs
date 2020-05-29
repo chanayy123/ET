@@ -37,10 +37,13 @@ namespace ETHotfix
                     Log.Warning("GameConfigCacheComponent 获取游戏配置失败!");
                     return;
                 }
-                cfgList.ForEach((gameCfg) =>
+                if(self.gameConfigDic.Count == 0)//多次调用此方法,只填充一次数据
                 {
-                    self.gameConfigDic.Add(gameCfg.HallId, gameCfg);
-                });
+                    cfgList.ForEach((gameCfg) =>
+                    {
+                        self.gameConfigDic.Add(gameCfg.HallId, gameCfg);
+                    });
+                }
             }
         }
 

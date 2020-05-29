@@ -3142,14 +3142,6 @@ namespace ETModel {
       }
     }
 
-    private int pos_;
-    public int Pos {
-      get { return pos_; }
-      set {
-        pos_ = value;
-      }
-    }
-
     public void WriteTo(pb::CodedOutputStream output) {
       if (ActorId != 0L) {
         output.WriteRawTag(8);
@@ -3158,10 +3150,6 @@ namespace ETModel {
       if (UserId != 0) {
         output.WriteRawTag(16);
         output.WriteInt32(UserId);
-      }
-      if (Pos != 0) {
-        output.WriteRawTag(24);
-        output.WriteInt32(Pos);
       }
     }
 
@@ -3173,16 +3161,12 @@ namespace ETModel {
       if (UserId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(UserId);
       }
-      if (Pos != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Pos);
-      }
       return size;
     }
 
     public void MergeFrom(pb::CodedInputStream input) {
       actorId_ = 0;
       userId_ = 0;
-      pos_ = 0;
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -3197,8 +3181,75 @@ namespace ETModel {
             UserId = input.ReadInt32();
             break;
           }
-          case 24: {
-            Pos = input.ReadInt32();
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///服务器主动踢玩家出房间
+  /// </summary>
+  public partial class SC_KickPlayer : pb::IMessage {
+    private static readonly pb::MessageParser<SC_KickPlayer> _parser = new pb::MessageParser<SC_KickPlayer>(() => (SC_KickPlayer)MessagePool.Instance.Fetch(typeof(SC_KickPlayer)));
+    public static pb::MessageParser<SC_KickPlayer> Parser { get { return _parser; } }
+
+    private long actorId_;
+    public long ActorId {
+      get { return actorId_; }
+      set {
+        actorId_ = value;
+      }
+    }
+
+    private int reason_;
+    /// <summary>
+    ///0:主动退出 1 游戏结束自动退出  2 强制退出
+    /// </summary>
+    public int Reason {
+      get { return reason_; }
+      set {
+        reason_ = value;
+      }
+    }
+
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ActorId != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(ActorId);
+      }
+      if (Reason != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Reason);
+      }
+    }
+
+    public int CalculateSize() {
+      int size = 0;
+      if (ActorId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(ActorId);
+      }
+      if (Reason != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Reason);
+      }
+      return size;
+    }
+
+    public void MergeFrom(pb::CodedInputStream input) {
+      actorId_ = 0;
+      reason_ = 0;
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            ActorId = input.ReadInt64();
+            break;
+          }
+          case 16: {
+            Reason = input.ReadInt32();
             break;
           }
         }

@@ -14,6 +14,7 @@ namespace ETHotfix
         {
             self.RoomData = BullFightFactory.CreateRoomData(roomId,cfg);
             self.Cfg = cfg;
+            self.RoomType = (RoomType)GameConfigCacheComponent.Instance.Get((int)self.Cfg.Id).RoomType;
         }
         /// <summary>
         /// 玩家匹配成功进入房间
@@ -50,6 +51,21 @@ namespace ETHotfix
             self.BroadcastPlayerLeave(userId);
             GameHelper.SynLeaveRoom(self.RoomId, userId);
             self.CheckPlayerCount();
+        }
+        /// <summary>
+        /// 房间所有玩家离开
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="reason">0 主动离开 1 游戏结束自动离开 2 游戏中强制离开</param>
+        public static void AllLeaveRoom(this BullFightRoom self,int reason)
+        {
+             var userIdList = self.playerDic.Keys.ToArray();
+            self.BroadcastKickPlayers(reason);
+            foreach (var item in userIdList)
+            {
+                self.RemovePlayer(item);
+            }
+            GameHelper.SynLeaveRoom(self.RoomId, userIdList);
         }
 
         public static OpRetCode CanLeaveRoom(this BullFightRoom self, int userId)
@@ -100,7 +116,7 @@ namespace ETHotfix
                 Log.Warning($"删除用户失败: 用户{userId}不存在");
                 return;
             }
-            self.seatPlayerDIc.Remove(userId);
+            self.seatPlayerDIc.Remove(player.Pos);
             self.RoomData.PlayerList.Remove(player.PlayerData);
             //离开游戏房间重置玩家actorid
             GameHelper.SynActorId(player.GateSessionId, player.UserId, 0);
@@ -113,7 +129,7 @@ namespace ETHotfix
             if (self.RoomData.Data.State == _state) return;
             //每次切换状态,取消之前可能存在的延迟切换
             self.StateCancelTS?.Cancel();
-            var stateEvent = $"{EventType.GameRoomStateChange}{self.RoomData.Data.GameId}_{self.RoomData.Data.GameMode}_{_state}";
+            var stateEvent = $"{EventType.GameRoomStateChange}{self.RoomData.Data.GameId}_{_state}";
             Game.EventSystem.Run(stateEvent, self);
         }
 
@@ -235,6 +251,28 @@ namespace ETHotfix
                 self.SwitchState(BullGameState.BullGsBill);
             }
         }
+        /// <summary>
+        /// 结算完毕,检测是否开启新一局
+        /// </summary>
+        public static void CheckNewRound(this BullFightRoom self, bool timeout = false)
+        {
+            if(self.RoomType == RoomType.Match) //匹配模式房间:每局结束玩家自动离开
+            {
+                self.AllLeaveRoom(1);
+            }
+            else //其他模式房间: 每局结束,离线玩家自动离开
+            {
+                var userIdList= self.playerDic.Keys.ToList();
+                foreach (var item in userIdList)
+                {
+                    if (!self.playerDic[item].IsOnline)
+                    {
+                        self.LeaveRoom(item);
+                    }
+                }
+                self.CheckPlayerCount();
+            }
+        }
 
         /// <summary>
         /// 确定庄家
@@ -334,7 +372,7 @@ namespace ETHotfix
                 if (!item.Value.IsOnline) continue;
                 if (item.Key != userId)
                 {
-                    SC_PlayerLeave msg = GameFactory.CreateMsgSC_PlayerLeave(item.Value.GateSessionId, userId, 0);
+                    SC_PlayerLeave msg = GameFactory.CreateMsgSC_PlayerLeave(item.Value.GateSessionId, userId);
                     NetInnerHelper.SendActorMsg(msg);
                     GameFactory.RecycleMsg(msg);
                 }
@@ -407,6 +445,17 @@ namespace ETHotfix
             }
         }
 
+        public static void BroadcastKickPlayers(this BullFightRoom self,int reason)
+        {
+            foreach (var item in self.playerDic)
+            {
+                if (!item.Value.IsOnline) continue;
+                var msg = GameFactory.CreateMsgSC_KickPlayer(item.Value.GateSessionId,reason);
+                NetInnerHelper.SendActorMsg(msg);
+                GameFactory.RecycleMsg(msg);
+            }
+        }
+
         #endregion
 
         public static void Reset(this BullFightRoom self)
@@ -416,7 +465,7 @@ namespace ETHotfix
 
         public static bool IsGaming(this BullFightRoom self)
         {
-            return self.RoomData.Data.State > (int)BullGameState.BullGsWaitStart;
+            return self.State > BullGameState.BullGsWaitStart;
         }
 
         public static void Reset(this BullFightRoomData self)
@@ -427,11 +476,6 @@ namespace ETHotfix
             {
                 item.Reset();
             }
-        }
-
-        public static int GetBetCount()
-        {
-            return 0;
         }
 
     }

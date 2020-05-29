@@ -20,7 +20,7 @@ namespace ETModel
 
         /// <summary>
         /// 从配置地址字符串转成对应协议支持的格式
-        ///  tcp/kcp格式: ip:port ,   websocket格式:  ip:port=> http://ip:port/ ,如果ip是0.0.0.转成 http://*:port/
+        ///  tcp/kcp格式: ip:port ,   websocket格式:  ip:port=> http://ip:port/ ,如果ip是0.0.0.0转成 http://*:port/
         /// </summary>
         /// <param name="address">格式 ip:port</param>
         /// <returns></returns>

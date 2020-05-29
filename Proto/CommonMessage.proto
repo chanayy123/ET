@@ -289,7 +289,13 @@ message SC_PlayerLeave //IActorMessage
 {
 	int64 ActorId = 1;
 	int32 UserId = 2;
-	int32 Pos = 3;
+}
+
+//服务器主动踢玩家出房间
+message SC_KickPlayer //IActorMessage
+{
+	int64 ActorId = 1;
+	int32 Reason = 2; //0:主动退出 1 游戏结束自动退出  2 强制退出
 }
 
 message SC_RoomListChanged //IActorMessage

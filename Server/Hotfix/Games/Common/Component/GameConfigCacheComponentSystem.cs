@@ -7,7 +7,7 @@ namespace ETHotfix
     [ObjectSystem]
     class GameConfigCacheComponentSystem : AwakeSystem<GameConfigCacheComponent>
     {
-        public override void Awake(GameConfigCacheComponent self)
+        public override  void Awake(GameConfigCacheComponent self)
         {
             self.Awake();
         }

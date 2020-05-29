@@ -10,7 +10,10 @@ namespace ETHotfix
         protected override async ETTask Run(Session session, GM_LeaveRoom message)
         {
             var roomMgr = Game.Scene.GetComponent<MatchRoomComponent>();
-            roomMgr.LeaveRoom(message.UserId);
+            foreach (var item in message.UserIdList)
+            {
+                roomMgr.LeaveRoom(item);
+            }
             await ETTask.CompletedTask;
         }
     }

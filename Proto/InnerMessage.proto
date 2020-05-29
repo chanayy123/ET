@@ -296,7 +296,7 @@ message MG_EnterRoom // IMessage
 message GM_LeaveRoom // IMessage
 {
 	int32 RoomId = 2;
-	int32 UserId = 3;
+	repeated int32 UserIdList = 3;
 }
 
 //match->game

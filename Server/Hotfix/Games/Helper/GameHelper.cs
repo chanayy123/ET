@@ -25,9 +25,9 @@ namespace ETHotfix
         /// </summary>
         /// <param name="roomId"></param>
         /// <param name="userId"></param>
-        public static void SynLeaveRoom(int roomId,int userId)
+        public static void SynLeaveRoom(int roomId,params int[] userIdList)
         {
-            GM_LeaveRoom msg= GameFactory.CreateMsgGM_LeaveRoom(roomId, userId);
+            GM_LeaveRoom msg= GameFactory.CreateMsgGM_LeaveRoom(roomId, userIdList);
             var session = NetInnerHelper.GetSessionByAppType(AppType.Match);
             session.Send(msg);
             GameFactory.RecycleMsg(msg);
