@@ -9,17 +9,41 @@ namespace ETHotfix
     {
         protected override async ETTask Run(Session session, CS_EnterRoom request, SC_EnterRoom response, Action reply)
         {
-            var roomMgr = Game.Scene.GetComponent<MatchRoomComponent>();
             var user = await UserCacheComponent.Instance.GetAsync(request.UserId);
-            var flag = roomMgr.CanEnterRoom(request.RoomId, user);
-            if(flag == 0)
+            var flag = TryEnterRoom(request.RoomId, request.GateSessionId, user.UserInfo);
+            response.Error = flag;
+            reply();
+            //延迟邀请机器人
+            DelayCallRobot(request.RoomId, RandomHelper.RandomNumber(1, 4));
+        }
+
+        private async void DelayCallRobot(int roomId,int count, int delay=1000)
+        {
+            await TimerComponent.Instance.WaitAsync(delay);
+            List<UserInfo> list = await MatchHelper.CallRobot(roomId, count);
+            foreach (var item in list)
             {
-                var matchRoom = roomMgr.GetByRoomId(request.RoomId);
-                var matchPlayer = MatchFactory.CreateMatchPlayer(request.UserId, request.RoomId,request.GateSessionId);
-                var gamePlayer = GameFactory.CreatePlayerData(matchPlayer,user);
+                var flag = TryEnterRoom(roomId, 0, item);
+                if(flag != 0)
+                {
+                    Log.Warning($"机器人{item.UserId}进入房间失败: {flag}");
+                    MatchHelper.ReturnRobot(item.UserId);
+                }
+            }
+        }
+
+        private int TryEnterRoom(int roomId, long gateSessionId, UserInfo userInfo)
+        {
+            var roomMgr = Game.Scene.GetComponent<MatchRoomComponent>();
+            var flag = roomMgr.CanEnterRoom(roomId, userInfo);
+            if (flag == OpRetCode.Success)
+            {
+                var matchRoom = roomMgr.GetByRoomId(roomId);
+                var matchPlayer = MatchFactory.CreateMatchPlayer(userInfo, roomId, gateSessionId,0);
+                var gamePlayer = GameFactory.CreatePlayerData(gateSessionId, userInfo);
                 var roomCfg = matchRoom.Config;
-                var msg = MatchFactory.CreateMsgMG_EnterRoom(gamePlayer, request.RoomId, roomCfg.GameId, roomCfg.GameMode, roomCfg.HallType);
-                if(matchRoom.RoomActorId == 0)//游服没有此房间就随机选个游服
+                var msg = MatchFactory.CreateMsgMG_EnterRoom(gamePlayer, roomId, roomCfg.GameId, roomCfg.GameMode, roomCfg.HallType);
+                if (matchRoom.RoomActorId == 0)//游服没有此房间就随机选个游服
                 {
                     var gameSession = MatchHelper.RandomGameSession;
                     gameSession.Send(msg);
@@ -32,13 +56,9 @@ namespace ETHotfix
                 gamePlayer.Dispose();
                 //进入游戏房间之后,同步添加匹配玩家进入匹配房间
                 roomMgr.EnterRoom(matchPlayer);
-                reply();
             }
-            else
-            {
-                response.Error = (int)flag;
-                reply();
-            }
+            return (int)flag;
         }
+
     }
 }

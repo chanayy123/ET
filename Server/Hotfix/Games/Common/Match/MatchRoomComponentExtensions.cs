@@ -9,9 +9,9 @@ namespace ETHotfix
 
     public static class MatchPlayerExtensions
     {
-        public static void Awake(this MatchPlayer self, int userId, int roomId, long sessionId)
+        public static void Awake(this MatchPlayer self, UserInfo  userInfo, int roomId, long sessionId)
         {
-            self.UserId = userId;
+            self.UserInfo = userInfo;
             self.RoomId = roomId;
             self.GateSessionId = sessionId;
             self.HallId = 0;
@@ -141,9 +141,9 @@ namespace ETHotfix
             }
         }
 
-        public static OpRetCode CanEnterRoom(this MatchRoomComponent self, int roomId, User user)
+        public static OpRetCode CanEnterRoom(this MatchRoomComponent self, int roomId, UserInfo userInfo)
         {
-            if (self.IsInMatchOrRoom(user.UserInfo.UserId))
+            if (self.IsInMatchOrRoom(userInfo.UserId))
             {
                 return OpRetCode.RoomAlreadyIn;
             }
@@ -164,11 +164,11 @@ namespace ETHotfix
             {
                 return OpRetCode.RoomAlreadyFull;
             }
-            if (user.UserInfo.Coin < room.Config.MinLimitCoin)
+            if (userInfo.Coin < room.Config.MinLimitCoin)
             {
                 return OpRetCode.RoomNotEnoughCoin;
             }
-            if (room.Config.MaxLimitCoin != -1 && user.UserInfo.Coin > room.Config.MaxLimitCoin)
+            if (room.Config.MaxLimitCoin != -1 && userInfo.Coin > room.Config.MaxLimitCoin)
             {
                 return OpRetCode.RoomTooMuchCoin;
             }
@@ -181,7 +181,12 @@ namespace ETHotfix
             {
                 return OpRetCode.RoomAlreadyOut;
             }
-            var room = self.GetByRoomId(self.userRoomDic[userId].RoomId);
+            var flag = self.userRoomDic.TryGetValue(userId, out MatchPlayer player);
+            if (!flag)
+            {
+                return OpRetCode.MatchPlayerInvalid;
+            }
+            var room = self.GetByRoomId(player.RoomId);
             if (room.State == (int)RoomState.GAMING)
             {
                 return OpRetCode.RoomAlreadyGaming;
@@ -189,20 +194,10 @@ namespace ETHotfix
             return OpRetCode.Success;
         }
 
-        /// <summary>
-        /// 是否在匹配队列
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public static bool IsInMatchQueue(this MatchRoomComponent self, int userId)
-        {
-            return self.userMatchDic.ContainsKey(userId);
-        }
 
-        public static OpRetCode CanEnterMatchQueue(this MatchRoomComponent self, int hallId, User user)
+        public static OpRetCode CanEnterMatchQueue(this MatchRoomComponent self, int hallId, UserInfo userInfo)
         {
-            if (self.IsInMatchQueue(user.UserInfo.UserId)) {
+            if (self.IsInMatchOrRoom(userInfo.UserId)) {
                 return OpRetCode.MatchAlreadyIn;
             }
             if (!self.IsHallOpen(hallId))
@@ -214,11 +209,11 @@ namespace ETHotfix
             {
                 return OpRetCode.RoomConfigError;
             }
-            if (user.UserInfo.Coin < cfg.MinLimitCoin)
+            if (userInfo.Coin < cfg.MinLimitCoin)
             {
                 return OpRetCode.RoomNotEnoughCoin;
             }
-            if (cfg.MaxLimitCoin != -1 && user.UserInfo.Coin > cfg.MaxLimitCoin)
+            if (cfg.MaxLimitCoin != -1 && userInfo.Coin > cfg.MaxLimitCoin)
             {
                 return OpRetCode.RoomTooMuchCoin;
             }
@@ -227,7 +222,7 @@ namespace ETHotfix
 
         public static OpRetCode CanLeaveMatchQueue(this MatchRoomComponent self, int userId)
         {
-            if (!self.IsInMatchQueue(userId)) {
+            if (!self.IsInMatchOrRoom(userId)) {
                 return OpRetCode.MatchAlreadyOut;
             }
             return OpRetCode.Success;

@@ -9,22 +9,40 @@ namespace ETHotfix
     {
         protected override async ETTask Run(Session session, CS_EnterScene request, SC_EnterScene response, Action reply)
         {
-            var roomMgr = Game.Scene.GetComponent<MatchRoomComponent>();
             var user = await UserCacheComponent.Instance.GetAsync(request.UserId);
-            var flag = roomMgr.CanEnterMatchQueue(request.HallId, user);
+            var flag = TryEnterScene(request.HallId, request.GateSessionId, user.UserInfo);
+            response.Error = flag;
+            reply();
+            //延迟邀请机器人
+            DelayCallRobot(request.HallId, RandomHelper.RandomNumber(1, 4));
+            await ETTask.CompletedTask;
+        }
+
+        private int TryEnterScene(int hallId, long gateSessionId,UserInfo userInfo)
+        {
+            var roomMgr = Game.Scene.GetComponent<MatchRoomComponent>();
+            var flag = roomMgr.CanEnterMatchQueue(hallId, userInfo);
             if (flag == OpRetCode.Success)
             {
-                var room = roomMgr.GetByUserId(request.UserId);
-                var matchPlayer = MatchFactory.CreateMatchPlayer(user.UserInfo.UserId, 0, request.GateSessionId,request.HallId);
+                var matchPlayer = MatchFactory.CreateMatchPlayer(userInfo, 0, gateSessionId, hallId);
                 roomMgr.EnterMatchQueue(matchPlayer);
-                reply();
             }
-            else
+            return (int)flag;
+        }
+
+        private async void DelayCallRobot(int hallId, int count, int delay = 1000)
+        {
+            await TimerComponent.Instance.WaitAsync(delay);
+            List<UserInfo> list = await MatchHelper.CallRobot(hallId, count);
+            foreach (var item in list)
             {
-                response.Error = (int)flag;
-                reply();
+                var flag = TryEnterScene(hallId, 0, item);
+                if (flag != 0)
+                {
+                    Log.Warning($"机器人{item.UserId}进入场景失败: {flag}");
+                    MatchHelper.ReturnRobot(item.UserId);
+                }
             }
-            await ETTask.CompletedTask;
         }
     }
 }

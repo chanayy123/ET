@@ -42,6 +42,7 @@ namespace ETHotfix
         /// <param name="actorId"></param>
         public static void SynActorId(long gateSessionId, int userId, long actorId,int gameId=0,int roomId=0)
         {
+            if (gateSessionId == 0) return;
             GS_SynActorId msg = GameFactory.CreateMsgGS_SynActorId(userId, actorId, gameId, roomId);
             var startCfg = StartConfigComponent.Instance.StartConfig;
             if (startCfg.AppType == AppType.AllServer)

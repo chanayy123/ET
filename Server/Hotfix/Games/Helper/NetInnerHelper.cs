@@ -68,7 +68,7 @@ namespace ETHotfix
         public static void SendMsgByAcotrId(long actorId, IMessage msg)
         {
             var session = GetSessionByAppId(IdGenerater.GetAppId(actorId));
-            session.Send(msg);
+            session?.Send(msg);
         }
 
 

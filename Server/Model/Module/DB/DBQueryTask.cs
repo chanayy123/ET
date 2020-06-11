@@ -28,7 +28,7 @@ namespace ETModel
 				IAsyncCursor<ComponentWithId> cursor = await dbComponent.GetCollection(this.CollectionName).FindAsync((s) => s.Id == this.Id);
 				ComponentWithId component = await cursor.FirstOrDefaultAsync();
 				this.Tcs.SetResult(component);
-			}
+            }
 			catch (Exception e)
 			{
 				this.Tcs.SetException(new Exception($"查询数据库异常! {CollectionName} {Id}", e));

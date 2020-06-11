@@ -7,5 +7,6 @@ namespace ETModel
     public partial class UserInfo : Entity
     {
         public const string Property_Coin = "Coin";
+        public bool IsRobot { get; set; }
     }
 }

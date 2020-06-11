@@ -15,9 +15,9 @@ namespace ETHotfix
         /// </summary>
         public static readonly Dictionary<int,int> matchIndexDic = new Dictionary<int,int>();
 
-        public static MatchPlayer CreateMatchPlayer(int userId, int roomId, long sessionId,int hallId=0)
+        public static MatchPlayer CreateMatchPlayer(UserInfo userInfo, int roomId, long sessionId,int hallId=0)
         {
-            var player = ComponentFactory.Create<MatchPlayer, int, int, long>(userId, roomId, sessionId);
+            var player = ComponentFactory.Create<MatchPlayer, UserInfo, int, long>(userInfo, roomId, sessionId);
             player.HallId = hallId;
             return player;
         }
@@ -101,6 +101,22 @@ namespace ETHotfix
             msg.GameMode = gameMode;
             msg.HallType = hallType;
             msg.PlayerList = list;
+            return msg;
+        }
+
+        public static MR_CallRobot CreateMsgMR_CallRobot(int roomId,int count)
+        {
+            MR_CallRobot msg = SimplePool.Instance.Fetch<MR_CallRobot>();
+            msg.RoomId = roomId;
+            msg.Count = count;
+            return msg;
+        }
+
+        public static MR_ReturnRobot CreateMsgMR_ReturnRobot(params int[] userIdList)
+        {
+            MR_ReturnRobot msg = SimplePool.Instance.Fetch<MR_ReturnRobot>();
+            msg.List.Clear();
+            msg.List.AddRange(userIdList);
             return msg;
         }
 

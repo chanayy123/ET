@@ -31,6 +31,10 @@ namespace ETHotfix
             return user;
         }
 
+        public static void AddCacheSession(this UserComponent self, Session session)
+        {
+            self.cacheSessionDic.TryAdd(session.Id, session);
+        }
 
         public static void Remove(this  UserComponent self, int userId)
         {
@@ -106,6 +110,12 @@ namespace ETHotfix
                     res.Error = (int)OpRetCode.AccountMaxUserIdError;
                     return 0;
                 }
+                if (self.IsLocking)
+                {
+                    Log.Debug("锁定中,不能注册");
+                    res.Error = (int)OpRetCode.AccountMaxUserIdError;
+                    return 0;
+                }
                 //创建游客账号信息
                 var accInfo = ComponentFactory.Create<AccountInfo>();
                 accInfo.Acc = msg.DataStr;
@@ -145,6 +155,12 @@ namespace ETHotfix
             if(self.MaxUserId == 0)
             {
                 Log.Debug("初始化userId失败");
+                res.Error = (int)OpRetCode.AccountMaxUserIdError;
+                return 0;
+            }
+            if (self.IsLocking)
+            {
+                Log.Debug("锁定中,不能注册");
                 res.Error = (int)OpRetCode.AccountMaxUserIdError;
                 return 0;
             }

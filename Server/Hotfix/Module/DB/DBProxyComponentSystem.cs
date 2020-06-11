@@ -165,5 +165,15 @@ namespace ETHotfix
             DBQueryJsonResponse dbQueryJsonResponse = (DBQueryJsonResponse)await session.Call(new DBSortQueryJsonRequest { CollectionName = typeName, QueryJson = queryJson, SortJson = sortJson, Count = count });
             return ConversionType<T>(dbQueryJsonResponse.Components);
         }
+
+
+        public static async ETTask<int> Delete<T>(this DBProxyComponent self, Expression<Func<T, bool>> exp) where T:ComponentWithId
+        {
+            Session session = Game.Scene.GetComponent<NetInnerComponent>().Get(self.dbAddress);
+            string json = ExpressionConversionJson(exp);
+            DBDeleteJsonResponse dbDelJsonResponse = (DBDeleteJsonResponse)await session.Call(new DBDeleteJsonRequest { CollectionName = typeof(T).Name, Json = json });
+            return dbDelJsonResponse.Count;
+        }
+
     }
 }

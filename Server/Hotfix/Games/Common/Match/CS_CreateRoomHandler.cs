@@ -27,8 +27,8 @@ namespace ETHotfix
             var matchRoom = MatchFactory.CreateCardModeRoom(roomId, request.GameId, request.GameMode,request.HallType);
             roomMgr.AddMatchRoom(roomId, matchRoom);
             //创建房间成功,玩家自动进入游戏房间
-            var matchPlayer = MatchFactory.CreateMatchPlayer(request.UserId, roomId, request.GateSessionId);
-            var gamePlayer = GameFactory.CreatePlayerData(matchPlayer, user);
+            var matchPlayer = MatchFactory.CreateMatchPlayer(user.UserInfo, roomId, request.GateSessionId,0);
+            var gamePlayer = GameFactory.CreatePlayerData(request.GateSessionId, user.UserInfo);
             var roomCfg = matchRoom.Config;
             var msg = MatchFactory.CreateMsgMG_EnterRoom(gamePlayer, roomId, roomCfg.GameId, roomCfg.GameMode, roomCfg.HallType);
             var gameSession = MatchHelper.RandomGameSession;

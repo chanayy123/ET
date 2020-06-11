@@ -122,6 +122,15 @@ namespace ETModel
 			return tcs.Task;
 		}
 
+        public ETTask<long> GetDeleteJson(string collectionName, string json)
+        {
+            ETTaskCompletionSource<long> tcs = new ETTaskCompletionSource<long>();
+
+            DBDeleteJsonTask dbDeleteJsonTask = ComponentFactory.Create<DBDeleteJsonTask, string, string, ETTaskCompletionSource<long>>(collectionName, json, tcs);
+            this.tasks[(int)((ulong)dbDeleteJsonTask.Id % taskCount)].Add(dbDeleteJsonTask);
+            return tcs.Task;
+        }
+
 
         public ETTask<List<ComponentWithId>> GetJson(string[] strs, int count)
         {

@@ -12,7 +12,19 @@ namespace ETHotfix
             var roomMgr = Game.Scene.GetComponent<MatchRoomComponent>();
             foreach (var item in message.UserIdList)
             {
-                roomMgr.LeaveRoom(item);
+                var flag = roomMgr.userRoomDic.TryGetValue(item, out MatchPlayer player);
+                if (flag)
+                {
+                    roomMgr.LeaveRoom(item);
+                    if ( player.IsRobot)
+                    {
+                        MatchHelper.ReturnRobot(item);
+                    }
+                }
+                else
+                {
+                    Log.Warning($"匹配服离开房间 :玩家{item}不存在");
+                }           
             }
             await ETTask.CompletedTask;
         }

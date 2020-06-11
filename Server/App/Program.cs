@@ -72,6 +72,9 @@ namespace App
                     case AppType.Game:
                         Game.Scene.AddComponent<GameRoomComponent>();
                         break;
+                    case AppType.Robot:
+                        Game.Scene.AddComponent<RobotComponent>();
+                        break;
                     case AppType.AllServer:
                         // location server
                         Game.Scene.AddComponent<LocationComponent>();
@@ -93,6 +96,8 @@ namespace App
                         Game.Scene.AddComponent<MatchRoomComponent>();
                         //游戏逻辑服
                         Game.Scene.AddComponent<GameRoomComponent>();
+                        //机器人服
+                        Game.Scene.AddComponent<RobotComponent>();
                         break;
                     case AppType.BenchmarkTCPClient:
                         Game.Scene.AddComponent<BenchmarkComponent, NetworkProtocol, string>(NetworkProtocol.TCP, clientConfig.Address);

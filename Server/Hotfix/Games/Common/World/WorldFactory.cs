@@ -20,6 +20,19 @@ namespace ETHotfix
             return msg;
         }
 
+        public static SW_LockMaxUserId CreateMsgSW_LockMaxUserId()
+        {
+            SW_LockMaxUserId msg = SimplePool.Instance.Fetch<SW_LockMaxUserId>();
+            return msg;
+        }
+
+        public static SW_UnlockMaxUserId CreateMsgSW_UnlockMaxUserId(int maxUserId)
+        {
+            SW_UnlockMaxUserId msg = SimplePool.Instance.Fetch<SW_UnlockMaxUserId>();
+            msg.MaxUserId = maxUserId;
+            return msg;
+        }
+
         public static SC_PlayerData CreateMsgSC_PlayerData(User user,List<GameConfig> list)
         {
             SC_PlayerData msg = SimplePool.Instance.Fetch<SC_PlayerData>();
@@ -29,6 +42,24 @@ namespace ETHotfix
             msg.UserInfo = user.UserInfo;
             msg.GameCfgList.Clear();
             msg.GameCfgList.AddRange(list);
+            return msg;
+        }
+
+        public static SC_CoinChange CreateMSGSC_CoinChange(long gateSessionId, int changeCoin,int totalCoin)
+        {
+            SC_CoinChange msg = SimplePool.Instance.Fetch<SC_CoinChange>();
+            msg.ActorId = gateSessionId;
+            msg.ChangeCoin = changeCoin;
+            msg.TotalCoin = totalCoin;
+            return msg;
+        }
+
+        public static WS_UserInfoChanged CreateMSGWS_UserInfoChanged(int userId,string key,object value)
+        {
+            WS_UserInfoChanged msg = SimplePool.Instance.Fetch<WS_UserInfoChanged>();
+            msg.UserId = userId;
+            msg.Key = key;
+            msg.Value = value;
             return msg;
         }
 

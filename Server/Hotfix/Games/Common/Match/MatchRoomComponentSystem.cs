@@ -7,11 +7,11 @@ using ETModel;
 namespace ETHotfix
 {
     [ObjectSystem]
-    public class MatchPlayerAwakeSystem : AwakeSystem<MatchPlayer, int, int, long>
+    public class MatchPlayerAwakeSystem : AwakeSystem<MatchPlayer, UserInfo, int, long>
     {
-        public override void Awake(MatchPlayer self, int userId, int roomId, long sessionId)
+        public override void Awake(MatchPlayer self, UserInfo userInfo, int roomId, long sessionId)
         {
-            self.Awake(userId, roomId, sessionId);
+            self.Awake(userInfo, roomId, sessionId);
         }
     }
 
@@ -107,7 +107,7 @@ namespace ETHotfix
                 foreach (var item in self.matchQueueDic)
                 {
                     var cfg = RoomConfigComponent.Instance.Get(item.Key);
-                    var matchCount = 2;// RandomHelper.RandomNumber(cfg.MinLimitCoin, cfg.MaxLimitCoin + 1);
+                    var matchCount = RandomHelper.RandomNumber(cfg.MinPlayers, cfg.MaxPlayers + 1);
                     while (item.Value.Count >= matchCount)
                     {
                         //凑成一桌,分配房间
@@ -123,13 +123,13 @@ namespace ETHotfix
                         foreach (var mp in mpList)
                         {
                             mp.RoomId = room.RoomId;
-                            var gp = GameFactory.CreatePlayerData(mp, userMgr.Get(mp.UserId));
+                            var gp = GameFactory.CreatePlayerData(mp.GateSessionId, mp.UserInfo);
                             gpList.Add(gp);
                         }
-                        var gameSession = MatchHelper.RandomGameSession;
-                        MG_MatchRoom msg = MatchFactory.CreateMsgMG_MatchRoom( room.RoomId, cfg.GameId,cfg.GameMode,cfg.HallType, gpList);
-                        gameSession.Send(msg);
                         self.EnterRoom(mpList);
+                        var gameSession = MatchHelper.RandomGameSession;
+                        MG_MatchRoom msg = MatchFactory.CreateMsgMG_MatchRoom(room.RoomId, cfg.GameId, cfg.GameMode, cfg.HallType, gpList);
+                        gameSession.Send(msg);
                         //发送消息完毕,回收gameplayer对象
                         gpList.ForEach((data) => data.Dispose());
                         gpList.Clear();

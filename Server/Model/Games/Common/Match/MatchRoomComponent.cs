@@ -66,7 +66,11 @@ namespace ETModel
             roomsDic.TryGetValue(roomId, out MatchRoom room);
             return room;
         }
-
+        /// <summary>
+        /// 是否在匹配队列或者在房间
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public bool IsInMatchOrRoom(int userId)
         {
             return userRoomDic.ContainsKey(userId) || userMatchDic.ContainsKey(userId);

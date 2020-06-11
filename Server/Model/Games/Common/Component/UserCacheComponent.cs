@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FastMember;
 
 namespace ETModel
 {
@@ -8,6 +9,7 @@ namespace ETModel
     {
         public static UserCacheComponent Instance { get; private set; }
         public readonly Dictionary<int, User> userDic = new Dictionary<int, User>();
+        public readonly Dictionary<int, ObjectAccessor> userWrapperDic = new Dictionary<int, ObjectAccessor>();
 
         public void Awake()
         {

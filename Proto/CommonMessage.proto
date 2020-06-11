@@ -26,6 +26,7 @@ enum OpRetCode
 	Room_Is_Closed = 200021;
 	Room_Config_Error=200022;
 	Game_Op_Invalid = 200023;
+	Match_Player_Invalid=200024;
 	
 }
 
@@ -336,9 +337,8 @@ message SC_LeaveScene //IResponse
 message SC_CoinChange //IActorMessage
 {
 	int64 ActorId = 1;
-	int32 Pos =2;
-	int32 ChangeCoin = 3;
-	int32 TotalCoin = 4;
+	int32 ChangeCoin = 2;
+	int32 TotalCoin = 3;
 }
 
 message CS_GetRoomInfo //IActorRequest
@@ -346,6 +346,7 @@ message CS_GetRoomInfo //IActorRequest
 	int32 RpcId = 1;
 	int64 ActorId = 2;
 }
+
 
 
 

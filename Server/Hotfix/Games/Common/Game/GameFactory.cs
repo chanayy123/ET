@@ -17,14 +17,15 @@ namespace ETHotfix
             return data;
         }
 
-        public static GamePlayerData CreatePlayerData(MatchPlayer player,User user)
+        public static GamePlayerData CreatePlayerData(long gateSessionId,UserInfo userInfo)
         {
             var data = ComponentFactory.Create<GamePlayerData>();
-            data.UserId = player.UserId;
-            data.GateSessionId = player.GateSessionId;
-            data.Name = user.UserInfo.Name;
-            data.Head = user.UserInfo.Head;
-            data.Coin = user.UserInfo.Coin;
+            data.UserId = userInfo.UserId;
+            data.GateSessionId = gateSessionId;
+            data.IsRobot = userInfo.IsRobot;
+            data.Name = userInfo.Name;
+            data.Head = userInfo.Head;
+            data.Coin = userInfo.Coin;
             data.Pos = -1;
             data.State = PlayerState.None;
             return data;
@@ -66,12 +67,20 @@ namespace ETHotfix
             return msg;
         }
 
-        public static SW_UpdateUserInfo CreateMsgSW_UpdateUserInfo(int userId, string key ,string value)
+        public static SW_UpdateUserInfo CreateMsgSW_UpdateUserInfo(int userId, string key ,object value)
         {
             var msg = SimplePool.Instance.Fetch<SW_UpdateUserInfo>();
             msg.UserId = userId;
             msg.Key = key;
             msg.Value = value;
+            return msg;
+        }
+
+        public static SR_UpdateCoin CreateMsgSR_UpdateCoin(int userId, int coin)
+        {
+            var msg = SimplePool.Instance.Fetch<SR_UpdateCoin>();
+            msg.UserId = userId;
+            msg.Coin = coin;
             return msg;
         }
 

@@ -7,10 +7,24 @@ using ETModel;
 namespace ETModel
 {
     public partial class MatchPlayer : Entity {
-        public int UserId { get; set; }
+        public UserInfo UserInfo { get; set; }
         public int RoomId { get; set; }
         public int HallId { get; set; }
         public long GateSessionId { get; set; }
+        public bool IsRobot
+        {
+            get
+            {
+                return UserInfo.IsRobot;
+            }
+        }
+        public int UserId
+        {
+            get
+            {
+                return UserInfo.UserId;
+            }
+        }
     }
 
 }

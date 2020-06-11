@@ -42,6 +42,15 @@ namespace ETModel
                 }
             }
         }
+
+        public bool IsRobot
+        {
+            get
+            {
+                return PlayerData.Data.IsRobot;
+            }
+        }
+
         public long GateSessionId
         {
             get

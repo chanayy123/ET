@@ -192,6 +192,17 @@ namespace ETModel
 
 	}
 
+	[Message(InnerOpcode.DBDeleteJsonRequest)]
+	public partial class DBDeleteJsonRequest: IRequest
+	{
+		public int RpcId { get; set; }
+
+		public string CollectionName { get; set; }
+
+		public string Json { get; set; }
+
+	}
+
 	[Message(InnerOpcode.DBSortQueryJsonRequest)]
 	public partial class DBSortQueryJsonRequest: IRequest
 	{
@@ -217,6 +228,19 @@ namespace ETModel
 		public string Message { get; set; }
 
 		public List<ComponentWithId> Components = new List<ComponentWithId>();
+
+	}
+
+	[Message(InnerOpcode.DBDeleteJsonResponse)]
+	public partial class DBDeleteJsonResponse: IResponse
+	{
+		public int RpcId { get; set; }
+
+		public int Error { get; set; }
+
+		public string Message { get; set; }
+
+		public int Count { get; set; }
 
 	}
 
@@ -625,7 +649,7 @@ namespace ETModel
 
 		public string Key { get; set; }
 
-		public string Value { get; set; }
+		public object Value { get; set; }
 
 	}
 
@@ -637,6 +661,93 @@ namespace ETModel
 		public int Error { get; set; }
 
 		public string Message { get; set; }
+
+	}
+
+//更新用户信息缓存 world->other server
+	[Message(InnerOpcode.WS_UserInfoChanged)]
+	public partial class WS_UserInfoChanged: IMessage
+	{
+		public int UserId { get; set; }
+
+		public string Key { get; set; }
+
+		public object Value { get; set; }
+
+	}
+
+//锁定并获得最大Userid,解锁前无法注册用户
+	[Message(InnerOpcode.SW_LockMaxUserId)]
+	public partial class SW_LockMaxUserId: IRequest
+	{
+		public int RpcId { get; set; }
+
+	}
+
+	[Message(InnerOpcode.WS_LockMaxUserId)]
+	public partial class WS_LockMaxUserId: IResponse
+	{
+		public int RpcId { get; set; }
+
+		public int Error { get; set; }
+
+		public string Message { get; set; }
+
+		public int MaxUserId { get; set; }
+
+	}
+
+//解锁并更新最大userid,可以注册用户
+	[Message(InnerOpcode.SW_UnlockMaxUserId)]
+	public partial class SW_UnlockMaxUserId: IMessage
+	{
+		public int MaxUserId { get; set; }
+
+	}
+
+//match服->robot服: 邀请机器人进房间
+	[Message(InnerOpcode.MR_CallRobot)]
+	public partial class MR_CallRobot: IRequest
+	{
+		public int RpcId { get; set; }
+
+		public int RoomId { get; set; }
+
+		public int Count { get; set; }
+
+	}
+
+//robot服->match服: 返回机器人信息
+	[Message(InnerOpcode.RM_CallRobot)]
+	public partial class RM_CallRobot: IResponse
+	{
+		public int RpcId { get; set; }
+
+		public int Error { get; set; }
+
+		public string Message { get; set; }
+
+		public List<UserInfo> List = new List<UserInfo>();
+
+	}
+
+//match服->robot服: 机器人离开房间,返还机器人
+	[Message(InnerOpcode.MR_ReturnRobot)]
+	public partial class MR_ReturnRobot: IMessage
+	{
+		public int RpcId { get; set; }
+
+		public List<int> List = new List<int>();
+
+	}
+
+//机器人金币变更
+	[Message(InnerOpcode.SR_UpdateCoin)]
+	public partial class SR_UpdateCoin: IMessage
+	{
+		public int UserId { get; set; }
+
+		public int Coin { get; set; }
 
 	}
 

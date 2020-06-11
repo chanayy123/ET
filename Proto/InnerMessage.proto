@@ -129,6 +129,13 @@ message DBQueryJsonRequest // IRequest
     string Json = 3;
 }
 
+message DBDeleteJsonRequest // IRequest
+{
+    int32 RpcId = 1;
+    string CollectionName = 2;
+    string Json = 3;
+}
+
 message DBSortQueryJsonRequest // IRequest
 {
 	int32 RpcId = 90;
@@ -145,6 +152,14 @@ message DBQueryJsonResponse // IResponse
     string Message = 3;
 
     repeated ComponentWithId Components = 4;
+}
+
+message DBDeleteJsonResponse // IResponse
+{
+    int32 RpcId = 1;
+    int32 Error = 2;
+    string Message = 3;
+    int32 Count = 4;
 }
 
 message ObjectAddRequest // IRequest
@@ -400,7 +415,7 @@ message SW_UpdateUserInfo //IRequest
 	int32 RpcId = 1;	
 	int32 UserId = 2;
 	string Key =3;
-	string Value = 4;
+	object Value = 4;
 }
 
 message WS_UpdateUserInfo //IResponse
@@ -409,6 +424,61 @@ message WS_UpdateUserInfo //IResponse
 	int32 Error =2;
 	string Message = 3;
 }
+//更新用户信息缓存 world->other server
+message WS_UserInfoChanged //IMessage
+{
+	int32 UserId =1;
+	string Key = 2;
+	object Value = 3;
+}
+
+//锁定并获得最大Userid,解锁前无法注册用户
+message SW_LockMaxUserId //IRequest
+{
+	int32 RpcId = 1;	
+}
+
+message WS_LockMaxUserId //IResponse
+{
+	int32 RpcId =1;
+	int32 Error =2;
+	string Message = 3;
+	int32 MaxUserId = 4;
+}
+//解锁并更新最大userid,可以注册用户
+message SW_UnlockMaxUserId //IMessage
+{
+	int32 MaxUserId = 1;	
+}
+
+//match服->robot服: 邀请机器人进房间
+message MR_CallRobot //IRequest
+{
+	int32 RpcId = 1;
+	int32 RoomId =2;
+	int32 Count =3;
+}
+//robot服->match服: 返回机器人信息
+message RM_CallRobot //IResponse
+{
+	int32 RpcId =1;
+	int32 Error =2;
+	string Message = 3;
+	repeated UserInfo List = 4;
+}
+//match服->robot服: 机器人离开房间,返还机器人
+message MR_ReturnRobot //IMessage
+{
+	int32 RpcId = 1;
+	repeated int32 List =2;
+}
+//机器人金币变更
+message SR_UpdateCoin //IMessage
+{
+	int32 UserId = 1;
+	int32 Coin = 2;
+}
+
 
 
 

@@ -48,6 +48,7 @@ namespace ETModel
             set
             {
                 RoomData.Data.State = (int)value;
+                Log.Debug($"游戏【{(GameId)RoomData.Data.GameId}】房间【{RoomData.Data.RoomId}】当前状态: {(BullGameState)RoomData.Data.State}");
             }
         }
 

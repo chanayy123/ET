@@ -63,24 +63,27 @@ namespace ETHotfix
             self.HandCards.AddRange(cards);
         }
 
-        public static async void ChangeCoin(this BullFightPlayer self, int changeCoin)
+        public static async void ChangeCoin(this BullFightPlayer self, int totalCoin)
         {
-            //同步世界服最新金币
-            SW_UpdateUserInfo msg = GameFactory.CreateMsgSW_UpdateUserInfo(self.UserId, UserInfo.Property_Coin, changeCoin.ToString());
-            var session = NetInnerHelper.GetSessionByAppType(AppType.World);
-            var response = await session.Call(msg);
-            if(response.Error != 0)
+            //玩家同步world服金币,不包括机器人
+            if (!self.IsRobot)
             {
-                Log.Warning($"{self.UserId}玩家 同步世界服扣除金币失败");
-            }
-            else
-            {
-                self.Coin += changeCoin;
-                if (self.Coin < 0)
+                self.Coin = totalCoin; //为了防止结算阶段玩家离开导致player被回收,这里直接修改coin不必等到SW_UpdateUserInfo异步回调再赋值
+                SW_UpdateUserInfo msg = GameFactory.CreateMsgSW_UpdateUserInfo(self.UserId, UserInfo.Property_Coin, totalCoin);
+                var session = NetInnerHelper.GetSessionByAppType(AppType.World);
+                var response = await session.Call(msg);
+                GameFactory.RecycleMsg(msg);
+                if (response.Error != 0)
                 {
-                    self.Coin = 0;
-                    Log.Warning($"{self.UserId}身上金币不够扣除: {changeCoin}");
+                    Log.Warning($"{self.UserId}玩家 同步世界服更新金币失败");
                 }
+            }
+            else //机器人同步更新robot服金币
+            {
+                SR_UpdateCoin msg = GameFactory.CreateMsgSR_UpdateCoin(self.UserId, totalCoin);
+                var session = NetInnerHelper.GetSessionByAppType(AppType.Robot);
+                session.Send(msg);
+                GameFactory.RecycleMsg(msg);
             }
         }
 

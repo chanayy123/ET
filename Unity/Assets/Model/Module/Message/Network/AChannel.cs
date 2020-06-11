@@ -53,7 +53,7 @@ namespace ETModel
 		protected void OnRead(MemoryStream memoryStream)
 		{
 			this.readCallback.Invoke(memoryStream);
-		}
+        }
 
 		protected void OnError(int e)
 		{

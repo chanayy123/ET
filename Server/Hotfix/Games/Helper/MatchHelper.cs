@@ -36,5 +36,22 @@ namespace ETHotfix
             }
         }
 
+        public static async ETTask<List<UserInfo>> CallRobot(int roomId, int count)
+        {
+            MR_CallRobot msg = MatchFactory.CreateMsgMR_CallRobot(roomId,count);
+            var robotSession = NetInnerHelper.GetSessionByAppType(AppType.Robot);
+            RM_CallRobot response = (RM_CallRobot)await robotSession.Call(msg);
+            MatchFactory.RecycleMsg(msg);
+            return response.List;
+        }
+
+        public static void ReturnRobot(params int[] userIdList)
+        {
+            MR_ReturnRobot msg = MatchFactory.CreateMsgMR_ReturnRobot(userIdList);
+            var robotSession = NetInnerHelper.GetSessionByAppType(AppType.Robot);
+            robotSession.Send(msg);
+            MatchFactory.RecycleMsg(msg);
+        }
+
     }
 }

@@ -35,7 +35,7 @@ namespace ETHotfix
             room.State = BullGameState.BullGsWaitStart;
             room.BroadcastGameState();
             GameHelper.SynRoomData(room.RoomId, (int)RoomState.WAIT, room.InstanceId);
-            room.DelayCheckSwitchState((int)BullDefines.WaitStartTime, room.CheckPlayerCount, true);
+            room.DelayCheckSwitchState((int)BullDefines.WaitStartTime, room.CheckStart, true);
         }
     }
 
@@ -149,7 +149,7 @@ namespace ETHotfix
                         billInfo.ChangeCoin = -changeCoin;
                         billInfo.TotalCoin = player.Coin + billInfo.ChangeCoin;
                         //同步世界服金币变更
-                        player.ChangeCoin((int)billInfo.ChangeCoin);
+                        player.ChangeCoin((int)billInfo.TotalCoin);
                     }
                     else
                     {
@@ -158,13 +158,13 @@ namespace ETHotfix
                         billInfo.ChangeCoin = changeCoin;
                         billInfo.TotalCoin = player.Coin + billInfo.ChangeCoin;
                         //同步世界服金币变更
-                        player.ChangeCoin((int)billInfo.ChangeCoin);
+                        player.ChangeCoin((int)billInfo.TotalCoin);
                     }
                 }
             }
             //庄家金币结算完成同步世界服金币变更
             bankBillInfo.TotalCoin = banker.Coin + bankBillInfo.ChangeCoin;
-            banker.ChangeCoin((int)bankBillInfo.ChangeCoin);
+            banker.ChangeCoin((int)bankBillInfo.TotalCoin);
             //广播结算消息
             room.BroadcastBill(billList);
             BullFightFactory.RecycleBillInfoList(billList);

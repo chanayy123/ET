@@ -34,6 +34,7 @@ namespace ETModel {
     RoomIsClosed = 200021,
     RoomConfigError = 200022,
     GameOpInvalid = 200023,
+    MatchPlayerInvalid = 200024,
   }
 
   public enum PlayerState {
@@ -3691,14 +3692,6 @@ namespace ETModel {
       }
     }
 
-    private int pos_;
-    public int Pos {
-      get { return pos_; }
-      set {
-        pos_ = value;
-      }
-    }
-
     private int changeCoin_;
     public int ChangeCoin {
       get { return changeCoin_; }
@@ -3720,16 +3713,12 @@ namespace ETModel {
         output.WriteRawTag(8);
         output.WriteInt64(ActorId);
       }
-      if (Pos != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(Pos);
-      }
       if (ChangeCoin != 0) {
-        output.WriteRawTag(24);
+        output.WriteRawTag(16);
         output.WriteInt32(ChangeCoin);
       }
       if (TotalCoin != 0) {
-        output.WriteRawTag(32);
+        output.WriteRawTag(24);
         output.WriteInt32(TotalCoin);
       }
     }
@@ -3738,9 +3727,6 @@ namespace ETModel {
       int size = 0;
       if (ActorId != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(ActorId);
-      }
-      if (Pos != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Pos);
       }
       if (ChangeCoin != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(ChangeCoin);
@@ -3753,7 +3739,6 @@ namespace ETModel {
 
     public void MergeFrom(pb::CodedInputStream input) {
       actorId_ = 0;
-      pos_ = 0;
       changeCoin_ = 0;
       totalCoin_ = 0;
       uint tag;
@@ -3767,14 +3752,10 @@ namespace ETModel {
             break;
           }
           case 16: {
-            Pos = input.ReadInt32();
-            break;
-          }
-          case 24: {
             ChangeCoin = input.ReadInt32();
             break;
           }
-          case 32: {
+          case 24: {
             TotalCoin = input.ReadInt32();
             break;
           }

@@ -16,7 +16,7 @@ namespace ETModel
 		Map = 1 << 6,
         Match = 1<<7,
         Game= 1<<8,
-        World = 1<<9,  //世界服:处理全局配置数据,比如用户数据,游戏配置数据,还有其他等等
+        World = 1<<9,  //世界服:处理全局数据,比如用户数据,游戏配置数据,还有其他等等
 
 
         BenchmarkTCPClient = 1 << 23,
@@ -32,7 +32,7 @@ namespace ETModel
 		ClientM = 1 << 31,
 
 		// 7
-		AllServer = Manager | Realm | Gate | Http | DB | Location | Map | Match | Game | World | BenchmarkWebsocketServer  | BenchmarkTCPServer | BenchmarkKCPServer
+		AllServer = Manager | Realm | Gate | Http | DB | Location | Map | Match | Game | World | Robot | BenchmarkWebsocketServer  | BenchmarkTCPServer | BenchmarkKCPServer
     }
 
 	public static class AppTypeHelper
@@ -51,5 +51,11 @@ namespace ETModel
 			}
 			return false;
 		}
-	}
+
+        public static bool IsBenchmark(this AppType type)
+        {
+            return type == AppType.BenchmarkKCPClient || type == AppType.BenchmarkKCPServer || type == AppType.BenchmarkTCPClient || type == AppType.BenchmarkTCPServer
+                || type == AppType.BenchmarkWebsocketClient || type == AppType.BenchmarkWebsocketServer;
+        }
+    }
 }

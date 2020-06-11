@@ -9,5 +9,6 @@ namespace ETModel
     public partial class GamePlayerData : Component
     {
         public long GateSessionId { get; set; }
+        public bool IsRobot { get; set; }
     }
 }

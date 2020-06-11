@@ -17,7 +17,7 @@ namespace ETHotfix
             {
                 var appType = StartConfigComponent.Instance.StartConfig.AppType;
                 //基准测试连接不需要检测心跳
-                if (!StartConfigComponent.Instance.IsBenchmark(appType))
+                if (!appType.IsBenchmark())
                 {
                     self.AddComponent<HeartBeatComponent>();
                 }

@@ -92,7 +92,10 @@ namespace ETModel
 					{
 						this.DBConfig = startConfig;
 					}
-
+                    if (startConfig.AppType.Is(AppType.Match))
+                    {
+                        this.MatchConfig = startConfig;
+                    }
 					if (startConfig.AppType.Is(AppType.Map))
 					{
 						this.MapConfigs.Add(startConfig);
@@ -115,12 +118,6 @@ namespace ETModel
 
 			this.StartConfig = this.Get(appId);
 		}
-
-        public  bool IsBenchmark(AppType type)
-        {
-            return type ==AppType.BenchmarkKCPClient || type == AppType.BenchmarkKCPServer || type == AppType.BenchmarkTCPClient || type ==AppType.BenchmarkTCPServer
-                || type == AppType.BenchmarkWebsocketClient || type == AppType.BenchmarkWebsocketServer;
-        }
 
 		public override void Dispose()
 		{
@@ -156,12 +153,6 @@ namespace ETModel
             {
                 throw new Exception($"not found startconfig: {type} {index}", e);
             }
-            //if (!configDict2.TryGetValue(type,out List<StartConfig> list))
-            //{
-            //    configDict2.TryGetValue(AppType.AllServer, out List<StartConfig> list2);
-            //    return list2[index];
-            //}
-            //return list[index];
         }
 
 

@@ -196,11 +196,6 @@ namespace ETModel
                     int receiveCount = 0;
                     do
                     {
-                        //fix yy:新增判断,不然客户端断开连接,这里可能也会执行到，而cancellationTokenSource已经为null
-                        if (this.IsDisposed)
-                        {
-                            return;
-                        }
 #if SERVER
                         receiveResult = await this.webSocket.ReceiveAsync(
                             new Memory<byte>(this.recvStream.GetBuffer(), receiveCount, this.recvStream.Capacity - receiveCount),
