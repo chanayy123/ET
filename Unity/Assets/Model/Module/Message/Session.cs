@@ -221,7 +221,7 @@ namespace ETModel
 			{
 				if (ErrorCode.IsRpcNeedThrowException(response.Error))
 				{
-					tcs.SetException(new Exception($"Rpc Error: {request.GetType().FullName} {response.Error}"));
+					tcs.SetException(new Exception($"Rpc Error: {request.GetType().FullName} {ErrorCode.ToString(response.Error)}"));
 					return;
 				}
 
@@ -242,7 +242,7 @@ namespace ETModel
 			{
 				if (ErrorCode.IsRpcNeedThrowException(response.Error))
 				{
-					tcs.SetException(new Exception($"Rpc Error: {request.GetType().FullName} {response.Error}"));
+					tcs.SetException(new Exception($"Rpc Error: {request.GetType().FullName} {ErrorCode.ToString(response.Error)}"));
 				}
 
 				tcs.SetResult(response);

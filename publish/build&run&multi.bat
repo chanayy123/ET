@@ -13,5 +13,6 @@ if not exist publish\Logs (
    md publish\Logs
 )
 cd publish
-docker-compose -p=gameServer  down && docker-compose -p=gameServer  build && docker-compose -p=gameServer  up -d
+docker build -t gameserver_et-server .
+docker-compose -f docker-compose-multi.yml -p gameserver  down && docker-compose -f docker-compose-multi.yml -p gameserver  build && docker-compose -f docker-compose-multi.yml -p gameserver  up -d
 pause

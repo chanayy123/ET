@@ -45,3 +45,5 @@ REM Rsync is a very powerful tool. Please look at documentation for other option
 REM
 
 REM ** CUSTOMIZE ** Enter your rsync command(s) here
+rsync -av -e "./ssh -i /cygdrive/C/Users/User/.ssh/id_rsa -p 9000 -l root"  /cygdrive/F/VSWorkspace/docker-working/test localhost:/data
+pause

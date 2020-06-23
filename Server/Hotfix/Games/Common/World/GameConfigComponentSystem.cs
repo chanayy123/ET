@@ -11,8 +11,15 @@ namespace ETHotfix
     {
         public override async void Awake(GameConfigComponent self)
         {
-            self.Awake();
-            await self.FetchGameCfgList();
+            try
+            {
+                self.Awake();
+                await self.FetchGameCfgList();
+            }
+            catch (Exception e)
+            {
+                Log.Warning("GameConfigComponent awake异常 " + e);
+            }
         }
     }
 

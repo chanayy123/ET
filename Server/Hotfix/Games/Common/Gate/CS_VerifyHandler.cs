@@ -29,11 +29,9 @@ namespace ETHotfix
             //创建网关用户
             gateUser = GateFactory.CreateUser(userId, session);
             //session绑定用户信息
-            session.AddComponent<SessionGateUserComponent>().User = gateUser;
+            session.AddComponent<SessionGateUserComponent, GateUser>(gateUser);
             //添加邮箱组件,方便其他服务器通信
             session.AddComponent<MailBoxComponent, string>(MailboxType.GateSession);
-            //添加用户进组方便管理
-            GateUserComponent.Instance.Add(gateUser.UserId, gateUser);
             reply();
             //同步上线消息
             GateHelper.SynOnline(gateUser.UserId, session.Id);

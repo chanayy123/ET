@@ -22,5 +22,13 @@ namespace ETModel
 				.WithNotParsed(error => throw new Exception($"命令行格式错误!"))
 				.WithParsed(options => { Options = options; });
 		}
+
+        public bool RunInDocker
+        {
+            get
+            {
+                return Options.RuntimeMode == 1;
+            }
+        }
 	}
 }

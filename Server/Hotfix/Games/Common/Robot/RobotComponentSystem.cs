@@ -9,19 +9,26 @@ namespace ETHotfix
     {
         public override async void Awake(RobotComponent self)
         {
-            self.Awake();
-            //获取起始机器人账号,数量不够就注册
-            List<ComponentWithId> list = await self.DBProxy.Query<UserInfo>((item) => item.IsRobot == true);
-            if(list.Count < RobotComponent.INIT_COUNT)
+            try
             {
-                self.InitRobots(RobotComponent.INIT_COUNT - list.Count);
-            }
-            else
-            {
-                for(var i = 0; i < RobotComponent.INIT_COUNT; ++i)
+                self.Awake();
+                //获取起始机器人账号,数量不够就注册
+                List<ComponentWithId> list = await self.DBProxy.Query<UserInfo>((item) => item.IsRobot == true);
+                if (list.Count < RobotComponent.INIT_COUNT)
                 {
-                    self.AddRobot(list[i] as UserInfo);
+                    self.InitRobots(RobotComponent.INIT_COUNT - list.Count);
                 }
+                else
+                {
+                    for (var i = 0; i < RobotComponent.INIT_COUNT; ++i)
+                    {
+                        self.AddRobot(list[i] as UserInfo);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Warning("RobotComponent awake exception: " + e);
             }
         }
     }

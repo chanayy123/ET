@@ -1,3 +1,4 @@
+using System.Net.Sockets;
 namespace ETModel
 {
 	public static class ErrorCode
@@ -52,5 +53,22 @@ namespace ETModel
 
 			return true;
 		}
+
+        public static string ToString(int error)
+        {
+            if(error <= (int)SocketError.NoData)
+            {
+                return $"socket error: {(SocketError)error}";
+            }
+            else if(error < ERR_Exception)
+            {
+                return $"et error: {error}";
+            }
+            else
+            {
+                return $"other error: {error}";
+            }
+        }
+
 	}
 }

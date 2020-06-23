@@ -12,8 +12,15 @@ namespace ETHotfix
     {
         public override async void Awake(UserComponent self)
         {
-            self.Awake();
-            await self.FetchMaxUserId();
+            try
+            {
+                self.Awake();
+                await self.FetchMaxUserId();
+            }
+            catch (Exception e)
+            {
+                Log.Warning("UserComponent FetchMaxUserId exception: " + e);
+            }
         }
     }
 

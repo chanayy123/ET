@@ -32,16 +32,23 @@ namespace ETHotfix
     {
         public override async void Awake(MatchRoomComponent self)
         {
-            var dbProxy = Game.Scene.GetComponent<DBProxyComponent>();
-            var list = await dbProxy.Query<UserRoomCfg>((u) => true);
-            list.ForEach((room) =>
+            try
             {
-                self.AddUserRoomCfg(room as UserRoomCfg);
-            });
-            foreach (var item in self.userRoomCfgList)
+                var dbProxy = Game.Scene.GetComponent<DBProxyComponent>();
+                var list = await dbProxy.Query<UserRoomCfg>((u) => true);
+                list.ForEach((room) =>
+                {
+                    self.AddUserRoomCfg(room as UserRoomCfg);
+                });
+                foreach (var item in self.userRoomCfgList)
+                {
+                    var matchRoom = MatchFactory.CreateCardModeRoom(item.RoomId, item.GameId, item.GameMode, item.HallType, item.Params);
+                    self.AddMatchRoom(item.RoomId, matchRoom);
+                }
+            }
+            catch (Exception e)
             {
-                var matchRoom = MatchFactory.CreateCardModeRoom(item.RoomId, item.GameId, item.GameMode,item.HallType,item.Params);
-                self.AddMatchRoom(item.RoomId, matchRoom);
+                Log.Warning("MatchRoomComponent awake exception: " + e);
             }
         }
     }
@@ -53,20 +60,27 @@ namespace ETHotfix
     public class MatchRoomComponentStartSystem3 : StartSystem<MatchRoomComponent>
     {
         public override async void Start(MatchRoomComponent self)
-        {           
-            //缓存游戏配置
-            await GameConfigCacheComponent.Instance.GetAllAsync();
-            var configDIc = RoomConfigComponent.Instance.roomConfigDic;
-            //房间列表模式:预生成房间列表
-            foreach (var item in configDIc)
+        {
+            try
             {
-                var cfg = item.Value;
-                if (!self.IsHallOpen(cfg.Id)) continue; //如果游戏没开启就不用创建房间
-                for (var j = 0; j < MatchFactory.DEFAULT_LISTMODE_COUNT; ++j)
+                //缓存游戏配置
+                await GameConfigCacheComponent.Instance.GetAllAsync();
+                var configDIc = RoomConfigComponent.Instance.roomConfigDic;
+                //房间列表模式:预生成房间列表
+                foreach (var item in configDIc)
                 {
-                    var room = MatchFactory.CreateListModeRoom((int)cfg.Id + j + 1, cfg);
-                    self.AddListModeRoom(cfg.Id, room);
+                    var cfg = item.Value;
+                    if (!self.IsHallOpen(cfg.Id)) continue; //如果游戏没开启就不用创建房间
+                    for (var j = 0; j < MatchFactory.DEFAULT_LISTMODE_COUNT; ++j)
+                    {
+                        var room = MatchFactory.CreateListModeRoom((int)cfg.Id + j + 1, cfg);
+                        self.AddListModeRoom(cfg.Id, room);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Log.Warning("MatchRoomComponent start exception: " + e);
             }
         }
     }

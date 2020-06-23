@@ -192,15 +192,15 @@ namespace ETHotfix
         /// <returns></returns>
         public static async ETTask<int> FetchMaxUserId(this UserComponent self)
         {
-            List<UserInfo> userIdMax = await self.DBProxy.SortQuery<UserInfo>(user => true, user => user.UserId == -1, 1); //-1是降序,1是升序
-            if (userIdMax.Count > 0)
-            {
-                self.MaxUserId = (userIdMax[0] as UserInfo).UserId;
-            }
-            else
-            {
-                self.MaxUserId = 1000;
-            }
+                List<UserInfo> userIdMax = await self.DBProxy.SortQuery<UserInfo>(user => true, user => user.UserId == -1, 1); //-1是降序,1是升序
+                if (userIdMax.Count > 0)
+                {
+                    self.MaxUserId = (userIdMax[0] as UserInfo).UserId;
+                }
+                else
+                {
+                    self.MaxUserId = 1000;
+                }
             return self.MaxUserId;
         }
     }

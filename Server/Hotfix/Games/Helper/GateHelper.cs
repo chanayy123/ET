@@ -24,14 +24,6 @@ namespace ETHotfix
                 userS.Send(msg);
             }
             GateFactory.RecycleMsg(msg);
-            var gateUser = GateUserComponent.Instance.Get(userId);
-            if (gateUser.ActorId != 0)
-            {
-                var gateSID = gateUser.Session.InstanceId;
-                Actor_OnlineState msg2 = GateFactory.CreateMsgActor_OnlineState(gateUser.ActorId, true, gateSID);
-                NetInnerHelper.SendActorMsg(msg2);
-                GateFactory.RecycleMsg(msg2);
-        }
     }
 
         public static void SynOffline(GateUser user)
@@ -53,12 +45,6 @@ namespace ETHotfix
                 matchS.Send(msg);
             }
             GateFactory.RecycleMsg(msg);
-            if(user.ActorId != 0)
-            {
-                Actor_OnlineState msg2 = GateFactory.CreateMsgActor_OnlineState(user.ActorId,false, 0);
-                NetInnerHelper.SendActorMsg(msg2);
-                GateFactory.RecycleMsg(msg2);
-            }
         }
 
         /// <summary>

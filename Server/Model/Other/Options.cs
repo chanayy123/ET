@@ -13,12 +13,12 @@ namespace ETModel
 		[Option("appType", Required = false, Default = AppType.Manager)]
 		public AppType AppType { get; set; }
 
-		[Option("config", Required = false, Default = "../Config/StartConfig/127.0.0.1.txt")]
+		[Option("config", Required = false, Default = "../Config/StartConfig/MultiServer.txt")]
 		public string Config { get; set; }
         /// <summary>
-        /// mongo容器别名:为了替代mongo容器ip,方便其他容器直接通过别名连接
+        /// 运行时模式: 0表示非docker环境,内网进程之间通过ip通信, 1表示docker环境,内网进程之间是通过域名(即容器名)而不是ip来通信
         /// </summary>
-        [Option("mongoAlias", Required = false, Default = "")]
-        public string MongoAlias { get; set; }
+        [Option("runtimeMode", Required = false, Default = 0)]
+        public int RuntimeMode { get; set; }
     }
 }

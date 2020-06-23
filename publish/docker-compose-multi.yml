@@ -1,0 +1,159 @@
+version: '3'
+services:
+  et-mongo:
+    image: "mongo"
+    container_name: "et-mongo"
+    volumes:
+     - et-cfgdb:/data/configdb
+     - et-db:/data/db
+    networks:
+       et-network:
+    restart: always   
+    command: --auth
+  et-serverDB:
+    image: "gameserver_et-server"
+    container_name: "et-serverDB"
+    command: --appId=2 --appType=DB --config=../Config/StartConfig/MultiServer.txt --runtimeMode=1
+    #command: --appId=1 --appType=BenchmarkKCPServer --config=../Config/StartConfig/BenchmarkKCPServer.txt --runtimeMode=1
+    #entrypoint: bash
+    depends_on:
+      - "et-mongo"
+    volumes:
+     - et-logs:/et-server/Logs/
+    networks:
+       et-network:
+    restart: always
+    stdin_open: true
+  et-serverRealm:
+    image: "gameserver_et-server"
+    container_name: "et-serverRealm"
+    command: --appId=3 --appType=Realm --config=../Config/StartConfig/MultiServer.txt --runtimeMode=1
+    depends_on:
+      - "et-serverWorld"
+    volumes:
+     - et-logs:/et-server/Logs/
+    networks:
+       et-network:
+    restart: always
+    stdin_open: true
+    ports:
+     - "10002:10002/tcp"
+  et-serverLocation:
+    image: "gameserver_et-server"
+    container_name: "et-serverLocation"
+    command: --appId=4 --appType=Location --config=../Config/StartConfig/MultiServer.txt --runtimeMode=1
+    depends_on:
+      - "et-serverWorld"
+    volumes:
+     - et-logs:/et-server/Logs/
+    networks:
+       et-network:
+    restart: always
+    stdin_open: true
+  et-serverGate1:
+    image: "gameserver_et-server"
+    container_name: "et-serverGate1"
+    command: --appId=5 --appType=Gate --config=../Config/StartConfig/MultiServer.txt --runtimeMode=1
+    depends_on:
+      - "et-serverWorld"
+    volumes:
+     - et-logs:/et-server/Logs/
+    networks:
+       et-network:
+    restart: always
+    stdin_open: true
+    ports:
+     - "10003:10003/tcp"
+  et-serverGate2:
+    image: "gameserver_et-server"
+    container_name: "et-serverGate2"
+    command: --appId=6 --appType=Gate --config=../Config/StartConfig/MultiServer.txt --runtimeMode=1
+    depends_on:
+      - "et-serverWorld"
+    volumes:
+     - et-logs:/et-server/Logs/
+    networks:
+       et-network:
+    restart: always
+    hostname: et-server
+    stdin_open: true
+    ports:
+     - "10004:10004/tcp"
+  et-serverWorld:
+    image: "gameserver_et-server"
+    container_name: "et-serverWorld"
+    command: --appId=7 --appType=World --config=../Config/StartConfig/MultiServer.txt --runtimeMode=1
+    depends_on:
+      - "et-serverDB"
+    volumes:
+     - et-logs:/et-server/Logs/
+    networks:
+       et-network:
+    restart: always
+    stdin_open: true  
+  et-serverMatch:
+    image: "gameserver_et-server"
+    container_name: "et-serverMatch"
+    command: --appId=8 --appType=Match --config=../Config/StartConfig/MultiServer.txt --runtimeMode=1
+    depends_on:
+      - "et-serverWorld"
+    volumes:
+     - et-logs:/et-server/Logs/
+    networks:
+       et-network:
+    restart: always
+    stdin_open: true  
+  et-serverGame1:
+    image: "gameserver_et-server"
+    container_name: "et-serverGame1"
+    command: --appId=9 --appType=Game --config=../Config/StartConfig/MultiServer.txt --runtimeMode=1
+    depends_on:
+      - "et-serverWorld"
+    volumes:
+     - et-logs:/et-server/Logs/
+    networks:
+       et-network:
+    restart: always
+    stdin_open: true  
+  et-serverGame2:
+    image: "gameserver_et-server"
+    container_name: "et-serverGame2"
+    command: --appId=10 --appType=Game --config=../Config/StartConfig/MultiServer.txt --runtimeMode=1
+    depends_on:
+      - "et-serverWorld"
+    volumes:
+     - et-logs:/et-server/Logs/
+    networks:
+       et-network:
+    restart: always
+    stdin_open: true  
+  et-serverHttp:
+    image: "gameserver_et-server"
+    container_name: "et-serverHttp"
+    command: --appId=11 --appType=Http --config=../Config/StartConfig/MultiServer.txt --runtimeMode=1
+    depends_on:
+      - "et-serverWorld"
+    volumes:
+     - et-logs:/et-server/Logs/
+    networks:
+       et-network:
+    restart: always
+    stdin_open: true  
+  et-serverRobot:
+    image: "gameserver_et-server"
+    container_name: "et-serverRobot"
+    command: --appId=12 --appType=Robot --config=../Config/StartConfig/MultiServer.txt --runtimeMode=1
+    depends_on:
+      - "et-serverWorld"
+    volumes:
+     - et-logs:/et-server/Logs/
+    networks:
+       et-network:
+    restart: always
+    stdin_open: true  
+volumes:
+  et-cfgdb:
+  et-db:
+  et-logs:
+networks:
+  et-network:

@@ -21,6 +21,9 @@ namespace ETModel
         /// 一副卡牌数据 54张
         /// </summary>
         public List<int> CardList { get; } = new List<int>();
+        /// <summary>
+        /// key:玩家userid value:对应玩家对象
+        /// </summary>
         public readonly Dictionary<int, BullFightPlayer> playerDic = new Dictionary<int, BullFightPlayer>();
         /// <summary>
         /// key: 玩家座位号 value:对应玩家对象

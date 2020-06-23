@@ -6,6 +6,7 @@ namespace ETModel
 	public class DBConfig : AConfigComponent
 	{
 		public string ConnectionString { get; set; }
-		public string DBName { get; set; }
+        public string ConnectionHostname { get; set; }
+        public string DBName { get; set; }
 	}
 }

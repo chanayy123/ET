@@ -29,6 +29,12 @@ namespace ETHotfix
                 user.Online = false;
                 user.GateSessionId = 0;
             }
+            if(user.ActorId != 0)
+            {
+                Actor_OnlineState msg2 = GateFactory.CreateMsgActor_OnlineState(user.ActorId, false, 0);
+                NetInnerHelper.SendActorMsg(msg2);
+                GateFactory.RecycleMsg(msg2);
+            }
             await ETTask.CompletedTask;
         }
     }

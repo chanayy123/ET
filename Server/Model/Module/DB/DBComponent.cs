@@ -44,19 +44,19 @@ namespace ETModel
         public string GetConnectionString(DBConfig cfg,Options option=null)
         {
             string connectionString = cfg.ConnectionString;
-            if (option !=null && !string.IsNullOrEmpty(option.MongoAlias))
+            if (option !=null && option.RuntimeMode == 1)
             { 
                 //暂定原始配置ip都是127.0.0.1
                 IPAddress address;
                 //目前dotnet2.X在linux下域名访问支持不太好,这里手动域名转ip
                 try
                 {
-                    var list = Dns.GetHostAddresses(option.MongoAlias);
+                    var list = Dns.GetHostAddresses(cfg.ConnectionHostname);
                     if (list != null && list.Length > 0)
                     {
                         address = list[0];
                         connectionString = connectionString.Replace("127.0.0.1", address.ToString());
-                        Log.Debug("mongo连接域名: " + option.MongoAlias + "对应IP列表: " + string.Join<IPAddress>(",", list));
+                        Log.Debug("mongo连接域名: " + cfg.ConnectionHostname + "对应IP列表: " + string.Join<IPAddress>(",", list));
                     }
                 }
                 catch (Exception e)

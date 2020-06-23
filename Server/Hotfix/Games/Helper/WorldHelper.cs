@@ -19,7 +19,7 @@ namespace ETHotfix
         /// </summary>
         /// <param name="tryCount"></param>
         /// <returns></returns>
-        public static async ETTask<List<GameConfig>> GetGameCfgList(int tryCount=3)
+        public static async ETTask<List<GameConfig>> GetGameCfgList(int tryCount=5)
         {
             while(tryCount-- > 0)
             {
@@ -33,7 +33,7 @@ namespace ETHotfix
                 }
                 else
                 {
-                    await TimerComponent.Instance.WaitAsync(1000);
+                    await TimerComponent.Instance.WaitAsync(2000);
                 }
             }
             return null;

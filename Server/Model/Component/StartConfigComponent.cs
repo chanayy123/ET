@@ -24,6 +24,7 @@ namespace ETModel
         private Dictionary<AppType, List<StartConfig>> configDict2;
 		
 		private Dictionary<int, IPEndPoint> innerAddressDict = new Dictionary<int, IPEndPoint>();
+        private Dictionary<IPEndPoint, DnsEndPoint> innerAddDnsDict = new Dictionary<IPEndPoint, DnsEndPoint>();
 		
 		public StartConfig StartConfig { get; private set; }
 
@@ -76,7 +77,12 @@ namespace ETModel
 					if (innerConfig != null)
 					{
 						this.innerAddressDict.Add(startConfig.AppId, innerConfig.IPEndPoint);
-					}
+                        if (!string.IsNullOrEmpty(innerConfig.Hostname))
+                        {
+                            var hostEndPoint = NetworkHelper.ToDnsEndPoint(innerConfig.Hostname);
+                            innerAddDnsDict.Add(innerConfig.IPEndPoint, hostEndPoint);
+                        }
+                    }
 
 					if (startConfig.AppType.Is(AppType.Realm))
 					{
@@ -167,6 +173,19 @@ namespace ETModel
 				throw new Exception($"not found innerAddress: {id}", e);
 			}
 		}
+
+        public DnsEndPoint GetInnerHost(int id)
+        {
+            var addEndPoint = GetInnerAddress(id);
+            innerAddDnsDict.TryGetValue(addEndPoint, out DnsEndPoint hostEndPoint);
+            return hostEndPoint;
+        }
+
+        public DnsEndPoint GetInnerHost(IPEndPoint addEndPoint)
+        {
+            innerAddDnsDict.TryGetValue(addEndPoint, out DnsEndPoint hostEndPoint);
+            return hostEndPoint;
+        }
 
 		public StartConfig[] GetAll()
 		{

@@ -17,7 +17,7 @@ namespace App
                 Game.EventSystem.Add(DLLType.Hotfix, DllHelper.GetHotfixAssembly());
 
                 Options options = Game.Scene.AddComponent<OptionComponent, string[]>(args).Options;
-                Log.Debug("进程启动参数: " + options.AppId + " " + options.AppType + " " + options.Config + " " + options.MongoAlias);
+                Log.Debug("进程启动参数: " + options.AppId + " " + options.AppType + " " + options.Config + " " + options.RuntimeMode);
                 StartConfig startConfig = Game.Scene.AddComponent<StartConfigComponent, string, int>(options.Config, options.AppId).StartConfig;
 
                 if (!options.AppType.Is(startConfig.AppType))
@@ -119,7 +119,7 @@ namespace App
                         break;
                     default:
                         throw new Exception($"命令行参数没有设置正确的AppType: {startConfig.AppType}");
-                }
+                }              
                 while (true)
                 {
                     try

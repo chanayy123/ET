@@ -21,28 +21,40 @@ namespace ETModel
 
 		public void Awake()
 		{
-			string[] ips = NetHelper.GetAddressIPs();
-			StartConfig[] startConfigs = StartConfigComponent.Instance.GetAll();
-			
-			foreach (StartConfig startConfig in startConfigs)
-			{
-				Game.Scene.GetComponent<TimerComponent>().WaitAsync(100);
-				
-				if (!ips.Contains(startConfig.ServerIP) && startConfig.ServerIP != "*")
-				{
-					continue;
-				}
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                StartMultiServer();
+            }
+            else {
+                Log.Warning("非windows平台多进程启动功能屏蔽==>docker-compose多进程编排方式启动");
+            }
 
-				if (startConfig.AppType.Is(AppType.Manager))
-				{
-					continue;
-				}
+        }
 
-				StartProcess(startConfig.AppId);
-			}
+        private void StartMultiServer()
+        {
+            string[] ips = NetHelper.GetAddressIPs();
+            StartConfig[] startConfigs = StartConfigComponent.Instance.GetAll();
 
-			//this.WatchProcessAsync().Coroutine();
-		}
+            foreach (StartConfig startConfig in startConfigs)
+            {
+                Game.Scene.GetComponent<TimerComponent>().WaitAsync(100);
+
+                if (!ips.Contains(startConfig.ServerIP) && startConfig.ServerIP != "*")
+                {
+                    continue;
+                }
+
+                if (startConfig.AppType.Is(AppType.Manager))
+                {
+                    continue;
+                }
+
+                StartProcess(startConfig.AppId);
+            }
+
+            this.WatchProcessAsync().Coroutine();
+        }
 
 		private void StartProcess(int appId)
 		{
@@ -51,8 +63,7 @@ namespace ETModel
 			string configFile = optionComponent.Options.Config;
 			StartConfig startConfig = startConfigComponent.Get(appId);
 			const string exe = "dotnet";
-			string arguments = $"App.dll --appId={startConfig.AppId} --appType={startConfig.AppType} --config={configFile}";
-            arguments += string.IsNullOrEmpty(optionComponent.Options.MongoAlias) ? "" : $" --mongoAlias={optionComponent.Options.MongoAlias}";
+			string arguments = $"App.dll --appId={startConfig.AppId} --appType={startConfig.AppType} --config={configFile} --runtimeMode={optionComponent.Options.RuntimeMode}";
             Log.Info($"{exe} {arguments}");
 			try
 			{
@@ -84,6 +95,7 @@ namespace ETModel
 				foreach (int appId in this.processes.Keys.ToArray())
 				{
 					Process process = this.processes[appId];
+
 					if (!process.HasExited)
 					{
 						continue;

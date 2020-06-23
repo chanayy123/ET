@@ -15,4 +15,14 @@ namespace ETHotfix
             Log.Debug($"{self.User.UserId}下线");
         }
     }
+
+    [ObjectSystem]
+    public class SessionGateUserAwakeSystem : AwakeSystem<SessionGateUserComponent,GateUser>
+    {
+        public override void Awake(SessionGateUserComponent self,GateUser user)
+        {
+            self.User = user;
+            GateUserComponent.Instance.Add(user.UserId, user);
+        }
+    }
 }
