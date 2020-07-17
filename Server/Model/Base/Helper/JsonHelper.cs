@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson.IO;
+using System;
 
 namespace ETModel
 {
@@ -9,7 +10,12 @@ namespace ETModel
 			return MongoHelper.ToJson(obj);
 		}
 
-		public static T FromJson<T>(string str)
+        public static string ToJson(object obj, JsonWriterSettings settings)
+        {
+            return MongoHelper.ToJson(obj,settings);
+        }
+
+        public static T FromJson<T>(string str)
 		{
 			return MongoHelper.FromJson<T>(str);
 		}

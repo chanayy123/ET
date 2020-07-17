@@ -16,7 +16,11 @@ namespace ETHotfix
                 List<ComponentWithId> list = await self.DBProxy.Query<UserInfo>((item) => item.IsRobot == true);
                 if (list.Count < RobotComponent.INIT_COUNT)
                 {
-                    self.InitRobots(RobotComponent.INIT_COUNT - list.Count);
+                    for (var i = 0; i < list.Count; ++i)
+                    {
+                        self.AddRobot(list[i] as UserInfo);
+                    }
+                    await self.InitRobots(RobotComponent.INIT_COUNT - list.Count);
                 }
                 else
                 {

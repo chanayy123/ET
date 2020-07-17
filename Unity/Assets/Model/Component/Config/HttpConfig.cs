@@ -8,6 +8,6 @@ namespace ETModel
 		public string Url { get; set; } = "";
 		public int AppId { get; set; }
 		public string AppKey { get; set; } = "";
-		public string ManagerSystemUrl { get; set; } = "";
+        public string ManagerSystemUrl { get; set; } = "";
 	}
 }

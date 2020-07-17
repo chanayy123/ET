@@ -1,6 +1,6 @@
 namespace ETModel
 {
-	[Config((int)( AppType.Match|AppType.Game|AppType.World))]
+	[Config((int)( AppType.Match|AppType.Game|AppType.World|AppType.ClientH))]
 	public partial class RoomConfigCategory : ACategory<RoomConfig>
 	{
 	}

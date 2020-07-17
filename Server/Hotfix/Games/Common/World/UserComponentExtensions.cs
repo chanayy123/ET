@@ -12,6 +12,7 @@ namespace ETHotfix
         Tourist, //游客登陆
         Voucher, //账号密码验证登陆
         Wechat, //微信登陆
+        TestClient, //测试客户端登陆
     }
 
     public static class UserComponentExtensions
@@ -68,6 +69,9 @@ namespace ETHotfix
                 case LoginType.Voucher:
                     userId = await self.CheckVoucherLogin(msg, res);
                     break;
+                case LoginType.TestClient:
+                    userId = await self.CheckTestLogin(msg, res);
+                    break;
             }
             return userId;
         }
@@ -91,12 +95,6 @@ namespace ETHotfix
             account.LastLoginTIme = DateTime.UtcNow;
             await self.DBProxy.Save(account);
             return account.UserId;
-        }
-
-        public static async ETTask<int> CheckWechatLogin(this UserComponent self, RW_Login msg, IResponse res)
-        {
-            await ETTask.CompletedTask;
-            throw new NotImplementedException();
         }
 
         public static async ETTask<int> CheckTouristLogin(this UserComponent self, RW_Login msg, IResponse res)
@@ -141,6 +139,18 @@ namespace ETHotfix
             account.LastLoginTIme = DateTime.UtcNow;
             await self.DBProxy.Save(account);
             return account.UserId;
+        }
+
+        public static async ETTask<int> CheckWechatLogin(this UserComponent self, RW_Login msg, IResponse res)
+        {
+            await ETTask.CompletedTask;
+            throw new NotImplementedException();
+        }
+
+        public static async ETTask<int> CheckTestLogin(this UserComponent self, RW_Login msg, IResponse res)
+        {
+           int.TryParse(msg.DataStr, out int result);
+            return await ETTask.FromResult(result);
         }
 
         public static async ETTask<int> CheckRegister(this UserComponent self ,RW_Register msg, IResponse res)

@@ -13,11 +13,11 @@ namespace ETHotfix
     {
         public override void Awake(Session self,AChannel ch)
         {
-            if(self.Network.AppType == AppType.None) //表明是外网组件，内网组件都会配置类型
+            if(self.Network.AppType == AppType.None && self.ChannelType == ChannelType.Accept) //表明是外网组件，内网组件都会配置类型
             {
                 var appType = StartConfigComponent.Instance.StartConfig.AppType;
                 //基准测试连接不需要检测心跳
-                if (!appType.IsBenchmark())
+                if (!appType.IsBenchmarkServer())
                 {
                     self.AddComponent<HeartBeatComponent>();
                 }
@@ -85,7 +85,6 @@ namespace ETHotfix
                 {
                     var hb = self.dic[item];
                     hb.DisposeSession();
-                    self.dic.Remove(item);
                 }
 
             }

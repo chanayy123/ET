@@ -10,6 +10,12 @@ namespace ETHotfix
     {
         protected override  ETTask Run(Session session, SW_LockMaxUserId request, WS_LockMaxUserId response, Action reply)
         {
+            if (UserComponent.Instance.IsLocking)//已经锁定,再次锁定就返回-1
+            {
+                response.MaxUserId = -1;
+                reply();
+                return ETTask.CompletedTask;
+            }
             UserComponent.Instance.IsLocking = true;
             response.MaxUserId = UserComponent.Instance.MaxUserId;
             reply();

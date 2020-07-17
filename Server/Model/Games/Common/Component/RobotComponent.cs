@@ -7,7 +7,7 @@ namespace ETModel
         /// <summary>
         /// 起始机器人账号数量
         /// </summary>
-        public const int INIT_COUNT = 50;
+        public const int INIT_COUNT = 100;
         /// <summary>
         /// 可用机器人列表
         /// </summary>

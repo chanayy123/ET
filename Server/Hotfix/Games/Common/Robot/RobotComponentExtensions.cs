@@ -8,7 +8,7 @@ namespace ETHotfix
 
     public static class RobotComponentExtensions
     {
-        public static async void InitRobots(this RobotComponent self, int count)
+        public static async ETTask InitRobots(this RobotComponent self, int count)
         {
             int maxUserId = await WorldHelper.LockMaxUserId();
             var accList = new List<ComponentWithId>();

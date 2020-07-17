@@ -251,7 +251,7 @@ namespace ETHotfix
             }
         }
         /// <summary>
-        /// 获得不在游戏可用的房间，没有就生成新的房间并缓存进组
+        /// 获得匹配模式房间: 人数已经凑够,只需返回空房间
         /// </summary>
         /// <param name="self"></param>
         /// <param name="hallId"></param>
@@ -264,7 +264,7 @@ namespace ETHotfix
                 self.hallMatchModeDic.Add(hallId, list);
             }
             var cfg = RoomConfigComponent.Instance.Get(hallId);
-            var matchRoom = list.Find((room) => room.State != (int)RoomState.GAMING);
+            var matchRoom = list.Find((room) => room.Count == 0);
             if (matchRoom == null)
             {
                 matchRoom = MatchFactory.CreateMatchModeRoom(hallId, cfg);

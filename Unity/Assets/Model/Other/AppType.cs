@@ -52,10 +52,15 @@ namespace ETModel
 			return false;
 		}
 
-        public static bool IsBenchmark(this AppType type)
+        public static bool IsBenchmarkServer(this AppType type)
         {
-            return type == AppType.BenchmarkKCPClient || type == AppType.BenchmarkKCPServer || type == AppType.BenchmarkTCPClient || type == AppType.BenchmarkTCPServer
-                || type == AppType.BenchmarkWebsocketClient || type == AppType.BenchmarkWebsocketServer;
+            return  type == AppType.BenchmarkKCPServer  || type == AppType.BenchmarkTCPServer || type == AppType.BenchmarkWebsocketServer;
         }
+
+        public static bool IsClient(this AppType type)
+        {
+            return type == AppType.ClientH || type == AppType.ClientM;
+        }
+
     }
 }

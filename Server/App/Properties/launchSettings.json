@@ -1,15 +1,18 @@
 {
   "profiles": {
-    "Server.App": {
+    "Server.AllServer": {
+      "commandName": "Project",
+      "commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/LocalAllServer.txt",
+      "workingDirectory": "../../Bin"
+    },
+    "Server.MultiServer": {
+      "commandName": "Project",
+      "commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/MultiServer.txt",
+      "workingDirectory": "../../Bin"
+    },
+    "Server.Server&Client": {
         "commandName": "Project",
-        "commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/MultiServer.txt",
-        //"commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/LocalAllServer.txt",
-        //"commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/BenchmarkWebsocket.txt",
-        //"commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/BenchmarkTCP.txt",
-        //"commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/BenchmarkKCP.txt",
-        //"commandLineArgs": "--appId=1 --appType=BenchmarkWebsocketClient --config=../Config/StartConfig/BenchmarkWebsocketClient.txt",
-        //"commandLineArgs": "--appId=1 --appType=BenchmarkTCPClient --config=../Config/StartConfig/BenchmarkTCPClient.txt",
-        //"commandLineArgs": "--appId=1 --appType=BenchmarkKCPClient --config=../Config/StartConfig/BenchmarkKCPClient.txt",
+        "commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/TestClient2AllServer.txt",
         "workingDirectory": "../../Bin"
     }
   }

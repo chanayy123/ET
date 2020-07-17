@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using ETModel;
 using System.Threading.Tasks;
+using System;
 
 namespace ETHotfix
 {
@@ -8,25 +9,59 @@ namespace ETHotfix
     public class LoginData
     {
         public string Acc;
+        public string Pwd;
+    }
+
+    public class LoginResponse
+    {
+        public string Acc;
+        public long SessionId;
+        public int Level;
     }
 
     [HttpHandler(AppType.Http, "/")]
 	public class HttpTest : AHttpHandler
 	{
-		[Get] // url-> /Login?name=11&age=1111
-		public string Login(string name, int age, HttpListenerRequest req, HttpListenerResponse resp)
+		[Post] // url-> /Login
+		public async ETTask<HttpResult> Login(LoginData login, HttpListenerRequest req, HttpListenerResponse resp)
 		{
-			Log.Info(name);
-			Log.Info($"{age}");
-			return "ok";
+			Log.Info($"login {login.Acc}  {login.Pwd}");
+            if(login.Acc == "yy" && login.Pwd == "123")
+            {
+                var res = new LoginResponse()
+                {
+                    Acc=login.Acc,
+                    SessionId = IdGenerater.GenerateId(),
+                    Level = 999
+                };
+                var cookie = new Cookie("SessionId", res.SessionId.ToString());
+                //cookie.Expires = DateTime.UtcNow.AddMinutes(3);
+                resp.SetCookie(cookie);
+                //resp.AppendCookie(new Cookie("Domain", "http://192.168.2.128:8002"));
+                return await ETTask.FromResult(Ok("登陆成功",res));
+            }else if(login.Acc == "abc" && login.Pwd == "123")
+            {
+                var res = new LoginResponse()
+                {
+                    Acc = login.Acc,
+                    SessionId = IdGenerater.GenerateId(),
+                    Level = 1
+                };
+                return await ETTask.FromResult(Ok("登陆成功", res));
+            }
+			return Error("用户名密码错误!");
 		}
 
 		[Get("t")] // url-> /t
-		public int Test()
+		public int Test(HttpListenerResponse resp)
 		{
-			System.Console.WriteLine("");
-			return 1;
+            return 1;
 		}
+        [Get]
+        public string StaticHtml(HttpListenerRequest req,HttpListenerResponse resp)
+        {
+            return "静态网页";
+        }
 
 		[Post] // url-> /Test1
 		public int Test1(HttpListenerRequest req)
@@ -40,11 +75,6 @@ namespace ETHotfix
             return $"{body.Acc}---";
         }
 
-        [Get] // url-> /Test2
-		public int Test2(HttpListenerResponse resp)
-		{
-			return 1;
-		}
 
 		[Get] // url-> /GetRechargeRecord
 		public async ETTask<HttpResult> GetRechargeRecord(long id)
@@ -62,7 +92,7 @@ namespace ETHotfix
 			}
 			else
 			{
-				return Error("ID不存在！");
+				return Error("ID不存在！"+id);
 			}
 		}
 

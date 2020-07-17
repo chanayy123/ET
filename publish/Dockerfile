@@ -4,5 +4,5 @@ COPY Config/ et-server/Config/
 COPY Logs/ et-server/Logs/
 COPY publish/ et-server/publish/
 WORKDIR et-server/publish/
-VOLUME /et-server/Logs/
+VOLUME /et-server
 ENTRYPOINT ["dotnet", "App.dll"]

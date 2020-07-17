@@ -15,6 +15,6 @@ namespace ETModel
         public override void EndInit()
 		{
             this.IPEndPoint = NetworkHelper.ToIPEndPoint(this.Address2);
-		}
+        }
 	}
 }

@@ -57,7 +57,6 @@ namespace ETModel
 			StartConfig startConfig = StartConfigComponent.Instance.StartConfig;
 			this.appType = startConfig.AppType;
 			this.HttpConfig = startConfig.GetComponent<HttpConfig>();
-
 			this.Load();
 		}
 
@@ -118,7 +117,7 @@ namespace ETModel
 
 					this.listener.Prefixes.Add(s);
 				}
-
+                //listener.AuthenticationSchemes = AuthenticationSchemes.Basic;
 				this.listener.Start();
 
 				this.Accept().Coroutine();
@@ -139,15 +138,12 @@ namespace ETModel
 				if (getAttrs.Length != 0)
 				{
 					GetAttribute get = (GetAttribute)getAttrs[0];
-
-					string path = method.Name;
-					if (!string.IsNullOrEmpty(get.Path))
-					{
-						path = get.Path;
-					}
-
+                    string path = method.Name;
+                    if (!string.IsNullOrEmpty(get.Path))
+                    {
+                        path = get.Path;
+                    }
 					getHandlers.Add(httpHandlerAttribute.Path + path, method);
-					//Log.Debug($"add handler[{httpHandler}.{method.Name}] path {httpHandlerAttribute.Path + path}");
 				}
                 
 
@@ -186,10 +182,19 @@ namespace ETModel
 				{
 					return;
 				}
-
-				HttpListenerContext context = await this.listener.GetContextAsync();
-				await InvokeHandler(context);
-				context.Response.Close();
+                HttpListenerContext context = await this.listener.GetContextAsync();
+                try
+                {
+                    await InvokeHandler(context);
+                }
+                catch (Exception e)
+                {
+                    Log.Warning("HttpComponent accept exception " + e);
+                }
+                finally
+                {
+                    context.Response.Close();
+                }
 			}
 		}
 
@@ -212,6 +217,7 @@ namespace ETModel
 					{
 						this.handlersMapping.TryGetValue(methodInfo, out httpHandler);
 					}
+                    
 					break;
 				case "POST":
 					this.postHandlers.TryGetValue(context.Request.Url.AbsolutePath, out methodInfo);
@@ -225,14 +231,26 @@ namespace ETModel
 						}
 					}
 					break;
-				default:
+                case "HEAD":
+                    context.Response.StatusCode = 200;
+                    break;
+                case "OPTIONS":
+                    context.Response.StatusCode = 200;
+                    context.Response.Headers.Add("Access-Control-Allow-Origin", "http://192.168.2.128:8002");
+                    context.Response.Headers.Add("Access-Control-Allow-Methods", "POST,GET");
+                    context.Response.Headers.Add("Access-Control-Allow-Credentials", "true");
+                    context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+                    break;
+                default:
 					context.Response.StatusCode = 405;
 					break;
 			}
 
 			if (httpHandler != null)
 			{
-				object[] args = InjectParameters(context, methodInfo, postbody);
+                context.Response.Headers.Add("Access-Control-Allow-Origin", "http://192.168.2.128:8002");
+                context.Response.Headers.Add("Access-Control-Allow-Credentials", "true");
+                object[] args = InjectParameters(context, methodInfo, postbody);
 
 				// 自动把返回值，以json方式响应。
 				object resp = methodInfo.Invoke(httpHandler, args);
@@ -240,9 +258,8 @@ namespace ETModel
 				if (resp is ETTask<HttpResult> t)
 				{
 					await t;
-					result = t.GetType().GetProperty("Result").GetValue(t, null);
+                    result = t.Result;
 				}
-
 				if (result != null)
 				{
 					using (StreamWriter sw = new StreamWriter(context.Response.OutputStream,Encoding.UTF8))
@@ -253,7 +270,9 @@ namespace ETModel
 						}
 						else
 						{
-							sw.Write(JsonHelper.ToJson(result));
+                            //输出标准json格式
+                            var data = JsonHelper.ToJson(result,new MongoDB.Bson.IO.JsonWriterSettings() { OutputMode = MongoDB.Bson.IO.JsonOutputMode.Strict });
+                            sw.Write(data);
 						}
 					}
 				}
@@ -287,7 +306,7 @@ namespace ETModel
 					args[i] = context.Response;
 					continue;
 				}
-
+                
 				try
 				{
 					switch (context.Request.HttpMethod)

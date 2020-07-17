@@ -8,5 +8,6 @@ namespace ETModel
     {
         public const string Property_Coin = "Coin";
         public bool IsRobot { get; set; }
+        public bool IsTest { get; set; }
     }
 }

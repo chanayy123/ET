@@ -17,9 +17,8 @@ namespace App
                 Game.EventSystem.Add(DLLType.Hotfix, DllHelper.GetHotfixAssembly());
 
                 Options options = Game.Scene.AddComponent<OptionComponent, string[]>(args).Options;
-                Log.Debug("进程启动参数: " + options.AppId + " " + options.AppType + " " + options.Config + " " + options.RuntimeMode);
                 StartConfig startConfig = Game.Scene.AddComponent<StartConfigComponent, string, int>(options.Config, options.AppId).StartConfig;
-
+                
                 if (!options.AppType.Is(startConfig.AppType))
                 {
                     Log.Error("命令行参数apptype与配置不一致");
@@ -31,8 +30,7 @@ namespace App
                 LogManager.Configuration.Variables["appId"] = $"{startConfig.AppId}";
                 LogManager.Configuration.Variables["appTypeFormat"] = $"{startConfig.AppType,-8}";
                 LogManager.Configuration.Variables["appIdFormat"] = $"{startConfig.AppId:0000}";
-
-                Log.Info($"server start........................ {startConfig.AppId} {startConfig.AppType}");
+                Log.Info("进程启动参数: " + options.AppId + " " + options.AppType + " " + options.Config + " " + options.RuntimeMode);
                 OuterConfig outerConfig = startConfig.GetComponent<OuterConfig>();
                 ClientConfig clientConfig = startConfig.GetComponent<ClientConfig>();
                 //添加通用组件
@@ -76,6 +74,7 @@ namespace App
                         Game.Scene.AddComponent<RobotComponent>();
                         break;
                     case AppType.AllServer:
+                        Game.Scene.AddComponent<AppManagerComponent>();
                         // location server
                         Game.Scene.AddComponent<LocationComponent>();
                         //db  server
@@ -116,6 +115,9 @@ namespace App
                         break;
                     case AppType.BenchmarkKCPServer:
                         Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol, string>(NetworkProtocol.KCP, outerConfig.Address);
+                        break;
+                    case AppType.ClientH:
+                        Game.Scene.AddComponent<ClientComponent, NetworkProtocol>(NetworkProtocol.TCP);
                         break;
                     default:
                         throw new Exception($"命令行参数没有设置正确的AppType: {startConfig.AppType}");
