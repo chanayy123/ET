@@ -138,7 +138,9 @@ services:
     networks:
        et-network:
     restart: always
-    stdin_open: true  
+    stdin_open: true
+    ports:
+     - "8080:8080/tcp"
   et-serverRobot:
     image: "gameserver_et-server"
     container_name: "et-serverRobot"

@@ -9,7 +9,7 @@ namespace App
     {
         private static void Main(string[] args)
         {
-            // 异步方法全部会回掉到主线程
+            // 在主线程调用异步方法全部会回调到主线程
             SynchronizationContext.SetSynchronizationContext(OneThreadSynchronizationContext.Instance);
             try
             {
@@ -55,7 +55,8 @@ namespace App
                         Game.Scene.AddComponent<GateSessionKeyComponent>();
                         break;
                     case AppType.Http:
-                        Game.Scene.AddComponent<HttpComponent>();
+                        //Game.Scene.AddComponent<HttpComponent>();
+                        Game.Scene.AddComponent<WebServerComponent>();
                         break;
                     case AppType.Location:
                         Game.Scene.AddComponent<LocationComponent>();
@@ -80,7 +81,8 @@ namespace App
                         //db  server
                         Game.Scene.AddComponent<DBComponent>();
                         //http server
-                        Game.Scene.AddComponent<HttpComponent>();
+                        //Game.Scene.AddComponent<HttpComponent>();
+                        Game.Scene.AddComponent<WebServerComponent>();
                         // 外网消息组件
                         Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol, string>(outerConfig.Protocol, outerConfig.Address);
                         //realm验证服

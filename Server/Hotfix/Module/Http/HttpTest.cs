@@ -19,7 +19,7 @@ namespace ETHotfix
         public int Level;
     }
 
-    [HttpHandler(AppType.Http, "/")]
+    [HttpHandler(AppType.Http, "/test")]
 	public class HttpTest : AHttpHandler
 	{
 		[Post] // url-> /Login

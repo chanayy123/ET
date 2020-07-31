@@ -251,7 +251,6 @@ namespace ETModel
                 context.Response.Headers.Add("Access-Control-Allow-Origin", "http://192.168.2.128:8002");
                 context.Response.Headers.Add("Access-Control-Allow-Credentials", "true");
                 object[] args = InjectParameters(context, methodInfo, postbody);
-
 				// 自动把返回值，以json方式响应。
 				object resp = methodInfo.Invoke(httpHandler, args);
 				object result = resp;

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 RUN apt update && apt install -y procps && apt install -y vim && rm -rf /var/lib/apt/lists/*
 COPY Config/ et-server/Config/
 COPY Logs/ et-server/Logs/

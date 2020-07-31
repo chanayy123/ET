@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace ETModel
 {
-	public static class MongoHelper
+	public  class MongoHelper
 	{
 		static MongoHelper()
 		{
@@ -19,8 +19,14 @@ namespace ETModel
 				{
 					continue;
 				}
-
-				BsonClassMap.LookupClassMap(type);
+				try
+				{
+					BsonClassMap.LookupClassMap(type);
+				}
+				catch (Exception e)
+				{
+					Log.Error($"MongoHelper constructor LookupClassMap {type.Name}  {e}");
+				}
 			}
 		}
 
