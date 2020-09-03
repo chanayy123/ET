@@ -1,0 +1,276 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc77607c2a62ef48b8f7dec55cc6d91, type: 3}
+  m_Name: AnalyzeRuleData
+  m_EditorClassIdentifier: 
+  m_RuleToResults:
+  - RuleName: Check Duplicate Bundle Dependencies
+    Results:
+    - m_ResultName: Check Duplicate Bundle Dependencies:Local_Static:local_static_assets_all.bundle:Assets/Res/UI/niuniuSkin/loading/img_loading_qiangzhuangniuniu_bg.jpg
+      m_Severity: 2
+    - m_ResultName: Check Duplicate Bundle Dependencies:Remote_NonStatic2:remote_nonstatic2_assets_all.bundle:Assets/Res/UI/niuniuSkin/loading/img_loading_qiangzhuangniuniu_bg.jpg
+      m_Severity: 2
+    - m_ResultName: Check Duplicate Bundle Dependencies:Remote_NonStatic2:remote_nonstatic2_assets_all.bundle:Assets/Res/UI/niuniuSkin/loading/img_loading_qiangzhuangniuniu_bg.jpg
+      m_Severity: 2
+  - RuleName: Check Resources to Addressable Duplicate Dependencies
+    Results:
+    - m_ResultName: Check Resources to Addressable Duplicate Dependencies - No issues
+        found.
+      m_Severity: 0
+  - RuleName: Check Scene to Addressable Duplicate Dependencies
+    Results:
+    - m_ResultName: Assets/Scenes/Init.unity:local_static_assets_all.bundle:Assets/Model/Other/ReferenceCollector.cs
+      m_Severity: 2
+    - m_ResultName: Assets/Scenes/Init.unity:remote_static_assets_all.bundle:Assets/Model/Other/ReferenceCollector.cs
+      m_Severity: 2
+    - m_ResultName: Assets/Scenes/Init.unity:remote_nonstatic_assets_all.bundle:Assets/Model/Other/ReferenceCollector.cs
+      m_Severity: 2
+    - m_ResultName: Assets/Scenes/Init.unity:remote_nonstatic2_assets_all.bundle:Assets/Model/Other/ReferenceCollector.cs
+      m_Severity: 2
+  - RuleName: Build Bundle Layout
+    Results:
+    - m_ResultName: local_static_assets_all.bundle:Explicit:Assets/Bundles/UI/ViewLoading.prefab
+      m_Severity: 0
+    - m_ResultName: local_static_assets_all.bundle:Explicit:Assets/Bundles/Atlas/niuniuLoadingAtlas.spriteatlas
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Explicit:Assets/Bundles/Atlas/niuniuSelectAtlas.spriteatlas
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Explicit:Assets/Bundles/Code/code.prefab
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Explicit:Assets/Bundles/Atlas/niuniuGameAtlas.spriteatlas
+      m_Severity: 0
+    - m_ResultName: remote_nonstatic_assets_all.bundle:Explicit:Assets/Bundles/UI/ViewSelect.prefab
+      m_Severity: 0
+    - m_ResultName: remote_nonstatic_assets_all.bundle:Explicit:Assets/Bundles/Config/config.prefab
+      m_Severity: 0
+    - m_ResultName: remote_nonstatic2_assets_all.bundle:Explicit:Assets/Bundles/UI/ViewLogin.prefab
+      m_Severity: 0
+    - m_ResultName: local_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/loading/img_loading_new_progress.png
+      m_Severity: 0
+    - m_ResultName: local_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/loading/img_loading_progress_bg_1.png
+      m_Severity: 0
+    - m_ResultName: local_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/loading/img_loading_qiangzhuangniuniu_bg.jpg
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/img_bgLoading.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/img_btnDetail.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_close.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/check_001.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_set.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_mit.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_setopen.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_free.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_music.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_frame.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/img_bgTurnPage.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_setclose.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_model_2.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/img_btnRecord.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/img_bgRecordItem.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_back.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_top.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_sound.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_help.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_bg.jpg
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/img_bgData.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_helptitle.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/img_txtRecord.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_coin.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/img_btnClose.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_settitle.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/img_title.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_logo_1.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/dn_entry_num.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/img_prev.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/bullfight_img_head_outline.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/img_loading.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/img_next.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/select/btn_bullfight_2.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/Code/Hotfix.pdb.bytes
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/Code/Hotfix.dll.bytes
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_poker_dn_logo_2.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/niu7.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_buttonFlag.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/btn_bullfight_2.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_bullfight_d1.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/desk_anima_dn_wan.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/public_di2.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_bank.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/desk_anima_dn_qi.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/meiniu_meiniudi.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/niu3.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/niu2.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_poker_dnbosstag.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/niu1.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/desk_img_pk_=.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_bg_poker_dn_desk.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_coinBg_win.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_bullfight_d.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/check_autoMatch.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/btn_bullfight_4.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/niuniu.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_bullfight_d2.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/desk_anima_dn_Desktop.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_bullfight_adss.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/btn_bullfight_help.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_bullfight_headitem_bg.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_bullfight_headitem_bg_p.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/desk_img_pk_bg.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/meiniu.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_txtContinue.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/desk_anima_dn_pei.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/btn_bullfight_continuegame.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/btn_bullfight_3.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/niu8.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/desk_anima_dn_zheng.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/btn_bullfight_1.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/niu9.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/desk_anima_dn_pi.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/niu6.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/desk_anima_dn_zai.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/bullfight_img_head_outline.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_selfLine.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_bg_poker_dn_0.jpg
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/desk_img_pk_+bg.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_selfLine2.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/public_di1.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_bullfight_chatbtn.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/niu4.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_bullfight_liangpai.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_poker_dn_icon_coin.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_bullfight_headitem_coinbg_p.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/desk_anima_dn_ta.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/btn_bullfight_back.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_bullfight_tishi.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_coinBg_lose.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_txtQuit.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/desk_anima_dn_jia.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/img_tipBg.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/niu5.png
+      m_Severity: 0
+    - m_ResultName: remote_static_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/game/desk_img_pk_a+.png
+      m_Severity: 0
+    - m_ResultName: remote_nonstatic_assets_all.bundle:Implicit:Assets/Res/UI/user/head/head_female_1.png
+      m_Severity: 0
+    - m_ResultName: remote_nonstatic_assets_all.bundle:Implicit:Assets/Res/UI/user/head/head_female_1.png
+      m_Severity: 0
+    - m_ResultName: remote_nonstatic_assets_all.bundle:Implicit:Assets/Res/Config/GlobalConfig.txt
+      m_Severity: 0
+    - m_ResultName: remote_nonstatic_assets_all.bundle:Implicit:Assets/Res/Config/BuffConfig.txt
+      m_Severity: 0
+    - m_ResultName: remote_nonstatic_assets_all.bundle:Implicit:Assets/Res/Config/UnitConfig.txt
+      m_Severity: 0
+    - m_ResultName: remote_nonstatic2_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/loading/img_loading_qiangzhuangniuniu_bg.jpg
+      m_Severity: 0
+    - m_ResultName: remote_nonstatic2_assets_all.bundle:Implicit:Assets/Res/UI/niuniuSkin/loading/img_loading_qiangzhuangniuniu_bg.jpg
+      m_Severity: 0
+  - RuleName: Check Sprite Atlas to Addressable Duplicate Dependencies
+    Results:
+    - m_ResultName: c7910d74fc6efbc6784494286f8c2ad4_assets_all.bundle:Assets/Bundles/Atlas/niuniuLoadingAtlas.spriteatlas:af80fad812df699ee8222b6f6cf24426_assets_all.bundle:Assets/Res/UI/niuniuSkin/loading/img_loading_qiangzhuangniuniu_bg.jpg
+      m_Severity: 0
+    - m_ResultName: c7910d74fc6efbc6784494286f8c2ad4_assets_all.bundle:Assets/Bundles/Atlas/niuniuLoadingAtlas.spriteatlas:af80fad812df699ee8222b6f6cf24426_assets_all.bundle:Assets/Res/UI/niuniuSkin/loading/img_loading_qiangzhuangniuniu_bg.jpg
+      m_Severity: 0
+  - RuleName: UnityEditor.AddressableAssets.Build.AnalyzeRules.AnalyzeRule
+    Results: []

@@ -37,22 +37,22 @@ namespace ETModel
 			}
 		}
 
-		public async ETVoid StartMove(M2C_PathfindingResult message)
-		{
-			// 取消之前的移动协程
-			this.CancellationTokenSource?.Cancel();
-			this.CancellationTokenSource = new CancellationTokenSource();
+		//public async ETVoid StartMove(M2C_PathfindingResult message)
+		//{
+		//	// 取消之前的移动协程
+		//	this.CancellationTokenSource?.Cancel();
+		//	this.CancellationTokenSource = new CancellationTokenSource();
 
-			this.Path.Clear();
-			for (int i = 0; i < message.Xs.Count; ++i)
-			{
-				this.Path.Add(new Vector3(message.Xs[i], message.Ys[i], message.Zs[i]));
-			}
-			ServerPos = new Vector3(message.X, message.Y, message.Z);
+		//	this.Path.Clear();
+		//	for (int i = 0; i < message.Xs.Count; ++i)
+		//	{
+		//		this.Path.Add(new Vector3(message.Xs[i], message.Ys[i], message.Zs[i]));
+		//	}
+		//	ServerPos = new Vector3(message.X, message.Y, message.Z);
 			
-			await StartMove(this.CancellationTokenSource.Token);
-			this.CancellationTokenSource.Dispose();
-			this.CancellationTokenSource = null;
-		}
+		//	await StartMove(this.CancellationTokenSource.Token);
+		//	this.CancellationTokenSource.Dispose();
+		//	this.CancellationTokenSource = null;
+		//}
 	}
 }

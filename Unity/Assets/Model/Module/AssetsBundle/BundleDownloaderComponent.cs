@@ -41,7 +41,7 @@ namespace ETModel
 			{
 				using (UnityWebRequestAsync webRequestAsync = ComponentFactory.Create<UnityWebRequestAsync>())
 				{
-					versionUrl = GlobalConfigComponent.Instance.GlobalProto.GetUrl() + "StreamingAssets/" + "Version.txt";
+					versionUrl = Singleton<GlobalConfigComponent>.Instance.GlobalConfig.GetUrl() + "StreamingAssets/" + "Version.txt";
 					//Log.Debug(versionUrl);
 					await webRequestAsync.DownloadAsync(versionUrl);
 					remoteVersionConfig = JsonHelper.FromJson<VersionConfig>(webRequestAsync.Request.downloadHandler.text);
@@ -149,7 +149,7 @@ namespace ETModel
 						{
 							using (this.webRequest = ComponentFactory.Create<UnityWebRequestAsync>())
 							{
-								await this.webRequest.DownloadAsync(GlobalConfigComponent.Instance.GlobalProto.GetUrl() + "StreamingAssets/" + this.downloadingBundle);
+								await this.webRequest.DownloadAsync(Singleton<GlobalConfigComponent>.Instance.GlobalConfig.GetUrl() + "StreamingAssets/" + this.downloadingBundle);
 								byte[] data = this.webRequest.Request.downloadHandler.data;
 
 								string path = Path.Combine(PathHelper.AppHotfixResPath, this.downloadingBundle);

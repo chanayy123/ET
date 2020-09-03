@@ -5,7 +5,7 @@ using System.Text;
 using ETModel;
 using Google.Protobuf.Collections;
 
-namespace ETModel
+namespace ETHotfix
 {
     /// <summary>
     /// 经典牛牛游戏玩家类

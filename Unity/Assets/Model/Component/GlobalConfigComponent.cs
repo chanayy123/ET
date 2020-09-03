@@ -9,16 +9,25 @@
 		}
 	}
 
-	public class GlobalConfigComponent : Component
-	{
-		public static GlobalConfigComponent Instance;
-		public GlobalProto GlobalProto;
+    public class GlobalConfigComponent : Component
+    {
+        public GlobalConfig GlobalConfig;
+        public  void Awake()
+        {
+            GlobalConfig = Singleton<ConfigComponent>.Instance.GetOne(typeof(GlobalConfig)) as GlobalConfig;
+        }
+    }
 
-		public void Awake()
-		{
-			Instance = this;
-			string configStr = ConfigHelper.GetGlobal();
-			this.GlobalProto = JsonHelper.FromJson<GlobalProto>(configStr);
-		}
-	}
+    //public class GlobalConfigComponent : Component
+    //{
+    //    public static GlobalConfigComponent Instance;
+    //    public GlobalConfig GlobalConfig;
+
+    //    public void Awake()
+    //    {
+    //        Instance = this;
+    //        GlobalConfig = Game.Scene.GetComponent<ConfigComponent>().GetOne(typeof(GlobalConfig)) as GlobalConfig;
+    //    }
+
+    //}
 }

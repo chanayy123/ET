@@ -5,7 +5,7 @@ using ETModel;
 namespace ETHotfix
 {
 	[ObjectSystem]
-	public class GateMessageDispatherAwakeSystem : AwakeSystem<RouteMessageDispatcherComponent>
+	public class RouteMessageDispatherAwakeSystem : AwakeSystem<RouteMessageDispatcherComponent>
 	{
 		public override void Awake(RouteMessageDispatcherComponent self)
 		{
@@ -14,7 +14,7 @@ namespace ETHotfix
 	}
 
 	[ObjectSystem]
-	public class GateMessageDispatcherLoadSystem : LoadSystem<RouteMessageDispatcherComponent>
+	public class RouteMessageDispatcherLoadSystem : LoadSystem<RouteMessageDispatcherComponent>
 	{
 		public override void Load(RouteMessageDispatcherComponent self)
 		{

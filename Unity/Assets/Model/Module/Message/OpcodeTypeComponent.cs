@@ -81,7 +81,9 @@ namespace ETModel
 
         public void RecycleInstance(object obj)
         {
+#if SERVER
             SimplePool.Instance.Recycle(obj);
+#endif
         }
 
 		public override void Dispose()

@@ -51,15 +51,16 @@ namespace ETModel
 		public static string ListToString<T>(this List<T> list)
 		{
 			StringBuilder sb = new StringBuilder();
-			foreach (T t in list)
-			{
-				sb.Append(t);
-				sb.Append(",");
-			}
+            for(var i = 0; i < list.Count; ++i)
+            {
+                sb.Append(list[i]);
+                if (i != list.Count - 1) sb.Append(",");
+            }
 			return sb.ToString();
 		}
-		
-		public static string MessageToStr(object message)
+
+
+        public static string MessageToStr(object message)
 		{
 #if SERVER
 			return MongoHelper.ToJson(message);

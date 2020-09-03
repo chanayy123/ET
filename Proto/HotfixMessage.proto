@@ -1,0 +1,257 @@
+syntax = "proto3";
+package ETHotfix;
+import "CommonData.proto";
+
+message CS_Register // IRequest
+{
+	int32 RpcId=1;
+	string Account = 2;
+	string Password = 3;
+	string Name=4;
+}
+
+message SC_Register // IResponse
+{
+	int32 RpcId=1;
+	int32 Error=2;
+	string Message = 3;
+	string Address=4;
+	string key =5;
+}
+
+
+message CS_Login // IRequest
+{
+	int32 RpcId=1;
+	int32 LoginType =2;
+	int32 PlatformType = 3;
+	string DataStr = 4;
+}
+
+message SC_Login // IResponse
+{
+	int32 RpcId=1;
+	int32 Error=2;
+	string Message = 3;
+	string Address=4;
+	string key =5;
+}
+
+message CS_VerifyKey // IRequest
+{
+	int32 RpcId =1;
+	string key =2;
+}
+
+message SC_VerifyKey //IResponse
+{
+	int32 RpcId=1;
+	int32 Error=2;
+	string Message = 3;
+}
+
+message SC_PlayerData //IActorMessage
+{
+	int32 GameId = 1;
+	int32 RoomId = 2;
+	int64 ActorId = 3;
+	ETModel.UserInfo UserInfo = 4;
+	repeated ETModel.GameConfig GameCfgList = 5;
+}
+
+message CS_UserInfo //IRequest
+{
+	int32 RpcId = 1;
+	int32 UserId = 2;
+}
+
+message SC_UserInfo //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+	ETModel.UserInfo UserInfo=4;
+}
+
+message SC_KickUser //IMessage
+{
+	int32 Error=2;
+	string Message = 3;
+}
+
+message CS_RoomList //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 HallId = 2;
+	int32 UserId = 3;
+	int64 GateSessionId = 5;
+}
+
+message SC_RoomList //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+	int32 HallId = 4;
+	repeated ETModel.MatchRoom List=5;
+}
+
+message CS_CreateRoomList //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 UserId = 2;
+	int64 GateSessionId = 3;
+}
+
+message SC_CreateRoomList //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+	repeated ETModel.MatchRoom List=4;
+}
+
+
+message CS_EnterRoom //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 RoomId = 2;
+	int32 UserId =3;
+	int64 GateSessionId = 5;
+}
+
+message SC_EnterRoom //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+}
+
+
+message CS_LeaveRoom //IActorRequest
+{
+	int32 RpcId = 1;
+	int64 ActorId = 2;
+}
+
+message SC_LeaveRoom //IActorResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+}
+
+message CS_CreateRoom //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 UserId =2;
+	int64 GateSessionId = 3;
+	int32 GameId = 4;
+	int32 GameMode = 5;
+	int32 HallType = 6;
+	string Params = 7; //自定义参数
+}
+
+message SC_CreateRoom //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+	int32 RoomId = 4;
+}
+
+message CS_DisbandRoom //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 UserId =2;
+	int64 GateSessionId = 3;
+	int32 RoomId = 4;
+}
+
+message SC_DisbandRoom //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+}
+
+
+message SC_GameRoomInfo //IActorMessage
+{
+	int64 ActorId = 1;
+	ETModel.GameRoomData roomInfo = 2;
+}
+
+message SC_PlayerLeave //IActorMessage
+{
+	int64 ActorId = 1;
+	int32 UserId = 2;
+}
+
+//服务器主动踢玩家出房间
+message SC_KickPlayer //IActorMessage
+{
+	int64 ActorId = 1;
+	int32 Reason = 2; //0:主动退出 1 游戏结束自动退出  2 强制退出
+}
+
+message SC_RoomListChanged //IActorMessage
+{
+	int64 ActorId = 1;
+	repeated ETModel.MatchRoom List =2;
+}
+
+message CS_EnterScene //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 HallId = 2;
+	int32 UserId =3;
+	int64 GateSessionId = 5;
+}
+
+message SC_EnterScene //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+}
+
+message CS_LeaveScene //IUserRequest
+{
+	int32 RpcId = 1;
+	int32 UserId = 2;
+	int64 GateSessionId = 3;
+}
+
+message SC_LeaveScene //IResponse
+{
+	int32 RpcId = 1;
+	int32 Error=2;
+	string Message = 3;
+}
+
+message SC_CoinChange //IActorMessage
+{
+	int64 ActorId = 1;
+	int32 ChangeCoin = 2;
+	int32 TotalCoin = 3;
+}
+
+message CS_GetRoomInfo //IActorRequest
+{
+	int32 RpcId = 1;
+	int64 ActorId = 2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

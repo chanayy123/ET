@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
@@ -18,32 +19,30 @@ namespace ETModel
 				SynchronizationContext.SetSynchronizationContext(OneThreadSynchronizationContext.Instance);
 
 				DontDestroyOnLoad(gameObject);
-				Game.EventSystem.Add(DLLType.Model, typeof(Init).Assembly);
+				Game.EventSystem.Add(DLLType.Model, typeof(Init).Assembly);             
 
-				Game.Scene.AddComponent<TimerComponent>();
-				Game.Scene.AddComponent<GlobalConfigComponent>();
-				Game.Scene.AddComponent<NetOuterComponent>();
-				Game.Scene.AddComponent<ResourcesComponent>();
-				Game.Scene.AddComponent<PlayerComponent>();
-				Game.Scene.AddComponent<UnitComponent>();
-				Game.Scene.AddComponent<UIComponent>();
-
-				// 下载ab包
-				await BundleHelper.DownloadBundle();
-
-				Game.Hotfix.LoadHotfixAssembly();
-
-				// 加载配置
-				Game.Scene.GetComponent<ResourcesComponent>().LoadBundle("config.unity3d");
-				Game.Scene.AddComponent<ConfigComponent>();
-				Game.Scene.GetComponent<ResourcesComponent>().UnloadBundle("config.unity3d");
-				Game.Scene.AddComponent<OpcodeTypeComponent>();
-				Game.Scene.AddComponent<MessageDispatcherComponent>();
-
-				Game.Hotfix.GotoHotfix();
-
-				Game.EventSystem.Run(EventIdType.TestHotfixSubscribMonoEvent, "TestHotfixSubscribMonoEvent");
-			}
+                Game.Scene.AddComponent<TimerComponent>();
+				Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol>(NetworkProtocol.TCP);
+                Game.Scene.AddSingletonComponent<AddressableResComponent>();
+				Game.Scene.AddSingletonComponent<UIManagerComponent>();
+                Game.Scene.AddSingletonComponent<OpcodeTypeComponent>();
+                Game.Scene.AddSingletonComponent<MessageDispatcherComponent>();
+                //检测是否有更新
+                await Singleton<AddressableResComponent>.Instance.CheckAndDownloadAsync();
+                //开始加载预更新资源
+                await Singleton<AddressableResComponent>.Instance.DownloadAssetsAsync(new List<object> { "preload" });
+                //开始加载更新资源,并发送进度事件
+                await Singleton<AddressableResComponent>.Instance.DownloadAssetsAsync(new List<object> { "hotfix" }, true);
+                //缓存配置资源到内存,方便以后同步加载
+                await Singleton<AddressableResComponent>.Instance.CacheConfigAsync();
+                Game.Scene.AddSingletonComponent<ConfigComponent>();
+                Game.Scene.AddSingletonComponent<GlobalConfigComponent>();
+                await Game.Hotfix.LoadHotfixAssembly();
+                Game.Hotfix.GotoHotfix();
+                //释放内存缓存配置资源
+                Singleton<AddressableResComponent>.Instance.ReleaseConfigCache();
+                Game.EventSystem.Run(EventIdType.TestHotfixSubscribMonoEvent, "TestHotfixSubscribMonoEvent");
+            }
 			catch (Exception e)
 			{
 				Log.Error(e);

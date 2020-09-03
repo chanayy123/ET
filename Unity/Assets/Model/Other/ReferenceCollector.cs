@@ -13,6 +13,7 @@ using UnityEditor;
 public class ReferenceCollectorData
 {
 	public string key;
+    public string type;
     //Object并非C#基础中的Object，而是 UnityEngine.Object
     public Object gameObject;
 }

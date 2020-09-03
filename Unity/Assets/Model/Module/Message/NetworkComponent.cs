@@ -137,7 +137,7 @@ namespace ETModel
 				session.Dispose();
 			}
 
-			this.Service.Dispose();
+			this.Service?.Dispose();
 		}
 	}
 }

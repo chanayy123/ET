@@ -141,6 +141,16 @@
     <Compile Include="..\..\Unity\Assets\Model\Module\Config\ACategory.cs" Link="Module\Config\ACategory.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Config\ConfigAttribute.cs" Link="Module\Config\ConfigAttribute.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Config\IConfig.cs" Link="Module\Config\IConfig.cs" />
+
+    <Compile Include="..\..\Unity\Assets\Model\Module\Message\CommonData.cs" Link="Module\Message\CommonData.cs" />
+    <Compile Include="..\..\Unity\Assets\Model\Module\Message\CommonDataCode.cs" Link="Module\Message\CommonDataCode.cs" />
+    <Compile Include="..\..\Unity\Assets\Model\Module\Message\OuterMessage.cs" Link="Module\Message\OuterMessage.cs" />
+    <Compile Include="..\..\Unity\Assets\Model\Module\Message\OuterCode.cs" Link="Module\Message\OuterCode.cs" />
+    <Compile Include="..\..\Unity\Assets\Hotfix\Module\Message\GameBullMessage.cs" Link="Module\Message\GameBullMessage.cs" />
+    <Compile Include="..\..\Unity\Assets\Hotfix\Module\Message\GameBullOpcode.cs" Link="Module\Message\GameBullOpcode.cs" />
+    <Compile Include="..\..\Unity\Assets\Hotfix\Module\Message\HotfixMessage.cs" Link="Module\Message\HotfixMessage.cs" />
+    <Compile Include="..\..\Unity\Assets\Hotfix\Module\Message\HotfixOpcode.cs" Link="Module\Message\HotfixOpcode.cs" />
+
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\AMHandler.cs" Link="Module\Message\AMHandler.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\ErrorCode.cs" Link="Module\Message\ErrorCode.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\IMessage.cs" Link="Module\Message\IMessage.cs" />
@@ -163,12 +173,6 @@
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\Opcode.cs" Link="Module\Message\Opcode.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\OpcodeHelper.cs" Link="Module\Message\OpcodeHelper.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\OpcodeTypeComponent.cs" Link="Module\Message\OpcodeTypeComponent.cs" />
-    <Compile Include="..\..\Unity\Assets\Model\Module\Message\OuterMessage.cs" Link="Module\Message\OuterMessage.cs" />
-    <Compile Include="..\..\Unity\Assets\Model\Module\Message\OuterOpcode.cs" Link="Module\Message\OuterOpcode.cs" />
-    <Compile Include="..\..\Unity\Assets\Model\Module\Message\CommonMessage.cs" Link="Module\Message\CommonMessage.cs" />
-    <Compile Include="..\..\Unity\Assets\Model\Module\Message\CommonOpcode.cs" Link="Module\Message\CommonOpcode.cs" />
-    <Compile Include="..\..\Unity\Assets\Model\Module\Message\GameBullMessage.cs" Link="Module\Message\GameBullMessage.cs" />
-     <Compile Include="..\..\Unity\Assets\Model\Module\Message\GameBullOpcode.cs" Link="Module\Message\GameBullOpcode.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\ProtobufHelper.cs" Link="Module\Message\ProtobufHelper.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\ProtobufPacker.cs" Link="Module\Message\ProtobufPacker.cs" />
     <Compile Include="..\..\Unity\Assets\Model\Module\Message\RpcException.cs" Link="Module\Message\RpcException.cs" />
@@ -309,8 +313,6 @@
       <Link>Module\Pathfinding\Recast\WindowsStoreCompatibility.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Assets\Model\Other\AppType.cs" Link="Other\AppType.cs" />
-    <Compile Include="..\..\Unity\Assets\Hotfix\Module\Message\HotfixMessage.cs" Link="Module\Message\HotfixMessage.cs" />
-    <Compile Include="..\..\Unity\Assets\Hotfix\Module\Message\HotfixOpcode.cs" Link="Module\Message\HotfixOpcode.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.2.1" />

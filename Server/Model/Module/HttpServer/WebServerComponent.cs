@@ -92,12 +92,27 @@ namespace ETModel
 
         public  async void Accept()
         {
+            long instanceId = this.InstanceId;
+
             while (true)
             {
-                _semaphore.WaitOne();
-                var context = await _listener.GetContextAsync();
-                _semaphore.Release();
-                _pipeline.Execute(new HttpServerContext(context));
+                if (this.InstanceId != instanceId)
+                {
+                    return;
+                }
+                HttpListenerContext context = await _listener.GetContextAsync();
+                try
+                {
+                    _pipeline.Execute(new HttpServerContext(context));
+                }
+                catch (Exception e)
+                {
+                    Log.Warning("HttpComponent accept exception " + e);
+                }
+                finally
+                {
+                    context.Response.Close();
+                }
             }
         }
 

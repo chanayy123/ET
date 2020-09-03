@@ -1,13 +1,18 @@
 ﻿using System;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace ETModel
 {
 	public static class ActionHelper
 	{
-		public static void Add(this Button.ButtonClickedEvent buttonClickedEvent, Action action)
+		public static void AddListener(this Button btn, Action action)
 		{
-			buttonClickedEvent.AddListener(() => { action(); });
+			btn.onClick.AddListener(()=> { action(); });
 		}
+        public static void RemoveListener(this Button btn)
+        {
+            btn.onClick.RemoveAllListeners();
+        }
 	}
 }

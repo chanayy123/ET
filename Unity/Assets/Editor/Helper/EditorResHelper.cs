@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace ETModel
+namespace ETEditor
 {
     public class EditorResHelper
     {
@@ -14,7 +14,7 @@ namespace ETModel
         public static List<string> GetPrefabsAndScenes(string srcPath)
         {
             List<string> paths = new List<string>();
-            FileHelper.GetAllFiles(paths, srcPath);
+            ETModel.FileHelper.GetAllFiles(paths, srcPath);
             
             List<string> files = new List<string>();
             foreach (string str in paths)

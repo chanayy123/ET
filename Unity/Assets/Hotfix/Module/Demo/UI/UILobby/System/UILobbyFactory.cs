@@ -11,10 +11,10 @@ namespace ETHotfix
 	        try
 	        {
 				ResourcesComponent resourcesComponent = ETModel.Game.Scene.GetComponent<ResourcesComponent>();
-		        resourcesComponent.LoadBundle(UIType.UILobby.StringToAB());
-				GameObject bundleGameObject = (GameObject)resourcesComponent.GetAsset(UIType.UILobby.StringToAB(), UIType.UILobby);
+		        resourcesComponent.LoadBundle(UIType.ViewLobby.StringToAB());
+				GameObject bundleGameObject = (GameObject)resourcesComponent.GetAsset(UIType.ViewLobby.StringToAB(), UIType.ViewLobby);
 				GameObject gameObject = UnityEngine.Object.Instantiate(bundleGameObject);
-		        UI ui = ComponentFactory.Create<UI, string, GameObject>(UIType.UILobby, gameObject, false);
+		        UI ui = ComponentFactory.Create<UI, string, GameObject>(UIType.ViewLobby, gameObject, false);
 
 				ui.AddComponent<UILobbyComponent>();
 				return ui;

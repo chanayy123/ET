@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Remote_Static
+  m_EditorClassIdentifier: 
+  m_GroupName: Remote_Static
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 031f62cf4a470664a9db2b8f38463a99
+  m_SerializeEntries:
+  - m_GUID: 2622221db5adcc147a7fcf7f11ed1faa
+    m_Address: niuniuSelectAtlas
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotfix
+    m_mainAssetType: UnityEngine.U2D.SpriteAtlas, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: a495cb5f492f9464e8868a151f2f8166
+    m_Address: code
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotfix
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: b1d1a567eb3a1b34ebe7c6c6c1e56a6a
+    m_Address: niuniuGameAtlas
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotfix
+    m_mainAssetType: UnityEngine.U2D.SpriteAtlas, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 22d9cd5a905f0254ca53c8edadd55879, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 8a0ad2646b0a3b94f95fde3d0b086867, type: 2}
+    - {fileID: 11400000, guid: ca10ccde22c780341aba87e67fd5a0e5, type: 2}

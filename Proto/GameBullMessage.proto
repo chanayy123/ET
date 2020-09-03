@@ -1,6 +1,6 @@
 syntax = "proto3";
-package ETModel;
-import "CommonMessage.proto";
+package ETHotfix;
+import "CommonData.proto";
 
 enum BullCardType
 {
@@ -54,7 +54,7 @@ enum BullDefines
 
 message BullFightPlayerData
 {
-	GamePlayerData Data =1;
+	ETModel.GamePlayerData Data =1;
 	int32 Rate = 2;
 	repeated int32 HandCards = 3;
 	BullCardType CardType = 4; 
@@ -62,7 +62,7 @@ message BullFightPlayerData
 
 message BullFightRoomData //IMessage
 {
-	GameRoomData Data = 1;
+	ETModel.GameRoomData Data = 1;
 	repeated BullFightPlayerData PlayerList = 2;
 	int32 BankerPos = 3;
 }

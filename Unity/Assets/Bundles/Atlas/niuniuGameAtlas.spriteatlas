@@ -1,0 +1,160 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: niuniuGameAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: db9efd490de666f44aa7c49c2a4e5f4e, type: 3}
+    totalSpriteSurfaceArea: 2396875
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: e25573708b06ce842ba953888adb6218, type: 3}
+  - {fileID: 21300000, guid: 7a0f4bc0f8275634280fff117ba4f20d, type: 3}
+  - {fileID: 21300000, guid: 5ee065d0741901e43b7fa949210d1933, type: 3}
+  - {fileID: 21300000, guid: 803f5301544f059479d350bb54eadf2f, type: 3}
+  - {fileID: 21300000, guid: 9a11790148644994a8e20d01c36b5527, type: 3}
+  - {fileID: 21300000, guid: a7c4db31f7feb12498224fdb34206cd1, type: 3}
+  - {fileID: 21300000, guid: 85caefe196ca38446abf8d417fcbadad, type: 3}
+  - {fileID: 21300000, guid: c0af45f1fbd4b5a46ab8ca3b73dce148, type: 3}
+  - {fileID: 21300000, guid: 7fdfce922cb4b1c4fa2b6cdc92454c30, type: 3}
+  - {fileID: 21300000, guid: b50917b21fac1c3499043821486f393a, type: 3}
+  - {fileID: 21300000, guid: 46783893b74ba404c9d7435f23ca1490, type: 3}
+  - {fileID: 21300000, guid: 9ac429c3d0a840b489e077b00a70ca8c, type: 3}
+  - {fileID: 21300000, guid: 83b1c2f3b99f66d4c939672c6dd84674, type: 3}
+  - {fileID: 21300000, guid: 5c8bc3f3713c5124c8d10e7b058c74d5, type: 3}
+  - {fileID: 21300000, guid: 276ae6247a21c754fae7ce22bc065f10, type: 3}
+  - {fileID: 21300000, guid: a043a115e1cbab441a02fa205bb39c1b, type: 3}
+  - {fileID: 21300000, guid: 83af9e251ad7f1345a54e77cc1916c69, type: 3}
+  - {fileID: 21300000, guid: 824c008573d641941801270b07ef500e, type: 3}
+  - {fileID: 21300000, guid: 58ed03a5600393d4dbd59cb98f22f2de, type: 3}
+  - {fileID: 21300000, guid: 6d85ff46a9eefd64fa1974f32ebce6ea, type: 3}
+  - {fileID: 21300000, guid: 04c08556ca7cd794c95c48bf1e132244, type: 3}
+  - {fileID: 21300000, guid: 072d37565fa74484db52bd1d230fbaf7, type: 3}
+  - {fileID: 21300000, guid: b502fb56dd36db84092e088f4ece0509, type: 3}
+  - {fileID: 21300000, guid: cae9dba69cddc134da5d84e3efb20202, type: 3}
+  - {fileID: 21300000, guid: 78a0bbc63ffaf7446a232fb5f80faab7, type: 3}
+  - {fileID: 21300000, guid: 4bfcd3777ab7ca94abdc4f994e8d2f93, type: 3}
+  - {fileID: 21300000, guid: b48cee97fe851854aa5a3888b89029e8, type: 3}
+  - {fileID: 21300000, guid: fe93d4a7e6145d74480f71e4d2f65481, type: 3}
+  - {fileID: 21300000, guid: f7161ee75757689409a472d270cc1cab, type: 3}
+  - {fileID: 21300000, guid: 12040a493d7bc364ea2dc0f2249ab789, type: 3}
+  - {fileID: 21300000, guid: 493e6859be02fc143b76d2cf5efcf3cc, type: 3}
+  - {fileID: 21300000, guid: e7f28479f0700c348adcf1ecd9809654, type: 3}
+  - {fileID: 21300000, guid: 06c978b94df19234c8a8bc93069a32bb, type: 3}
+  - {fileID: 21300000, guid: ef8f30e976c2ec345ba7223fe5700d67, type: 3}
+  - {fileID: 21300000, guid: 61a83c3a270a87e4296f69ec9b8009a5, type: 3}
+  - {fileID: 21300000, guid: 0afea37a1d6f6ba4fa34f8375fd1adb3, type: 3}
+  - {fileID: 21300000, guid: 5e8ed9aa602d5b14abc4faa3353014f6, type: 3}
+  - {fileID: 21300000, guid: a7557ccaa824a6d42a12f40f1ffacbb2, type: 3}
+  - {fileID: 21300000, guid: 2e57ef0b59c12ee4f8d904b116a4f9b1, type: 3}
+  - {fileID: 21300000, guid: 2217dc1bcf2633a4b8e71cfa95d445a8, type: 3}
+  - {fileID: 21300000, guid: a1b314db9062d0047933a940efa35e67, type: 3}
+  - {fileID: 21300000, guid: 909c1b0c39d4a28499d102eec910d080, type: 3}
+  - {fileID: 21300000, guid: c3f5052cca23178438db40f0de4f6366, type: 3}
+  - {fileID: 21300000, guid: 22aa7c2c387ce8e4c9ba079dfca75c88, type: 3}
+  - {fileID: 21300000, guid: 6e606d2c067ce024aba21b140c0eb8e6, type: 3}
+  - {fileID: 21300000, guid: 5b27036c514bde542a96cd40f1d134d5, type: 3}
+  - {fileID: 21300000, guid: dbae719cf746a564584ee05644c64f34, type: 3}
+  - {fileID: 21300000, guid: 4c69ecec4d3b50a41aab8f79252fdba2, type: 3}
+  - {fileID: 21300000, guid: 272054fcfc4f8d7459ade54f54d1f9ff, type: 3}
+  - {fileID: 21300000, guid: b72bf31d8859b274a9e7fed49ad72fc6, type: 3}
+  - {fileID: 21300000, guid: a3bfae2db6c244d42b163cac5c97e412, type: 3}
+  - {fileID: 21300000, guid: 776bdb6db5bfc6840a4cdfb4d1f8b54d, type: 3}
+  - {fileID: 21300000, guid: 359f0e6d40e4ce844accf877552da3ba, type: 3}
+  - {fileID: 21300000, guid: 6075250ec17e0604e96f1163ebf78037, type: 3}
+  - {fileID: 21300000, guid: f18bbe1fbdd40ca4ebdd1706c104568e, type: 3}
+  - {fileID: 21300000, guid: cb84672f7bac2554589eda36a73765c7, type: 3}
+  - {fileID: 21300000, guid: 0ef02b2f71f28b643bd01d8e8251ebb8, type: 3}
+  - {fileID: 21300000, guid: 14f1044f3855ba84b93e1af6c193e944, type: 3}
+  - {fileID: 21300000, guid: 7e1dd25f32d846f46a1097d9212fb61c, type: 3}
+  - {fileID: 21300000, guid: 51b13aff8f46c35459d856fc024e2664, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - img_poker_dn_logo_2
+  - niu7
+  - img_buttonFlag
+  - btn_bullfight_2
+  - img_bullfight_d1
+  - desk_anima_dn_wan
+  - public_di2
+  - img_bank
+  - desk_anima_dn_qi
+  - meiniu_meiniudi
+  - niu3
+  - niu2
+  - img_poker_dnbosstag
+  - niu1
+  - desk_img_pk_=
+  - img_bg_poker_dn_desk
+  - img_coinBg_win
+  - img_bullfight_d
+  - check_autoMatch
+  - btn_bullfight_4
+  - niuniu
+  - img_bullfight_d2
+  - desk_anima_dn_Desktop
+  - img_bullfight_adss
+  - btn_bullfight_help
+  - img_bullfight_headitem_bg
+  - img_bullfight_headitem_bg_p
+  - desk_img_pk_bg
+  - meiniu
+  - img_txtContinue
+  - desk_anima_dn_pei
+  - btn_bullfight_continuegame
+  - btn_bullfight_3
+  - niu8
+  - desk_anima_dn_zheng
+  - btn_bullfight_1
+  - niu9
+  - desk_anima_dn_pi
+  - niu6
+  - desk_anima_dn_zai
+  - bullfight_img_head_outline
+  - img_selfLine
+  - img_bg_poker_dn_0
+  - desk_img_pk_+bg
+  - img_selfLine2
+  - public_di1
+  - img_bullfight_chatbtn
+  - niu4
+  - img_bullfight_liangpai
+  - img_poker_dn_icon_coin
+  - img_bullfight_headitem_coinbg_p
+  - desk_anima_dn_ta
+  - btn_bullfight_back
+  - img_bullfight_tishi
+  - img_coinBg_lose
+  - img_txtQuit
+  - desk_anima_dn_jia
+  - img_tipBg
+  - niu5
+  - desk_img_pk_a+
+  m_Tag: niuniuGameAtlas
+  m_IsVariant: 0

@@ -5,7 +5,7 @@ using System.Text;
 using ETModel;
 using System.Threading;
 
-namespace ETModel
+namespace ETHotfix
 {
     /// <summary>
     /// 经典牛牛游戏主逻辑类

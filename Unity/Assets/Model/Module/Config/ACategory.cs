@@ -20,7 +20,7 @@ namespace ETModel
 	{
 		protected Dictionary<long, IConfig> dict;
 
-		public override void BeginInit()
+		public override  void BeginInit()
 		{
 			this.dict = new Dictionary<long, IConfig>();
 

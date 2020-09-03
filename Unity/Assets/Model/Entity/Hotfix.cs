@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 #if !ILRuntime
 using System.Reflection;
 #endif
@@ -39,14 +40,11 @@ namespace ETModel
 			return this.hotfixTypes;
 		}
 
-		public void LoadHotfixAssembly()
+		public async ETTask LoadHotfixAssembly()
 		{
-			Game.Scene.GetComponent<ResourcesComponent>().LoadBundle($"code.unity3d");
-			GameObject code = (GameObject)Game.Scene.GetComponent<ResourcesComponent>().GetAsset("code.unity3d", "Code");
-			
-			byte[] assBytes = code.Get<TextAsset>("Hotfix.dll").bytes;
-			byte[] pdbBytes = code.Get<TextAsset>("Hotfix.pdb").bytes;
-			
+            GameObject code = await Singleton<AddressableResComponent>.Instance.LoadAssetAsync("code") as GameObject;
+            byte[] assBytes = code.Get<TextAsset>("Hotfix.dll").bytes;
+            byte[] pdbBytes = code.Get<TextAsset>("Hotfix.pdb").bytes;     
 #if ILRuntime
 			Log.Debug($"当前使用的是ILRuntime模式");
 			this.appDomain = new ILRuntime.Runtime.Enviorment.AppDomain();
@@ -59,7 +57,7 @@ namespace ETModel
 			
 			this.hotfixTypes = this.appDomain.LoadedTypes.Values.Select(x => x.ReflectionType).ToList();
 #else
-			Log.Debug($"当前使用的是Mono模式");
+            Log.Debug($"当前使用的是Mono模式");
 
 			this.assembly = Assembly.Load(assBytes, pdbBytes);
 
@@ -68,8 +66,7 @@ namespace ETModel
 			
 			this.hotfixTypes = this.assembly.GetTypes().ToList();
 #endif
-			
-			Game.Scene.GetComponent<ResourcesComponent>().UnloadBundle($"code.unity3d");
-		}
+            Singleton<AddressableResComponent>.Instance.ReleaseAsset("code");
+        }
 	}
 }

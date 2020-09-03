@@ -29,7 +29,7 @@ namespace ETHotfix
 	{
 		private readonly Dictionary<Type, ACategory> allConfig = new Dictionary<Type, ACategory>();
 
-		public void Awake()
+		public  void Awake()
 		{
 			this.Load();
 		}

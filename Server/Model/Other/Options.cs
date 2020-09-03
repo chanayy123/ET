@@ -20,5 +20,6 @@ namespace ETModel
         /// </summary>
         [Option("runtimeMode", Required = false, Default = 0)]
         public int RuntimeMode { get; set; }
+
     }
 }

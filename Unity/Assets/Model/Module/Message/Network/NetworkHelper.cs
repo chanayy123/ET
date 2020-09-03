@@ -44,7 +44,7 @@ namespace ETModel
             {
                 if(address.IndexOf("0.0.0.0") != -1)
                 {
-                    var port = address.Split(":")[1];
+                    var port = address.Split(':')[1];
                     return $"http://*:{port}/";
                 }
                 return $"http://{address}/";

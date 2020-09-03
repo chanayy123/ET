@@ -39,7 +39,6 @@ namespace ETModel
         public WChannel(WebSocket webSocket, AService service): base(service, ChannelType.Connect)
         {
             this.webSocket = webSocket;
-
             this.memoryStream = this.GetService().MemoryStreamManager.GetStream("message", ushort.MaxValue);
             this.recvStream = this.GetService().MemoryStreamManager.GetStream("message", ushort.MaxValue);
 

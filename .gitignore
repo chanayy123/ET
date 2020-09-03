@@ -50,3 +50,5 @@ Server/.DS_Store
 /Unity/.gradle
 /*.user
 /publish/publish
+/Release_aa
+/Unity/ServerData/StandaloneWindows64

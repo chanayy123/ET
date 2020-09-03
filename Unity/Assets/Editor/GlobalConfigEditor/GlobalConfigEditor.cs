@@ -7,9 +7,9 @@ namespace ETEditor
 {
     public class GlobalProtoEditor: EditorWindow
     {
-        const string path = @"./Assets/Res/Config/GlobalProto.txt";
+        const string path = @"./Assets/Res/Config/GlobalConfig.txt";
 
-        private GlobalProto globalProto;
+        private GlobalConfig globalProto;
 
         [MenuItem("Tools/全局配置")]
         public static void ShowWindow()
@@ -21,11 +21,11 @@ namespace ETEditor
         {
             if (File.Exists(path))
             {
-                this.globalProto = JsonHelper.FromJson<GlobalProto>(File.ReadAllText(path));
+                this.globalProto = JsonHelper.FromJson<GlobalConfig>(File.ReadAllText(path));
             }
             else
             {
-                this.globalProto = new GlobalProto();
+                this.globalProto = new GlobalConfig();
             }
         }
 

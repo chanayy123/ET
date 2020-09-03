@@ -17,7 +17,7 @@ namespace ETTools
     {
         private const string protoPath = "../";
         private const string clientMessagePath = "../../Unity/Assets/Model/Module/Message/";
-        //private const string hotfixMessagePath = "../../Unity/Assets/Hotfix/Module/Message/";
+        private const string hotfixMessagePath = "../../Unity/Assets/Hotfix/Module/Message/";
         public static void Main()
         {
             string protoc = "";
@@ -29,20 +29,22 @@ namespace ETTools
             {
                 protoc = "protoc";
             }
-            ProcessHelper.Run(protoc, "--csharp_out="+ clientMessagePath + " --proto_path=../ OuterMessage.proto", waitExit: true);
+            //ProcessHelper.Run(protoc, "--csharp_out="+ hotfixMessagePath + " --proto_path=../ OuterMessage.proto", waitExit: true);
             //ProcessHelper.Run(protoc, "--csharp_out="+ hotfixMessagePath + " --proto_path=../ HotfixMessage.proto", waitExit: true);
-            ProcessHelper.Run(protoc, "--csharp_out="+ clientMessagePath + " --proto_path=../ CommonMessage.proto", waitExit: true);
-            ProcessHelper.Run(protoc, "--csharp_out=" + clientMessagePath + " --proto_path=../ GameBullMessage.proto", waitExit: true);
+            ProcessHelper.Run(protoc, "--csharp_out="+ hotfixMessagePath + " --proto_path=../ HotfixMessage.proto", waitExit: true);
+            ProcessHelper.Run(protoc, "--csharp_out=" + hotfixMessagePath + " --proto_path=../ GameBullMessage.proto", waitExit: true);
+            ProcessHelper.Run(protoc, "--csharp_out=" + clientMessagePath + " --proto_path=../ OuterMessage.proto", waitExit: true);
+            ProcessHelper.Run(protoc, "--csharp_out=" + clientMessagePath + " --proto_path=../ CommonData.proto", waitExit: true);
 
             // InnerMessage.proto生成cs代码
-            InnerProto2CS.Proto2CS(); 
+            InnerProto2CS.Proto2CS();
 
-            Proto2CS("ETModel", "OuterMessage.proto", clientMessagePath, "OuterOpcode", 100);
-
+            //Proto2CS("ETHotfix", "OuterMessage.proto", hotfixMessagePath, "OuterOpcode", 100);
             //Proto2CS("ETHotfix", "HotfixMessage.proto", hotfixMessagePath, "HotfixOpcode", 10000);
-            Proto2CS("ETModel", "CommonMessage.proto", clientMessagePath, "CommonOpcode", 20000);
-            Proto2CS("ETModel", "GameBullMessage.proto", clientMessagePath, "GameBullOpcode", 30000);
-
+            Proto2CS("ETHotfix", "HotfixMessage.proto", hotfixMessagePath, "HotfixOpcode", 20000);
+            Proto2CS("ETHotfix", "GameBullMessage.proto", hotfixMessagePath, "GameBullOpcode", 30000);
+            Proto2CS("ETModel", "OuterMessage.proto", clientMessagePath, "OuterCode", 10000);
+            Proto2CS("ETModel", "CommonData.proto", clientMessagePath, "CommonDataCode", 40000);
             Console.WriteLine("proto2cs succeed!");
         }
 

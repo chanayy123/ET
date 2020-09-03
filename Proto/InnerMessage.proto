@@ -1,23 +1,7 @@
 syntax = "proto3";
 package ETModel;
+import "CommonData.proto";
 
-/// <summary>
-/// 传送unit
-/// </summary>
-message M2M_TrasferUnitRequest // IRequest
-{
-    int32 RpcId = 1;
-    Unit Unit = 2;
-}
-
-message M2M_TrasferUnitResponse // IResponse
-{
-    int32 RpcId = 1;
-    int32 Error = 2;
-    string Message = 3;
-
-    int64 InstanceId = 4;
-}
 
 message M2A_Reload // IRequest
 {
@@ -248,30 +232,6 @@ message G2R_GetLoginKey // IResponse
     string Key = 4;
 }
 
-message G2M_CreateUnit // IRequest
-{
-    int32 RpcId = 1;
-    int64 PlayerId = 2;
-    int64 GateSessionId = 3;
-}
-
-message M2G_CreateUnit // IResponse
-{
-    int32 RpcId = 1;
-    int32 Error = 2;
-    string Message = 3;
-
-    // 自己的unit id
-    int64 UnitId = 4;
-    // 所有的unit
-    repeated UnitInfo Units = 5;
-}
-
-message G2M_SessionDisconnect // IActorLocationMessage
-{
-    int32 RpcId = 1;
-    int64 ActorId = 2;
-}
 // gate->other server
 message GS_Online  //IMessage
 {

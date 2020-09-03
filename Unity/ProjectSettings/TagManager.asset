@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: View
+    uniqueID: 3370763947
+    locked: 0
+  - name: Window
+    uniqueID: 942386273
+    locked: 0

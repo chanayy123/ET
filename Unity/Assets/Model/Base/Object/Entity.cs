@@ -48,6 +48,11 @@ namespace ETModel
 			this.componentDict.Clear();
 		}
 		
+        public virtual Component AddSingletonComponent<K>() where K : Component, new()
+        {
+            return AddComponent(Singleton<K>.Create(this));
+        }
+
 		public virtual Component AddComponent(Component component)
 		{
 			Type type = component.GetType();
@@ -205,14 +210,36 @@ namespace ETModel
 		}
 
 		public K GetComponent<K>() where K : Component
-		{
-			Component component;
-			if (!this.componentDict.TryGetValue(typeof(K), out component))
+        {
+			if (!this.componentDict.TryGetValue(typeof(K), out Component component))
 			{
-				return default(K);
+				return default;
 			}
 			return (K)component;
 		}
+
+        public K GetComponent<K>(bool inherit=false) where K : Component
+        {
+            if (inherit)
+            {
+                foreach (var item in componentDict)
+                {
+                    if (item.Value is K k)
+                    {
+                        return k;
+                    }
+                }
+            }
+            else
+            {
+                if (!this.componentDict.TryGetValue(typeof(K), out Component component))
+                {
+                    return default;
+                }
+                return (K)component;
+            }
+            return default;
+        }
 
 		public Component GetComponent(Type type)
 		{

@@ -23,7 +23,7 @@ namespace ETHotfix
 			ReferenceCollector rc = this.GetParent<UI>().GameObject.GetComponent<ReferenceCollector>();
 			
 			enterMap = rc.Get<GameObject>("EnterMap");
-			enterMap.GetComponent<Button>().onClick.Add(this.EnterMap);
+			enterMap.GetComponent<Button>().AddListener(this.EnterMap);
 
 			this.text = rc.Get<GameObject>("Text").GetComponent<Text>();
 		}

@@ -9,9 +9,10 @@ namespace ETModel
         public  const ushort OUTER_MSG_START = 20000;
 		private static readonly HashSet<ushort> ignoreDebugLogMessageSet = new HashSet<ushort>
 		{
-			CommonOpcode.CS_Ping,
-            CommonOpcode.SC_Ping,
-		};
+            OuterCode.CS_Ping,
+            OuterCode.SC_Ping,
+
+        };
 
 		public static bool IsNeedDebugLogMessage(ushort opcode)
 		{
@@ -33,9 +34,9 @@ namespace ETModel
             return opcode > OUTER_MSG_START;
         }
 
-		//public static bool IsClientHotfixMessage(ushort opcode)
-		//{
-		//	return opcode > 10000;
-		//}
-	}
+        public static bool IsClientHotfixMessage(ushort opcode)
+        {
+            return opcode > 10000;
+        }
+    }
 }

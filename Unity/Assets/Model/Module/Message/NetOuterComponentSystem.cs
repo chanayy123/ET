@@ -36,7 +36,7 @@ namespace ETHotfix
             self.MessageDispatcher = new OuterMessageDispatcher();
         }
     }
-
+#if SERVER
     [ObjectSystem]
     public class NetOuterComponentAwake3System : AwakeSystem<NetOuterComponent, string>
     {
@@ -54,6 +54,7 @@ namespace ETHotfix
             Game.Scene.AddComponent<RouteMessageDispatcherComponent>();
         }
     }
+#endif
 
     [ObjectSystem]
 	public class NetOuterComponentLoadSystem : LoadSystem<NetOuterComponent>

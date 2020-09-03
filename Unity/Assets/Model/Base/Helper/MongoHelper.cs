@@ -13,6 +13,7 @@ namespace ETModel
 		static MongoHelper()
 		{
 			Type[] types = typeof(Game).Assembly.GetTypes();
+            List<Type> list = new List<Type>();
 			foreach (Type type in types)
 			{
 				if (!type.IsSubclassOf(typeof(Component)))
@@ -22,6 +23,7 @@ namespace ETModel
 				try
 				{
 					BsonClassMap.LookupClassMap(type);
+                    list.Add(type);
 				}
 				catch (Exception e)
 				{

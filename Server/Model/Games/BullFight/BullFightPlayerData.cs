@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using ETModel;
 
-namespace ETModel
+namespace ETHotfix
 {
     public partial class BullFightPlayerData : Component
     {

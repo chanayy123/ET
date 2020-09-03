@@ -361,10 +361,6 @@ namespace ETEditor
 					newStartConfig.AddComponent<DBConfig>();
 				}
 				
-				if (this.AppType.Is(AppType.Benchmark))
-				{
-					newStartConfig.AddComponent<ClientConfig>();
-				}
 				
 				if (this.AppType.Is(AppType.BenchmarkWebsocketServer))
 				{

@@ -169,7 +169,12 @@ namespace ETModel
 
         private Timer CreateTimer(long time)
         {
+#if SERVER
             Timer timer = SimplePool.Instance.Fetch<Timer>();
+#else
+            ETTaskCompletionSource tcs = new ETTaskCompletionSource();
+            Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = TimeHelper.Now() + time, tcs = tcs };
+#endif
             timer.Id = IdGenerater.GenerateId();
             timer.Time = time;
             timer.tcs = timer.tcs ?? new ETTaskCompletionSource();
@@ -178,8 +183,10 @@ namespace ETModel
 
         private void RecycleTimer(Timer t)
         {
+#if SERVER
             t.tcs.Reset();
             SimplePool.Instance.Recycle(t);
+#endif
         }
 
 	}

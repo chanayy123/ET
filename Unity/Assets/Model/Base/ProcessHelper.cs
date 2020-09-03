@@ -49,7 +49,6 @@ namespace ETModel
                         throw new Exception($"{process.StandardOutput.ReadToEnd()} {process.StandardError.ReadToEnd()}");
                     }
                 }
-
                 return process;
             }
             catch (Exception e)

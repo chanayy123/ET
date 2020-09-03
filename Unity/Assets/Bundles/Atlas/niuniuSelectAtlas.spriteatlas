@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: niuniuSelectAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 8bacf0fcd40bcdf45860f83f3e5fef7d, type: 3}
+    totalSpriteSurfaceArea: 2437568
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: eae3d7a07d3682d479eb8c62fb1c4395, type: 3}
+  - {fileID: 21300000, guid: ee4334c08e419e242afb4ca448bd4043, type: 3}
+  - {fileID: 21300000, guid: f7a921e089e905b48bddd05194e91cac, type: 3}
+  - {fileID: 21300000, guid: becbb72113eaea741a28c487e7a6d127, type: 3}
+  - {fileID: 21300000, guid: e3dfbb91c9396234083e11de4466dd9b, type: 3}
+  - {fileID: 21300000, guid: 56018dd1e1d6b404db6e588d49a4a98e, type: 3}
+  - {fileID: 21300000, guid: b48df552d887cda48b31f6cd0f3adc50, type: 3}
+  - {fileID: 21300000, guid: bf8804030e8c35a4c9d97498a765ec99, type: 3}
+  - {fileID: 21300000, guid: 5cb06c0333c0d584cb1f8d8634a07f4b, type: 3}
+  - {fileID: 21300000, guid: bfa248a3bf0de864990b7328d60117a5, type: 3}
+  - {fileID: 21300000, guid: edf53ca3527439d499003ee685c1caa0, type: 3}
+  - {fileID: 21300000, guid: 4fdc39e3a4bd73c48aa084448fc1b25a, type: 3}
+  - {fileID: 21300000, guid: 52cb8574dc0aa3045bd339dc48521c0c, type: 3}
+  - {fileID: 21300000, guid: bfe30b84ad540b846bc87afa623c9d4e, type: 3}
+  - {fileID: 21300000, guid: ed7a34053dff500439afa8c0c3d1653f, type: 3}
+  - {fileID: 21300000, guid: f40dfd550203ca44d8f0f8878f93d5cc, type: 3}
+  - {fileID: 21300000, guid: 98f974c5a1e36224a845135177f27c2d, type: 3}
+  - {fileID: 21300000, guid: 10aa0ac568eaa6647a7869880b8aee0e, type: 3}
+  - {fileID: 21300000, guid: 56432308838e0d3488f93eb02c6ffdcc, type: 3}
+  - {fileID: 21300000, guid: c81e31682fbaa234a8785d45c8e798b8, type: 3}
+  - {fileID: 21300000, guid: 20f0cbc878d381e4d91fe6465bb894d1, type: 3}
+  - {fileID: 21300000, guid: a01033193229d49449bb4b8b97d8ef5c, type: 3}
+  - {fileID: 21300000, guid: 0106b1b9f3fe5434badc7be9c846e4b8, type: 3}
+  - {fileID: 21300000, guid: 36df3c1ab1625c24199485a8e1557a3e, type: 3}
+  - {fileID: 21300000, guid: 75e452ba4da1d7147b620cda8692452d, type: 3}
+  - {fileID: 21300000, guid: 2d1d6d2b0c6c33e4883a1916bf783adb, type: 3}
+  - {fileID: 21300000, guid: 6040129c40e974c469a24497cb4d2961, type: 3}
+  - {fileID: 21300000, guid: 86221bac54bdcea4fa1793625b43a584, type: 3}
+  - {fileID: 21300000, guid: a8e2d53dc39da10428af87f4967baef3, type: 3}
+  - {fileID: 21300000, guid: c1261cbd323958d4c8910bc47cc30caa, type: 3}
+  - {fileID: 21300000, guid: 50bde4ae8b114594cace8579a8574f58, type: 3}
+  - {fileID: 21300000, guid: 47a9a30f14164f640a849d1b5c86bea2, type: 3}
+  - {fileID: 21300000, guid: eed1c45fad11c734c8160049f39939d7, type: 3}
+  - {fileID: 21300000, guid: bddc1ecff47d42046b5b8d479b2fb787, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - img_bgLoading
+  - img_btnDetail
+  - dn_entry_close
+  - check_001
+  - dn_entry_set
+  - dn_entry_mit
+  - dn_entry_setopen
+  - dn_entry_free
+  - dn_entry_music
+  - dn_entry_frame
+  - img_bgTurnPage
+  - dn_entry_setclose
+  - dn_entry_model_2
+  - img_btnRecord
+  - img_bgRecordItem
+  - dn_entry_back
+  - dn_entry_top
+  - dn_entry_sound
+  - dn_entry_help
+  - dn_entry_bg
+  - img_bgData
+  - dn_entry_helptitle
+  - img_txtRecord
+  - dn_entry_coin
+  - img_btnClose
+  - dn_entry_settitle
+  - img_title
+  - dn_entry_logo_1
+  - dn_entry_num
+  - img_prev
+  - bullfight_img_head_outline
+  - img_loading
+  - img_next
+  - btn_bullfight_2
+  m_Tag: niuniuSelectAtlas
+  m_IsVariant: 0

@@ -152,4 +152,30 @@ namespace ETModel
 			return MongoHelper.ToJson(this);
 		}
 	}
+
+    public class Singleton<T> where T : Component
+    {
+        private static T _instance;
+        public static T Instance
+        {
+            get
+            {
+                return _instance;
+            }
+        }
+
+        public static T Create(Entity parent)
+        {
+            if (_instance == null)
+            {
+                _instance = ComponentFactory.CreateWithParent<T>(parent, false);
+            }
+            else
+            {
+                Log.Error("单例只能创建一次!");
+            }
+            return _instance;
+        }
+    }
+
 }

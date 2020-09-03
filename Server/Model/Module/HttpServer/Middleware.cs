@@ -150,7 +150,8 @@ namespace ETModel
                     context.Response.Status((int)HttpStatusCode.OK);
                     return ETTask.FromResult(MiddlewareResult.Processed);
                 case "OPTIONS":
-                    context.Response.Headers.Add("Access-Control-Allow-Origin", "http://localhost:8002");
+                    var origin = context.Request.Headers.Get("Origin");
+                    context.Response.Headers.Add("Access-Control-Allow-Origin", origin);
                     context.Response.Headers.Add("Access-Control-Allow-Methods", "POST,GET");
                     context.Response.Headers.Add("Access-Control-Allow-Credentials", "true");
                     context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
@@ -158,7 +159,8 @@ namespace ETModel
                     return ETTask.FromResult(MiddlewareResult.Processed);
                 case "GET":
                 case "POST":
-                    context.Response.Headers.Add("Access-Control-Allow-Origin", "http://localhost:8002");
+                    origin = context.Request.Headers.Get("Origin");
+                    context.Response.Headers.Add("Access-Control-Allow-Origin", origin);
                     context.Response.Headers.Add("Access-Control-Allow-Credentials", "true");
                     break;
             }
