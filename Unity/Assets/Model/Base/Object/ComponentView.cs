@@ -4,6 +4,6 @@ namespace ETModel
 {
     public class ComponentView: MonoBehaviour
     {
-        public object Component { get; set; }
+        public object Component;
     }
 }

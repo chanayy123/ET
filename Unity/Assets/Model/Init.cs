@@ -22,7 +22,7 @@ namespace ETModel
 				Game.EventSystem.Add(DLLType.Model, typeof(Init).Assembly);             
 
                 Game.Scene.AddComponent<TimerComponent>();
-				Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol>(NetworkProtocol.TCP);
+				Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol>(NetworkProtocol.KCP);
                 Game.Scene.AddSingletonComponent<AddressableResComponent>();
 				Game.Scene.AddSingletonComponent<UIManagerComponent>();
                 Game.Scene.AddSingletonComponent<OpcodeTypeComponent>();

@@ -654,11 +654,11 @@
     <Compile Include="Assets\ThirdParty\MongoDB\MongoDB.Shared\IncrementalMD5.cs" />
     <Compile Include="Assets\ThirdParty\MongoDB\MongoDB.Shared\MaxTimeHelper.cs" />
     <None Include="Assets\ThirdParty\Unity.ThirdParty.asmdef" />
-    <Reference Include="UnityEngine.UI">
-      <HintPath>F:/VS2019Workspace/ET/Unity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>F:/VS2019Workspace/ET/Unity/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>F:/VS2019Workspace/ET/Unity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>E:/Program Files/Unity/Hub/Editor/2019.3.4f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

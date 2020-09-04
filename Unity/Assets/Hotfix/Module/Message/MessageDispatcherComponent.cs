@@ -50,7 +50,6 @@ namespace ETHotfix
 				{
 					continue;
 				}
-
 				IMHandler iMHandler = Activator.CreateInstance(type) as IMHandler;
 				if (iMHandler == null)
 				{

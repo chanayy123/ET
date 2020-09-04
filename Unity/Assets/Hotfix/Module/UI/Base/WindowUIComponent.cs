@@ -31,14 +31,14 @@ namespace ETHotfix
         /// </summary>
         protected override void OnShow()
         {
-
+            base.OnShow();
         }
         /// <summary>
         /// 对象隐藏回调
         /// </summary>
         protected override void OnHide()
         {
-
+            base.OnHide();
         }
         /// <summary>
         /// 分辨率变更回调

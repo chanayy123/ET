@@ -146,18 +146,21 @@
     <Compile Include="Assets\Model\Entity\Hotfix.cs" />
     <Compile Include="Assets\Model\Entity\Scene.cs" />
     <Compile Include="Assets\Model\Entity\UnityWebRequestAsync.cs" />
+    <Compile Include="Assets\Model\Games\SessionComponent.cs" />
+    <Compile Include="Assets\Model\Games\UI\UILoading\Component\ViewLoadingComponent.cs" />
+    <Compile Include="Assets\Model\Games\UI\UILoading\System\LoadingBeginEventHandler.cs" />
+    <Compile Include="Assets\Model\Games\UI\UILoading\System\LoadingFinishEventHandler.cs" />
+    <Compile Include="Assets\Model\Games\UI\UILoading\System\LoadingProgressEventHandler.cs" />
     <Compile Include="Assets\Model\Helper\ActionHelper.cs" />
     <Compile Include="Assets\Model\Helper\BundleHelper.cs" />
     <Compile Include="Assets\Model\Helper\GameObjectHelper.cs" />
     <Compile Include="Assets\Model\Helper\ILHelper.cs" />
     <Compile Include="Assets\Model\Helper\PathHelper.cs" />
-    <Compile Include="Assets\Model\Helper\PositionHelper.cs" />
     <Compile Include="Assets\Model\Helper\ResourcesHelper.cs" />
     <Compile Include="Assets\Model\ILBinding\CLRBindings.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_ActionHelper_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_AddressableResComponent_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_AppTypeHelper_Binding.cs" />
-    <Compile Include="Assets\Model\ILBinding\ETModel_AssetBundleHelper_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_AsyncETVoidMethodBuilder_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_ByteHelper_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_ComponentView_Binding.cs" />
@@ -168,13 +171,13 @@
     <Compile Include="Assets\Model\ILBinding\ETModel_ETAsyncTaskMethodBuilder_1_ILTypeInstance_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_ETAsyncTaskMethodBuilder_1_String_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_ETTaskCompletionSource_1_Google_Protobuf_Adapt_IMessage_Binding_Adapt_t.cs" />
+    <Compile Include="Assets\Model\ILBinding\ETModel_ETTask_1_Google_Protobuf_Adapt_IMessage_Binding_Adaptor_Binding.cs" />
+    <Compile Include="Assets\Model\ILBinding\ETModel_ETTask_1_Google_Protobuf_Adapt_IMessage_Binding_Adaptor_Binding_Await_t.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_ETTask_1_ILTypeInstance_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_ETTask_1_ILTypeInstance_Binding_Awaiter_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_ETTask_1_Object_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_ETTask_1_Object_Binding_Awaiter_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_ETTask_Binding.cs" />
-    <Compile Include="Assets\Model\ILBinding\ETModel_ETTask_Binding_Awaiter_Binding.cs" />
-    <Compile Include="Assets\Model\ILBinding\ETModel_ETVoid_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_Entity_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_ErrorCode_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_EventAttribute_Binding.cs" />
@@ -184,6 +187,8 @@
     <Compile Include="Assets\Model\ILBinding\ETModel_GamePlayerData_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_GameRoomData_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_Game_Binding.cs" />
+    <Compile Include="Assets\Model\ILBinding\ETModel_GlobalConfigComponent_Binding.cs" />
+    <Compile Include="Assets\Model\ILBinding\ETModel_GlobalConfig_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_Hotfix_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_IMessagePacker_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_IdGenerater_Binding.cs" />
@@ -198,12 +203,12 @@
     <Compile Include="Assets\Model\ILBinding\ETModel_NetworkComponent_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_OpcodeHelper_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_OpcodeTypeComponent_Binding.cs" />
-    <Compile Include="Assets\Model\ILBinding\ETModel_ResourcesComponent_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_RpcException_Binding.cs" />
-    <Compile Include="Assets\Model\ILBinding\ETModel_SceneChangeComponent_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_SessionCallbackComponent_Binding.cs" />
+    <Compile Include="Assets\Model\ILBinding\ETModel_SessionComponent_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_Session_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_Singleton_1_AddressableResComponent_Binding.cs" />
+    <Compile Include="Assets\Model\ILBinding\ETModel_Singleton_1_GlobalConfigComponent_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_Singleton_1_UIManagerComponent_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_SortingLayer_Binding.cs" />
     <Compile Include="Assets\Model\ILBinding\ETModel_StringHelper_Binding.cs" />
@@ -291,25 +296,6 @@
     <Compile Include="Assets\Model\Module\Config\ConfigComponent.cs" />
     <Compile Include="Assets\Model\Module\Config\ConfigHelper.cs" />
     <Compile Include="Assets\Model\Module\Config\IConfig.cs" />
-    <Compile Include="Assets\Model\Module\Demo\AnimatorComponent.cs" />
-    <Compile Include="Assets\Model\Module\Demo\CameraComponent.cs" />
-    <Compile Include="Assets\Model\Module\Demo\Config\UnitConfig.cs" />
-    <Compile Include="Assets\Model\Module\Demo\MoveComponent.cs" />
-    <Compile Include="Assets\Model\Module\Demo\Player.cs" />
-    <Compile Include="Assets\Model\Module\Demo\PlayerComponent.cs" />
-    <Compile Include="Assets\Model\Module\Demo\PlayerFactory.cs" />
-    <Compile Include="Assets\Model\Module\Demo\SessionComponent.cs" />
-    <Compile Include="Assets\Model\Module\Demo\TurnComponent.cs" />
-    <Compile Include="Assets\Model\Module\Demo\UI\UILoading\Component\UILoadingComponent.cs" />
-    <Compile Include="Assets\Model\Module\Demo\UI\UILoading\Component\ViewLoadingComponent.cs" />
-    <Compile Include="Assets\Model\Module\Demo\UI\UILoading\System\LoadingBeginEventHandler.cs" />
-    <Compile Include="Assets\Model\Module\Demo\UI\UILoading\System\LoadingFinishEventHandler.cs" />
-    <Compile Include="Assets\Model\Module\Demo\UI\UILoading\System\LoadingProgressEventHandler.cs" />
-    <Compile Include="Assets\Model\Module\Demo\UI\UILoading\System\UILoadingFactory.cs" />
-    <Compile Include="Assets\Model\Module\Demo\Unit.cs" />
-    <Compile Include="Assets\Model\Module\Demo\UnitComponent.cs" />
-    <Compile Include="Assets\Model\Module\Demo\UnitFactory.cs" />
-    <Compile Include="Assets\Model\Module\Demo\UnitPathComponent.cs" />
     <Compile Include="Assets\Model\Module\Filter\FilterAttribute.cs" />
     <Compile Include="Assets\Model\Module\Filter\FilterComponent.cs" />
     <Compile Include="Assets\Model\Module\Filter\FilterEntity.cs" />
@@ -519,11 +505,11 @@
     <Reference Include="Unity.ResourceManager">
       <HintPath>F:/VS2019Workspace/ET/Unity/Library/ScriptAssemblies/Unity.ResourceManager.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>F:/VS2019Workspace/ET/Unity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>F:/VS2019Workspace/ET/Unity/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>F:/VS2019Workspace/ET/Unity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>E:/Program Files/Unity/Hub/Editor/2019.3.4f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

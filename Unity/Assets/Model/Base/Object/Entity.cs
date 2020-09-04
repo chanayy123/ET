@@ -208,38 +208,23 @@ namespace ETModel
 
 			component.Dispose();
 		}
-
+        /// <summary>
+        /// 老版:获取K类型匹配的组件,不包含子类
+        /// 新版: 获取K类型以及K子类型匹配的组件
+        /// </summary>
+        /// <typeparam name="K"></typeparam>
+        /// <returns></returns>
 		public K GetComponent<K>() where K : Component
         {
-			if (!this.componentDict.TryGetValue(typeof(K), out Component component))
-			{
-				return default;
-			}
-			return (K)component;
+            foreach (var item in componentDict)
+            {
+                if (item.Value is K k)
+                {
+                    return k;
+                }
+            }
+            return null;
 		}
-
-        public K GetComponent<K>(bool inherit=false) where K : Component
-        {
-            if (inherit)
-            {
-                foreach (var item in componentDict)
-                {
-                    if (item.Value is K k)
-                    {
-                        return k;
-                    }
-                }
-            }
-            else
-            {
-                if (!this.componentDict.TryGetValue(typeof(K), out Component component))
-                {
-                    return default;
-                }
-                return (K)component;
-            }
-            return default;
-        }
 
 		public Component GetComponent(Type type)
 		{

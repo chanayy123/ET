@@ -21,14 +21,15 @@ namespace ETModel
             if (_uis.TryGetValue(uiType, out UI ui))
             {
                 if (PreShow(ui)) return;
-                var baseUI = ui.GetComponent<BaseUIComponent>(true);
+                var baseUI = ui.GetComponent<BaseUIComponent>();
                 baseUI.Show();
                 ui.Parent = this;
             }
             else
             {
                 ui = await Singleton<UIFactoryComponent>.Instance.Create(uiType);
-                var baseUI = ui.GetComponent<BaseUIComponent>(true);
+                if (PreShow(ui)) return;
+                var baseUI = ui.GetComponent<BaseUIComponent>();
                 baseUI.Create().Show();
                 ui.Parent = this;
                 AddUI(ui);
@@ -38,7 +39,7 @@ namespace ETModel
 
         private bool PreShow(UI ui)
         {
-            var baseUI = ui.GetComponent<BaseUIComponent>(true);
+            var baseUI = ui.GetComponent<BaseUIComponent>();
             if (_activeView != null && baseUI is ViewUIComponent)
             {
                 if (_activeView != baseUI)
@@ -70,7 +71,7 @@ namespace ETModel
 
         private void PostShow(UI ui)
         {
-            var baseUI = ui.GetComponent<BaseUIComponent>(true);
+            var baseUI = ui.GetComponent<BaseUIComponent>();
             if (baseUI is ViewUIComponent)
             {
                 _activeView = baseUI as ViewUIComponent;
@@ -84,7 +85,7 @@ namespace ETModel
         private void AddUI(UI ui)
         {
             _uis.Add(ui.Name, ui);
-            var baseUI = ui.GetComponent<BaseUIComponent>(true);
+            var baseUI = ui.GetComponent<BaseUIComponent>();
             if (baseUI is ViewUIComponent)
             {
                 _views.Add(ui.Name, baseUI);
@@ -118,6 +119,16 @@ namespace ETModel
             UI ui = null;
             this._uis.TryGetValue(name, out ui);
             return ui;
+        }
+
+
+        public T Get<T>(string name) where T : Component
+        {
+            if (_uis.TryGetValue(name, out UI ui))
+            {
+                return ui.GetComponent<T>();
+            }
+            return null;
         }
     }
 }

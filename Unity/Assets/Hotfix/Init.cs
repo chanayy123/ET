@@ -31,8 +31,6 @@ namespace ETHotfix
 				Game.Scene.AddSingletonComponent<OpcodeTypeComponent>();
 				Game.Scene.AddSingletonComponent<MessageDispatcherComponent>();
 				Game.Scene.AddSingletonComponent<ConfigComponent>();
-                UnitConfig unitConfig = Singleton<ConfigComponent>.Instance.Get(typeof(UnitConfig), 1001) as UnitConfig;
-                Log.Debug($"config {JsonHelper.ToJson(unitConfig)}");
 
                 Game.EventSystem.Run(EventIdType.InitSceneStart);
 			}

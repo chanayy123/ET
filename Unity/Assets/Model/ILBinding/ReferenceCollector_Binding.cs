@@ -35,12 +35,12 @@ namespace ILRuntime.Runtime.Generated
                     lst.Add(m);
                 }
             }
-            args = new Type[]{typeof(UnityEngine.TextAsset)};
+            args = new Type[]{typeof(UnityEngine.GameObject)};
             if (genericMethods.TryGetValue("Get", out lst))
             {
                 foreach(var m in lst)
                 {
-                    if(m.MatchGenericParameters(args, typeof(UnityEngine.TextAsset), typeof(System.String)))
+                    if(m.MatchGenericParameters(args, typeof(UnityEngine.GameObject), typeof(System.String)))
                     {
                         method = m.MakeGenericMethod(args);
                         app.RegisterCLRMethodRedirection(method, Get_0);
@@ -49,12 +49,12 @@ namespace ILRuntime.Runtime.Generated
                     }
                 }
             }
-            args = new Type[]{typeof(UnityEngine.GameObject)};
+            args = new Type[]{typeof(UnityEngine.TextAsset)};
             if (genericMethods.TryGetValue("Get", out lst))
             {
                 foreach(var m in lst)
                 {
-                    if(m.MatchGenericParameters(args, typeof(UnityEngine.GameObject), typeof(System.String)))
+                    if(m.MatchGenericParameters(args, typeof(UnityEngine.TextAsset), typeof(System.String)))
                     {
                         method = m.MakeGenericMethod(args);
                         app.RegisterCLRMethodRedirection(method, Get_1);
@@ -82,7 +82,7 @@ namespace ILRuntime.Runtime.Generated
             global::ReferenceCollector instance_of_this_method = (global::ReferenceCollector)typeof(global::ReferenceCollector).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
             __intp.Free(ptr_of_this_method);
 
-            var result_of_this_method = instance_of_this_method.Get<UnityEngine.TextAsset>(@key);
+            var result_of_this_method = instance_of_this_method.Get<UnityEngine.GameObject>(@key);
 
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }
@@ -101,7 +101,7 @@ namespace ILRuntime.Runtime.Generated
             global::ReferenceCollector instance_of_this_method = (global::ReferenceCollector)typeof(global::ReferenceCollector).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
             __intp.Free(ptr_of_this_method);
 
-            var result_of_this_method = instance_of_this_method.Get<UnityEngine.GameObject>(@key);
+            var result_of_this_method = instance_of_this_method.Get<UnityEngine.TextAsset>(@key);
 
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }

@@ -209,27 +209,22 @@ namespace ETHotfix
 			component.Dispose();
 		}
 
-        public K GetComponent<K>(bool inherit = false) where K : Component
+        /// <summary>
+        /// 老版:获取K类型匹配的组件,不包含子类
+        /// 新版: 获取K类型以及K子类型匹配的组件
+        /// </summary>
+        /// <typeparam name="K"></typeparam>
+        /// <returns></returns>
+		public K GetComponent<K>() where K : Component
         {
-            if (inherit)
+            foreach (var item in componentDict)
             {
-                foreach (var item in componentDict)
+                if (item.Value is K k)
                 {
-                    if (item.Value is K k)
-                    {
-                        return k;
-                    }
+                    return k;
                 }
             }
-            else
-            {
-                if (!this.componentDict.TryGetValue(typeof(K), out Component component))
-                {
-                    return default;
-                }
-                return (K)component;
-            }
-            return default;
+            return null;
         }
 
         public Component GetComponent(Type type)
