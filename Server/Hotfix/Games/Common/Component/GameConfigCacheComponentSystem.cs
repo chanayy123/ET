@@ -32,12 +32,15 @@ namespace ETHotfix
     [ObjectSystem]
     public class GameConfigCacheComponentSystem3 : AwakeSystem<GameRoomComponent>
     {
-        public override void Awake(GameRoomComponent self)
+        public override async void Awake(GameRoomComponent self)
         {
             if(Game.Scene.GetComponent<GameConfigCacheComponent>() == null)
             {
                 Game.Scene.AddComponent<GameConfigCacheComponent>();
             }
+            //缓存游戏配置
+            await GameConfigCacheComponent.Instance.GetAllAsync();
         }
     }
+
 }

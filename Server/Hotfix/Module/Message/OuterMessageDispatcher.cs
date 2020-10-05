@@ -91,13 +91,18 @@ namespace ETHotfix
 				}
 				case IActorMessage actorMessage:  // 分发IActorMessage消息
 				{
-                        var gateUser = session.GetComponent<SessionGateUserComponent>().User;
-                        if (gateUser.ActorId == 0)
+                        if (session.ChannelType == ChannelType.Connect)
+                        {
+                            Log.Debug("测试客户端外网组件忽略消息处理");
+                            break;
+                        }
+                        var sgu = session.GetComponent<SessionGateUserComponent>();
+                        if (sgu == null || sgu.User.ActorId == 0)
                         {
                             Log.Warning("收到actorMessage actorid不能为空");
                             return;
                         }
-                        actorMessage.ActorId = gateUser.ActorId;
+                        actorMessage.ActorId = sgu.User.ActorId;
                         NetInnerHelper.SendActorMsg(actorMessage);
                         break;
 				}

@@ -164,7 +164,6 @@ namespace ETModel
 			}
 			
 			uint timeNow = this.GetService().TimeNow;
-
 			try
 			{
 				byte[] buffer = this.memoryStream.GetBuffer();

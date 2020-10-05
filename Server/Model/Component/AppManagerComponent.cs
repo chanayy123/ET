@@ -28,7 +28,6 @@ namespace ETModel
             else {
                 Log.Warning("非windows平台多进程启动功能屏蔽==>docker-compose多进程编排方式启动");
             }
-
         }
 
         private void StartMultiServer()

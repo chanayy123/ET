@@ -22,6 +22,13 @@ namespace ETHotfix
     [HttpHandler(AppType.Http, "/test")]
 	public class HttpTest : AHttpHandler
 	{
+
+        [Get]
+        public string Login(string name, string age, HttpListenerRequest req, HttpListenerResponse resp)
+        {
+            return "getLogin接口调用成功";
+        }
+
 		[Post] // url-> /Login
 		public async ETTask<HttpResult> Login(LoginData login, HttpListenerRequest req, HttpListenerResponse resp)
 		{

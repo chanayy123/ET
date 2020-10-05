@@ -14,6 +14,11 @@
         "commandName": "Project",
         "commandLineArgs": "--appId=1 --appType=Manager --config=../Config/StartConfig/TestClient2AllServer.txt",
         "workingDirectory": "../../Bin"
+    },
+    "Server.Client": {
+        "commandName": "Project",
+        "commandLineArgs": "--appId=2 --appType=ClientH --config=../Config/StartConfig/TestClient2AllServer.txt",
+        "workingDirectory": "../../Bin"
     }
   }
 }

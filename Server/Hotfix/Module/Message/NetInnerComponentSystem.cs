@@ -44,7 +44,7 @@ namespace ETHotfix
 	public class NetInnerComponentUpdateSystem : UpdateSystem<NetInnerComponent>
 	{
 		public override void Update(NetInnerComponent self)
-		{
+		 {
 			self.Update();
 		}
 	}

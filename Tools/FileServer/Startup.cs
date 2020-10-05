@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 
 namespace ETFileServer
 {
@@ -17,7 +18,7 @@ namespace ETFileServer
             services.AddDirectoryBrowser();  //开启目录浏览
         }
        
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
             
@@ -27,7 +28,6 @@ namespace ETFileServer
                 .Build();
 
             string configDir = config["DirectoryPath"];
-            
             configDir = new DirectoryInfo(configDir).FullName;
             Console.WriteLine(configDir);
             UseStaticFiles(app, configDir); 

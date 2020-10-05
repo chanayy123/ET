@@ -31,7 +31,6 @@ namespace ETHotfix
             response.Address = outAdd;
             response.Key = loginKey.Key;
             reply();
-
         }
     }
 }

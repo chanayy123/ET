@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Text;
 using System.Threading;
@@ -43,7 +44,7 @@ namespace ETModel
         private MiddlewarePipeline _pipeline;
         public AppType appType;
         public HttpConfig HttpConfig;
-        public void Awake(int concurrentCount=20,int maxConcurrentCount=100)
+        public void Awake(int concurrentCount=20,int maxConcurrentCount=20)
         {
             _semaphore = new Semaphore(concurrentCount, maxConcurrentCount);
             _pipeline = new MiddlewarePipeline();

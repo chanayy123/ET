@@ -12,11 +12,11 @@ namespace ETModel
         public const int INIT_COUNT = 100;
         public readonly List<UserInfo> clientList = new List<UserInfo>();
         public readonly Dictionary<int, Session> clientSessionDic = new Dictionary<int, Session>();
-        public NetInnerComponent Net { get; set; }
+        public NetOuterComponent Net { get; set; }
 
         public void Awake(NetworkProtocol protocol)
         {
-            this.Net = Game.Scene.GetComponent<NetInnerComponent>();
+            this.Net = Game.Scene.AddComponent<NetOuterComponent,NetworkProtocol>(protocol);
         }
 
     }

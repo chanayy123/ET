@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using ETModel;
 namespace ETHotfix
 {
@@ -10,7 +11,6 @@ namespace ETHotfix
         public override void Awake(ClientComponent self,NetworkProtocol protocol)
         {
             self.Awake(protocol);
-            self.InitMatch();   
         }
     }
 
@@ -19,12 +19,9 @@ namespace ETHotfix
     {
         public override  async void Start(ClientComponent self)
         {
-            while (self.clientList.Count < ClientComponent.INIT_COUNT)
-            {
-                await TimerComponent.Instance.WaitAsync(2000);
-            }
-            self.StartMatch(100);
-            //self.TestHttpRequest();
+            await TimerComponent.Instance.WaitAsync(2000);
+            self.TestLoginMatch(10);
+            //self.TestHttpRequest(100);
         }
     }
 
