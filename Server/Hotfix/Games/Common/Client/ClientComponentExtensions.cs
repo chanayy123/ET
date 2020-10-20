@@ -107,14 +107,14 @@ namespace ETHotfix
         {
             Log.Debug($"{count}个测试客户端准备登陆!");
             count = Math.Min(count,self.clientList.Count);
-            var serverCfg = StartConfigComponent.Instance.RealmConfig.GetComponent<OuterConfig>();
+            var serverCfg = StartConfigComponent.Instance.StartConfig.GetComponent<ClientConfig>();
             for(var i = 0; i < count; ++i)
             {
                 var userId = self.clientList[i].UserId;
                 self.clientSessionDic.TryGetValue(userId, out Session session);
                 if (session == null)
                 {
-                    session = self.Net.Create(serverCfg.Address2);
+                    session = self.Net.Create(serverCfg.Address);
                     self.AddSession(userId, session);
                     self.RequestLogin(userId,match);
                 }
@@ -193,7 +193,7 @@ namespace ETHotfix
         public static async void TestLoginMatch(this ClientComponent self,int count)
         {
             await self.InitClients();
-            self.StartLogin(count);
+            self.StartLogin(count,false);
         }
 
         public static async void TestHttpRequest(this ClientComponent self,int count)

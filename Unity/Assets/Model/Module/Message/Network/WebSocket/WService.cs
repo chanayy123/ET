@@ -77,9 +77,7 @@ namespace ETModel
                 foreach (string prefix in prefixs)
                 {
                     this.httpListener.Prefixes.Add(prefix);
-                    Log.Debug("Wservice listen " + prefix);
                 }
-                
                 httpListener.Start();
 
                 while (true)

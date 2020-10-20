@@ -10,34 +10,34 @@ namespace ETModel
 {
 
     [ObjectSystem]
-    public class WebServerComponnetAwakeSystem : AwakeSystem<WebServerComponent>
+    public class HttpServerComponentAwakeSystem : AwakeSystem<HttpServerComponent>
     {
-        public override void Awake(WebServerComponent self)
+        public override void Awake(HttpServerComponent self)
         {
             self.Awake(20, 100);
         }
     }
 
     [ObjectSystem]
-    public class WebServerComponnetStartSystem : StartSystem<WebServerComponent>
+    public class HttpServerComponentStartSystem : StartSystem<HttpServerComponent>
     {
-        public override void Start(WebServerComponent self)
+        public override void Start(HttpServerComponent self)
         {
             self.Start();
         }
     }
 
     [ObjectSystem]
-    public class WebServerComponnetLoadSystem : LoadSystem<WebServerComponent>
+    public class HttpServerComponentLoadSystem : LoadSystem<HttpServerComponent>
     {
-        public override void Load(WebServerComponent self)
+        public override void Load(HttpServerComponent self)
         {
             self.Load();
         }
     }
 
 
-    public class WebServerComponent :Component,IWebServiceBuilder
+    public class HttpServerComponent :Component,IWebServiceBuilder
     {
         private Semaphore _semaphore;
         private HttpListener _listener;
@@ -79,6 +79,7 @@ namespace ETModel
                 this._listener.Start();
                 //this.Accept();
                 this.AcceptEx();
+                Log.Debug($"当前【http】服务器监听地址: {HttpConfig.Url}");
             }
             catch (Exception ex)
             {
@@ -156,7 +157,7 @@ namespace ETModel
             this.Use(new BlockIp());
             this.Use(new CrossDomain());
             this.Use(new SessionManager());
-            //this.Use(new StaticFiles());
+            this.Use(new StaticFiles());
             this.Use(new Authentication());
             this.Use(new Route());
             this.Use(new Http404());

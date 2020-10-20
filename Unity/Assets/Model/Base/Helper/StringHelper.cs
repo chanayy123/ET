@@ -19,7 +19,7 @@ namespace ETModel
 			return byteArray;
 		}
 
-	    public static byte[] ToUtf8(this string str)
+		public static byte[] ToUtf8(this string str)
 	    {
             byte[] byteArray = Encoding.UTF8.GetBytes(str);
             return byteArray;

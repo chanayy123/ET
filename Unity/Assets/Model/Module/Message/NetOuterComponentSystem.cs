@@ -22,6 +22,7 @@ namespace ETHotfix
 			self.Awake(self.Protocol, NetworkHelper.ToAvailAddress(address, self.Protocol));
 			self.MessagePacker = new ProtobufPacker();
 			self.MessageDispatcher = new OuterMessageDispatcher();
+			Log.Debug($"当前【{self.Protocol}】服务器监听外网地址:{self.Protocol}");
 		}
 	}
 
@@ -34,7 +35,8 @@ namespace ETHotfix
             self.Awake(protocol, NetworkHelper.ToAvailAddress(address, self.Protocol));
             self.MessagePacker = new ProtobufPacker();
             self.MessageDispatcher = new OuterMessageDispatcher();
-        }
+			Log.Debug($"当前【{protocol}】服务器监听外网地址:{address}");
+		}
     }
 #if SERVER
     [ObjectSystem]

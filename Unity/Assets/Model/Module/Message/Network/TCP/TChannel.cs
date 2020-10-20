@@ -43,7 +43,6 @@ namespace ETModel
 			this.parser = new PacketParser(packetSize, this.recvBuffer, this.memoryStream);
 			this.innArgs.Completed += this.OnComplete;
 			this.outArgs.Completed += this.OnComplete;
-
 			this.RemoteAddress = ipEndPoint;
 
 			this.isConnected = false;
@@ -61,7 +60,6 @@ namespace ETModel
 			this.parser = new PacketParser(packetSize, this.recvBuffer, this.memoryStream);
 			this.innArgs.Completed += this.OnComplete;
 			this.outArgs.Completed += this.OnComplete;
-
 			this.RemoteAddress = (IPEndPoint)socket.RemoteEndPoint;
 			
 			this.isConnected = true;

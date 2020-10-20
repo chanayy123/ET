@@ -20,7 +20,7 @@ namespace ETHotfix
         public override  async void Start(ClientComponent self)
         {
             await TimerComponent.Instance.WaitAsync(2000);
-            self.TestLoginMatch(10);
+            self.TestLoginMatch(1);
             //self.TestHttpRequest(100);
         }
     }

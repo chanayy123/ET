@@ -33,7 +33,7 @@ namespace ETHotfix
                 }
                 else
                 {
-                    await TimerComponent.Instance.WaitAsync(2000);
+                    await TimerComponent.Instance.WaitAsync(1000);
                 }
             }
             return null;

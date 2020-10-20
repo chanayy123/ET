@@ -308,14 +308,14 @@ namespace ETModel
             //如果不止一个allserver,启动配置文件有多个进程,内网消息就需要走网络
             //NetWork.AppType不为None表明是内网,Count小于等于2表明只有一个进程, 监听一个内网地址，获得 一个connect类型 session和一个accept类型 session
             if (this.Network.AppType == AppType.AllServer && this.Network.Count <= 2)
-			{
-				Session session = this.Network.Entity.GetComponent<NetInnerComponent>().Get(this.RemoteAddress);
-				session.Run(stream);
-				return;
-			}
+            {
+                Session session = this.Network.Entity.GetComponent<NetInnerComponent>().Get(this.RemoteAddress);
+                session.Run(stream);
+                return;
+            }
 #endif
 
-			this.Send(stream);
+            this.Send(stream);
 		}
 
 		public void Send(MemoryStream stream)

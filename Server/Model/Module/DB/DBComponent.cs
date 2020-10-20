@@ -30,10 +30,9 @@ namespace ETModel
             var config = StartConfigComponent.Instance.StartConfig.GetComponent<DBConfig>();
             var option = Game.Scene.GetComponent<OptionComponent>().Options;
             string connectionString = this.GetConnectionString(config,option);
-            Log.Debug("mongo connectionString: " + connectionString);
 			mongoClient = new MongoClient(connectionString);
 			this.database = this.mongoClient.GetDatabase(config.DBName);
-			
+			Log.Debug($"mongo dbName: {config.DBName} connectionString: {connectionString}");
 			for (int i = 0; i < taskCount; ++i)
 			{
 				DBTaskQueue taskQueue = ComponentFactory.Create<DBTaskQueue>();

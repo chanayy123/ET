@@ -1,8 +1,10 @@
 ﻿using ETModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Text;
+using System.Web;
 
 namespace ETHotfix
 {
@@ -21,6 +23,7 @@ namespace ETHotfix
     [HttpHandler(AppType.Http, "/")]
     public class HttpRouteHandler : AHttpHandler
     {
+        public const string UploadDir = "/upload/";
         [Post]
         public HttpResult Login(LoginRequest data, HttpServerContext context)
         {
@@ -40,7 +43,33 @@ namespace ETHotfix
             {
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return Error();
+            }        
+        }
+
+        [Post("upload")]
+        //约定upload接口传输格式:纯二进制字符串
+        public async ETTask<HttpResult> Upload(HttpServerContext context, string postBody)
+        {
+            var list = new byte[postBody.Length];
+            //客户端传来的是二进制字符串,不能当普通字符串用Encoding.GetBytes来转换,默认UTF-8这一转长度就变了,所以要当一个个字节的转
+            for (var i = 0; i < postBody.Length; ++i)
+            {
+                list[i] = Convert.ToByte(postBody[i]);
             }
+            var fileName = context.Request.Headers.Get("File-Name");
+            fileName = string.IsNullOrEmpty(fileName) ? "tmp":fileName;
+            fileName = HttpUtility.UrlDecode(fileName);
+            var path = $"{Directory.GetCurrentDirectory()}{UploadDir}";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            path += fileName;
+            using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write))
+            {
+                await fs.WriteAsync(list, 0, list.Length);
+            }          
+            return Ok("upload success");
         }
 
         [Post]

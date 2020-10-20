@@ -7,6 +7,7 @@ using System.Net;
 using System.Reflection;
 using System.Security.Principal;
 using System.Text;
+using System.Threading;
 
 namespace ETModel
 {
@@ -262,6 +263,10 @@ namespace ETModel
             }
             Log.Debug($"url path " + path);
             var filePath = Path.Combine("static", path);
+            if(path.Contains("favicon.ico") && !File.Exists(filePath))//浏览器默认请求图标不存在就忽略
+            {
+                return ETTask.FromResult(MiddlewareResult.Continue);
+            }
             var bytes = File.ReadAllBytes(filePath);
             response.StatusCode = (int)HttpStatusCode.OK;
             response.ContentType = "text/html";
@@ -333,10 +338,10 @@ namespace ETModel
                     if (methodInfo != null)
                     {
                         this.handlersMapping.TryGetValue(methodInfo, out httpHandler);
-
                         using (StreamReader sr = new StreamReader(context.Request.InputStream))
                         {
                             postbody = sr.ReadToEnd();
+                            Log.Debug("postbody len " + postbody.Length);
                         }
                     }
                     break;
