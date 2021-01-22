@@ -5,15 +5,13 @@ using FastMember;
 
 namespace ETModel
 {
-    public class UserCacheComponent:Component
+    public class UserCacheComponent:Singleton<UserCacheComponent>
     {
-        public static UserCacheComponent Instance { get; private set; }
         public readonly Dictionary<int, User> userDic = new Dictionary<int, User>();
         public readonly Dictionary<int, ObjectAccessor> userWrapperDic = new Dictionary<int, ObjectAccessor>();
 
         public void Awake()
         {
-            Instance = this;
         }
         public override void Dispose()
         {

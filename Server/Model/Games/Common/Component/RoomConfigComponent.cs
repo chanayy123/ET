@@ -4,14 +4,12 @@ using System.Text;
 
 namespace ETModel
 {
-    public class RoomConfigComponent : Component
+    public class RoomConfigComponent : Singleton<RoomConfigComponent>
     {
-        public static RoomConfigComponent Instance { get; private set; }
         public readonly Dictionary<long, RoomConfig> roomConfigDic = new Dictionary<long, RoomConfig>();
 
         public void Awake()
         {
-            Instance = this;
         }
 
         public RoomConfig Get(long hallId)

@@ -2,7 +2,7 @@
 
 namespace ETModel
 {
-	public class RobotComponent: Component
+	public class RobotComponent: Singleton<RobotComponent>
 	{
         /// <summary>
         /// 起始机器人账号数量
@@ -17,12 +17,10 @@ namespace ETModel
         /// </summary>
         public readonly List<RobotUser> UnAvailableList = new List<RobotUser>();
         public readonly List<UserInfo> DispatchList = new List<UserInfo>();
-        public static RobotComponent Instance { get; private set; }
         public DBProxyComponent DBProxy { get; private set; }
 
         public void Awake()
         {
-            Instance = this;
             DBProxy = Game.Scene.GetComponent<DBProxyComponent>();
         }
 

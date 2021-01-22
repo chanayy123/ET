@@ -26,7 +26,7 @@ namespace ETModel
 
 		private async void TimeoutRemoveKey(string key)
 		{
-			await Game.Scene.GetComponent<TimerComponent>().WaitAsync(KEY_VALID_TIME);
+			await TimerComponent.Instance.WaitAsync(KEY_VALID_TIME);
 			this.sessionKey.Remove(key);
 		}
 	}

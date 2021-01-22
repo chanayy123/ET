@@ -15,9 +15,8 @@ namespace ETModel
         }
     }
 
-    public class StartConfigComponent : Component
+    public class StartConfigComponent : Singleton<StartConfigComponent>
     {
-        public static StartConfigComponent Instance { get; private set; }
 
         private Dictionary<int, StartConfig> configDict;
 
@@ -44,7 +43,6 @@ namespace ETModel
 
         public void Awake(string path, int appId)
         {
-            Instance = this;
 
             this.configDict = new Dictionary<int, StartConfig>();
             configDict2 = new Dictionary<AppType, List<StartConfig>>();
@@ -132,8 +130,6 @@ namespace ETModel
                 return;
             }
             base.Dispose();
-
-            Instance = null;
         }
 
         public StartConfig Get(int id)

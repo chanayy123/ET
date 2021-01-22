@@ -4,13 +4,11 @@ using System.Text;
 
 namespace ETModel
 {
-    public class GameConfigCacheComponent : Component
+    public class GameConfigCacheComponent : Singleton<GameConfigCacheComponent>
     {
-        public static GameConfigCacheComponent Instance { get; private set; }
         public readonly Dictionary<long, GameConfig> gameConfigDic = new Dictionary<long, GameConfig>();
         public void Awake()
         {
-            Instance = this;
         }
         public override void Dispose()
         {
