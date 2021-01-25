@@ -161,9 +161,6 @@ PlayerSettings:
     oculus:
       sharedDepthBuffer: 0
       dashSupport: 0
-      lowOverheadMode: 0
-      protectedContext: 0
-      v2Signing: 1
     enable360StereoCapture: 0
   isWsaHolographicRemotingEnabled: 0
   enableFrameTimingStats: 0
@@ -727,8 +724,8 @@ PlayerSettings:
     iPhone: 2
   scriptingBackend:
     Android: 0
-    Standalone: 0
-    iPhone: 1
+    Standalone: 1
+    iOS: 1
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}
