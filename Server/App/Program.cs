@@ -161,6 +161,7 @@ namespace App
             Game.Scene.AddComponent<ActorMessageDispatcherComponent>();
             Game.Scene.AddComponent<ActorMessageSenderComponent>();
             Game.Scene.AddComponent<ActorLocationSenderComponent>();
+            Game.Scene.AddComponent<CoroutineLockComponent>();
             //代理相关
             Game.Scene.AddComponent<LocationProxyComponent>();
             Game.Scene.AddComponent<DBProxyComponent>();
