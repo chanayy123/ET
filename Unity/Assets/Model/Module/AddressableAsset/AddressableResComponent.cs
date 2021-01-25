@@ -11,7 +11,7 @@ using UnityEditor;
 
 namespace ETModel
 {
-    public class AddressableResComponent : Component
+    public class AddressableResComponent : Singleton<AddressableResComponent>
 	{
 		private readonly Dictionary<string, UnityEngine.Object> _resourceCache = new Dictionary<string, UnityEngine.Object>();
 

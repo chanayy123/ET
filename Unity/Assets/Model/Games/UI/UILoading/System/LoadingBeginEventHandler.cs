@@ -8,7 +8,7 @@ namespace ETModel
     {
         public override void Run(IList<object> keys)
         {
-            Singleton<UIManagerComponent>.Instance.Show(UIType.ViewLoading);
+            UIManagerComponent.Instance.Show(UIType.ViewLoading);
         }
     }
 }

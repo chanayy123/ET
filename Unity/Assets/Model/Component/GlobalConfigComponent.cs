@@ -9,12 +9,12 @@
 		}
 	}
 
-    public class GlobalConfigComponent : Component
+    public class GlobalConfigComponent : Singleton<GlobalConfigComponent>
     {
         public GlobalConfig GlobalConfig;
         public  void Awake()
         {
-            GlobalConfig = Singleton<ConfigComponent>.Instance.GetOne(typeof(GlobalConfig)) as GlobalConfig;
+            GlobalConfig = ConfigComponent.Instance.GetOne(typeof(GlobalConfig)) as GlobalConfig;
         }
     }
 

@@ -153,28 +153,26 @@ namespace ETModel
 		}
 	}
 
-    public class Singleton<T> where T : Component
+    public class Singleton<T>:Component where T : Component,new()
     {
         private static T _instance;
         public static T Instance
         {
             get
             {
-                return _instance;
+                return _instance ?? (_instance = ComponentFactory.Create<T>());
             }
         }
-
-        public static T Create(Entity parent)
+		public Singleton()
         {
-            if (_instance == null)
+			if(_instance != null)
             {
-                _instance = ComponentFactory.CreateWithParent<T>(parent, false);
+				throw new Exception("单例只能创建一次!");
             }
             else
             {
-                Log.Error("单例只能创建一次!");
+				_instance = this as T;
             }
-            return _instance;
         }
     }
 

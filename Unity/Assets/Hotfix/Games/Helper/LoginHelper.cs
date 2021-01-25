@@ -9,7 +9,7 @@ namespace ETHotfix
         {
             try
             {
-                var realmAddress = ETModel.Singleton<GlobalConfigComponent>.Instance.GlobalConfig.Address;
+                var realmAddress = GlobalConfigComponent.Instance.GlobalConfig.Address;
                 var realmSession = SessionHelper.Create(realmAddress);
                 var res = (SC_Login)await realmSession.Call(new CS_Login() { LoginType = 1, DataStr = $"{account}|{pwd}" });
                 realmSession.Dispose();

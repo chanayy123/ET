@@ -8,7 +8,7 @@ namespace ETModel
     /// <summary>
     /// 管理所有UI
     /// </summary>
-    public class UIManagerComponent : Component
+    public class UIManagerComponent : Singleton<UIManagerComponent>
     {
         private Dictionary<string, UI> _uis = new Dictionary<string, UI>();
         private Dictionary<string, BaseUIComponent> _views = new Dictionary<string, BaseUIComponent>();
@@ -27,7 +27,7 @@ namespace ETModel
             }
             else
             {
-                ui = await Singleton<UIFactoryComponent>.Instance.Create(uiType);
+                ui = await UIFactoryComponent.Instance.Create(uiType);
                 if (PreShow(ui)) return;
                 var baseUI = ui.GetComponent<BaseUIComponent>();
                 baseUI.Create().Show();

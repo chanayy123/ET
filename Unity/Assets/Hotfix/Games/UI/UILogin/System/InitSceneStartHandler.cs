@@ -7,7 +7,7 @@ namespace ETHotfix
 	{
 		public override void Run()
 		{
-            ETModel.Singleton<ETModel.UIManagerComponent>.Instance.Hide(ETModel.UIType.ViewLoading);
+            ETModel.UIManagerComponent.Instance.Hide(ETModel.UIType.ViewLoading);
             Singleton<UIManagerComponent>.Instance.Show(UIType.ViewLogin);
         }
 	}

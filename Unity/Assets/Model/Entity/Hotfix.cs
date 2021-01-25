@@ -42,7 +42,7 @@ namespace ETModel
 
 		public async ETTask LoadHotfixAssembly()
 		{
-            GameObject code = await Singleton<AddressableResComponent>.Instance.LoadAssetAsync("code") as GameObject;
+            GameObject code = await AddressableResComponent.Instance.LoadAssetAsync("code") as GameObject;
             byte[] assBytes = code.Get<TextAsset>("Hotfix.dll").bytes;
             byte[] pdbBytes = code.Get<TextAsset>("Hotfix.pdb").bytes;     
 #if ILRuntime
@@ -66,7 +66,7 @@ namespace ETModel
 			
 			this.hotfixTypes = this.assembly.GetTypes().ToList();
 #endif
-            Singleton<AddressableResComponent>.Instance.ReleaseAsset("code");
+            AddressableResComponent.Instance.ReleaseAsset("code");
         }
 	}
 }

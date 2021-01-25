@@ -23,24 +23,24 @@ namespace ETModel
 
                 Game.Scene.AddComponent<TimerComponent>();
 				Game.Scene.AddComponent<NetOuterComponent, NetworkProtocol>(NetworkProtocol.KCP);
-                Game.Scene.AddSingletonComponent<AddressableResComponent>();
-				Game.Scene.AddSingletonComponent<UIManagerComponent>();
-                Game.Scene.AddSingletonComponent<OpcodeTypeComponent>();
-                Game.Scene.AddSingletonComponent<MessageDispatcherComponent>();
+                Game.Scene.AddComponent<AddressableResComponent>();
+				Game.Scene.AddComponent<UIManagerComponent>();
+                Game.Scene.AddComponent<OpcodeTypeComponent>();
+                Game.Scene.AddComponent<MessageDispatcherComponent>();
                 //检测是否有更新
-                await Singleton<AddressableResComponent>.Instance.CheckAndDownloadAsync();
+                await AddressableResComponent.Instance.CheckAndDownloadAsync();
                 //开始加载预更新资源
-                await Singleton<AddressableResComponent>.Instance.DownloadAssetsAsync(new List<object> { "preload" });
+                await AddressableResComponent.Instance.DownloadAssetsAsync(new List<object> { "preload" });
                 //开始加载更新资源,并发送进度事件
-                await Singleton<AddressableResComponent>.Instance.DownloadAssetsAsync(new List<object> { "hotfix" }, true);
+                await AddressableResComponent.Instance.DownloadAssetsAsync(new List<object> { "hotfix" }, true);
                 //缓存配置资源到内存,方便以后同步加载
-                await Singleton<AddressableResComponent>.Instance.CacheConfigAsync();
-                Game.Scene.AddSingletonComponent<ConfigComponent>();
-                Game.Scene.AddSingletonComponent<GlobalConfigComponent>();
+                await AddressableResComponent.Instance.CacheConfigAsync();
+                Game.Scene.AddComponent<ConfigComponent>();
+                Game.Scene.AddComponent<GlobalConfigComponent>();
                 await Game.Hotfix.LoadHotfixAssembly();
                 Game.Hotfix.GotoHotfix();
                 //释放内存缓存配置资源
-                Singleton<AddressableResComponent>.Instance.ReleaseConfigCache();
+                AddressableResComponent.Instance.ReleaseConfigCache();
                 Game.EventSystem.Run(EventIdType.TestHotfixSubscribMonoEvent, "TestHotfixSubscribMonoEvent");
             }
 			catch (Exception e)

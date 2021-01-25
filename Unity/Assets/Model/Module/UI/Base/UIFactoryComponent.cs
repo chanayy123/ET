@@ -23,7 +23,7 @@ namespace ETModel
         }
     }
 
-    public class UIFactoryComponent : Component
+    public class UIFactoryComponent : Singleton<UIFactoryComponent>
     {
         private Dictionary<string, Type> _uiDic = new Dictionary<string, Type>();
         public void Awake()
@@ -54,7 +54,7 @@ namespace ETModel
         {
             if (_uiDic.TryGetValue(uiType, out Type type))
             {
-                var res = await ETModel.Singleton<AddressableResComponent>.Instance.LoadAssetAsync(uiType);
+                var res = await AddressableResComponent.Instance.LoadAssetAsync(uiType);
                 var go = UnityEngine.Object.Instantiate(res) as GameObject;
                 var ui = ComponentFactory.Create<UI, string, GameObject>(uiType, go);
                 ui.AddComponent(type);

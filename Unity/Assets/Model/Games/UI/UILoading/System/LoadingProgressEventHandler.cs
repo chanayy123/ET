@@ -7,7 +7,7 @@ namespace ETModel
     {
         public override void Run(float progress)
         {
-            var loading = Singleton<UIManagerComponent>.Instance.Get<ViewLoadingComponent>(UIType.ViewLoading);
+            var loading = UIManagerComponent.Instance.Get<ViewLoadingComponent>(UIType.ViewLoading);
             loading?.ShowProgress(progress);
         }
     }
