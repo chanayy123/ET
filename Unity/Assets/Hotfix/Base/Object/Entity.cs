@@ -48,10 +48,6 @@ namespace ETHotfix
 			this.componentDict.Clear();
 		}
 
-        public virtual Component AddSingletonComponent<K>() where K : Component, new()
-        {
-            return AddComponent(Singleton<K>.Create(this));
-        }
 
         public virtual Component AddComponent(Component component)
 		{

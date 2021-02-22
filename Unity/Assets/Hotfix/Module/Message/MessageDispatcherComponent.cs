@@ -25,7 +25,7 @@ namespace ETHotfix
 	/// <summary>
 	/// 消息分发组件
 	/// </summary>
-	public class MessageDispatcherComponent : Component
+	public class MessageDispatcherComponent : Singleton<MessageDispatcherComponent>
 	{
 		private readonly Dictionary<ushort, List<IMHandler>> handlers = new Dictionary<ushort, List<IMHandler>>();
 

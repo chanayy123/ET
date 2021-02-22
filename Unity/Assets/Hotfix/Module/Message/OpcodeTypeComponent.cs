@@ -22,7 +22,7 @@ namespace ETHotfix
 		}
 	}
 
-	public class OpcodeTypeComponent : Component
+	public class OpcodeTypeComponent : Singleton<OpcodeTypeComponent>
 	{
 		private readonly DoubleMap<ushort, Type> opcodeTypes = new DoubleMap<ushort, Type>();
 		

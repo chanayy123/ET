@@ -8,7 +8,7 @@ namespace ETHotfix
 	/// <summary>
 	/// 管理所有UI
 	/// </summary>
-	public class UIManagerComponent : Component
+	public class UIManagerComponent : Singleton<UIManagerComponent>
 	{
 		private Dictionary<string, UI> _uis = new Dictionary<string, UI>();
         private Dictionary<string, BaseUIComponent> _views = new Dictionary<string, BaseUIComponent>();

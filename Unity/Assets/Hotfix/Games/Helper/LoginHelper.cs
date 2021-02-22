@@ -11,11 +11,11 @@ namespace ETHotfix
             {
                 var realmAddress = GlobalConfigComponent.Instance.GlobalConfig.Address;
                 var realmSession = SessionHelper.Create(realmAddress);
-                var res = (SC_Login)await realmSession.Call(new CS_Login() { LoginType = 1, DataStr = $"{account}|{pwd}" });
+                var res = (SC_Login)await realmSession.Call(new CS_Login() { LoginType = 0, DataStr = $"{account}|{pwd}" });
                 realmSession.Dispose();
                 if (res.Error != 0)
                 {
-                    Log.Warning($"登陆错误: ${res.Error} ${res.Message}");
+                    Log.Warning($"登陆错误: {res.Error} {res.Message}");
                     return;
                 }
                 var gateSession = SessionHelper.Create(res.Address);

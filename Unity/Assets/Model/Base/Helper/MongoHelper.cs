@@ -16,7 +16,7 @@ namespace ETModel
             List<Type> list = new List<Type>();
 			foreach (Type type in types)
 			{
-				if (!type.IsSubclassOf(typeof(Component)))
+				if (!type.IsSubclassOf(typeof(Component)) || type.ContainsGenericParameters)
 				{
 					continue;
 				}

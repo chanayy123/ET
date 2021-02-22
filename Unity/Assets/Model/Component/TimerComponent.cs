@@ -28,16 +28,6 @@ namespace ETModel
 		}
 	}
 
-
-	[ObjectSystem]
-	public class TimerComponentAwakeSystem : AwakeSystem<TimerComponent>
-	{
-		public override void Awake(TimerComponent self)
-		{
-			TimerComponent.Instance = self;
-		}
-	}
-
 	public class TimerComponent : Component
 	{
         public static TimerComponent Instance { get; private set; }
@@ -53,7 +43,7 @@ namespace ETModel
 
 		// 记录最小时间，不用每次都去MultiMap取第一个值
 		private long minTime;
-
+		
         public void Awake()
         {
             Instance = this;

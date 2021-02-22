@@ -26,11 +26,11 @@ namespace ETHotfix
 				ETModel.Game.Hotfix.LateUpdate = () => { LateUpdate(); };
 				ETModel.Game.Hotfix.OnApplicationQuit = () => { OnApplicationQuit(); };
 				
-				Game.Scene.AddSingletonComponent<UIManagerComponent>();
-                Game.Scene.AddSingletonComponent<UIFactoryComponent>();
-				Game.Scene.AddSingletonComponent<OpcodeTypeComponent>();
-				Game.Scene.AddSingletonComponent<MessageDispatcherComponent>();
-				Game.Scene.AddSingletonComponent<ConfigComponent>();
+				Game.Scene.AddComponent<UIManagerComponent>();
+                Game.Scene.AddComponent<UIFactoryComponent>();
+				Game.Scene.AddComponent<OpcodeTypeComponent>();
+				Game.Scene.AddComponent<MessageDispatcherComponent>();
+				Game.Scene.AddComponent<ConfigComponent>();
 
                 Game.EventSystem.Run(EventIdType.InitSceneStart);
 			}

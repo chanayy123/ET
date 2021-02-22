@@ -24,7 +24,7 @@ namespace ETHotfix
         }
     }
 
-    public class UIFactoryComponent : Component
+    public class UIFactoryComponent : Singleton<UIFactoryComponent>
     {
         private Dictionary<string, Type> _uiDic = new Dictionary<string, Type>();
         public  void Awake()
